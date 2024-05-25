@@ -81,24 +81,66 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NYo-Jp-m6t">
+                                <rect key="frame" x="0.0" y="155" width="393" height="592.66666666666663"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="empty-cart" translatesAutoresizingMaskIntoConstraints="NO" id="NPP-FY-vNK">
+                                        <rect key="frame" x="0.0" y="127.6666666666667" width="393" height="209.33333333333337"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="NPP-FY-vNK" secondAttribute="height" multiplier="15:8" id="28b-Mf-7te"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your cart is empty" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rh7-ye-OBp">
+                                        <rect key="frame" x="32" y="353" width="329" height="24"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Looks like you have not added anything to your cart. Go ahead and explore our categoreis." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="04y-jZ-wXl">
+                                        <rect key="frame" x="32" y="385" width="329" height="36"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="04y-jZ-wXl" secondAttribute="trailing" constant="32" id="43I-1U-lom"/>
+                                    <constraint firstItem="04y-jZ-wXl" firstAttribute="leading" secondItem="NYo-Jp-m6t" secondAttribute="leading" constant="32" id="666-SP-DAT"/>
+                                    <constraint firstItem="Rh7-ye-OBp" firstAttribute="top" secondItem="NPP-FY-vNK" secondAttribute="bottom" constant="16" id="Egy-Rt-4tM"/>
+                                    <constraint firstItem="04y-jZ-wXl" firstAttribute="top" secondItem="Rh7-ye-OBp" secondAttribute="bottom" constant="8" id="KcE-WP-dJf"/>
+                                    <constraint firstItem="Rh7-ye-OBp" firstAttribute="leading" secondItem="NYo-Jp-m6t" secondAttribute="leading" constant="32" id="Qo5-oV-Rp0"/>
+                                    <constraint firstItem="NPP-FY-vNK" firstAttribute="leading" secondItem="NYo-Jp-m6t" secondAttribute="leading" id="SWc-fL-CXr"/>
+                                    <constraint firstAttribute="trailing" secondItem="NPP-FY-vNK" secondAttribute="trailing" id="XfV-Pq-rY9"/>
+                                    <constraint firstItem="NPP-FY-vNK" firstAttribute="centerY" secondItem="NYo-Jp-m6t" secondAttribute="centerY" constant="-64" id="j0U-d4-gS5"/>
+                                    <constraint firstAttribute="trailing" secondItem="Rh7-ye-OBp" secondAttribute="trailing" constant="32" id="uK1-pf-0wu"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="67q-OU-9Ng" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="1rs-mD-1Sb"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="2bt-wI-iGw" secondAttribute="trailing" constant="16" id="8CT-tB-PbI"/>
+                            <constraint firstItem="2bt-wI-iGw" firstAttribute="top" secondItem="NYo-Jp-m6t" secondAttribute="bottom" constant="16" id="HKX-Td-FYf"/>
                             <constraint firstItem="67q-OU-9Ng" firstAttribute="top" secondItem="JBB-CI-VIY" secondAttribute="bottom" constant="16" id="P0c-oV-CFg"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="67q-OU-9Ng" secondAttribute="trailing" constant="16" id="QRU-kU-j81"/>
                             <constraint firstItem="2bt-wI-iGw" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="Qgg-iH-kW1"/>
                             <constraint firstItem="JBB-CI-VIY" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="16" id="U3W-jz-XVF"/>
+                            <constraint firstItem="NYo-Jp-m6t" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="trailing" id="UEW-Jx-DAm"/>
+                            <constraint firstItem="NYo-Jp-m6t" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="Z5k-yz-N0l"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="2bt-wI-iGw" secondAttribute="bottom" constant="16" id="ZYX-XA-akp"/>
                             <constraint firstItem="2bt-wI-iGw" firstAttribute="top" secondItem="67q-OU-9Ng" secondAttribute="bottom" constant="16" id="cqT-g8-v4F"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="JBB-CI-VIY" secondAttribute="trailing" id="dAP-VB-ObG"/>
+                            <constraint firstItem="NYo-Jp-m6t" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="g31-SO-gCD"/>
                             <constraint firstItem="JBB-CI-VIY" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="lcm-Rr-9ph"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Cart" id="jYC-G6-VLI"/>
                     <connections>
+                        <outlet property="checkoutBtn" destination="2bt-wI-iGw" id="yA3-26-qkE"/>
+                        <outlet property="emptyCartView" destination="NYo-Jp-m6t" id="jj6-SW-bah"/>
+                        <outlet property="priceSection" destination="67q-OU-9Ng" id="cbu-Qf-jaz"/>
                         <outlet property="tableView" destination="JBB-CI-VIY" id="atf-lk-g4a"/>
                     </connections>
                 </viewController>
@@ -126,6 +168,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="empty-cart" width="666.66668701171875" height="666.66668701171875"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

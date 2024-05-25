@@ -9,7 +9,10 @@ import UIKit
 
 class CartViewController: UIViewController {
     
-    var rows = 10
+    @IBOutlet weak var emptyCartView: UIView!
+    @IBOutlet weak var priceSection: UIStackView!
+    @IBOutlet weak var checkoutBtn: UIButton!
+    var rows = 2
 
     @IBOutlet weak var tableView: UITableView!
     
@@ -27,7 +30,20 @@ class CartViewController: UIViewController {
 extension CartViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        rows
+        checkIfCartIsEmpty()
+        return rows
+    }
+    
+    func checkIfCartIsEmpty() {
+        if rows == 0 {
+            emptyCartView.isHidden = false
+            checkoutBtn.isEnabled = false
+            priceSection.isHidden = true
+        } else {
+            emptyCartView.isHidden = true
+            checkoutBtn.isEnabled = true
+            priceSection.isHidden = false
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
