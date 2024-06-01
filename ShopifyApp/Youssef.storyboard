@@ -238,6 +238,9 @@
                                                 <constraint firstItem="O7R-Ee-2JJ" firstAttribute="leading" secondItem="t66-Q1-BGF" secondAttribute="leadingMargin" constant="16" id="tZt-Qi-TwN"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="qkc-Ux-3Cd" kind="presentation" id="orR-S5-Yhj"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="mL8-Xl-CFS">
                                         <rect key="frame" x="0.0" y="279.33333587646484" width="393" height="76.333335876464844"/>
@@ -399,11 +402,57 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wnt-ND-Tqm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1250" y="1345"/>
+            <point key="canvasLocation" x="-47" y="1351"/>
+        </scene>
+        <!--Contact Us-->
+        <scene sceneID="8VI-7Q-r4a">
+            <objects>
+                <viewController title="Contact Us" id="qkc-Ux-3Cd" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KC0-AQ-fna">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="contact-us" translatesAutoresizingMaskIntoConstraints="NO" id="JgX-Os-Ykd">
+                                <rect key="frame" x="16" y="76.666666666666671" width="361" height="210.66666666666663"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="shopifyapp@gmail.com" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pS0-jA-ft2">
+                                <rect key="frame" x="16" y="303.33333333333331" width="361" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contact Us" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGE-5o-iKk">
+                                <rect key="frame" x="16" y="32" width="361" height="28.666666666666671"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="YtF-Br-zw5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="YtF-Br-zw5" firstAttribute="trailing" secondItem="pS0-jA-ft2" secondAttribute="trailing" constant="16" id="4XJ-Vb-8yv"/>
+                            <constraint firstItem="YtF-Br-zw5" firstAttribute="trailing" secondItem="JgX-Os-Ykd" secondAttribute="trailing" constant="16" id="CBl-1M-G2K"/>
+                            <constraint firstItem="JgX-Os-Ykd" firstAttribute="top" secondItem="iGE-5o-iKk" secondAttribute="bottom" constant="16" id="MD1-g8-krb"/>
+                            <constraint firstItem="YtF-Br-zw5" firstAttribute="trailing" secondItem="iGE-5o-iKk" secondAttribute="trailing" constant="16" id="OY6-ai-QAQ"/>
+                            <constraint firstItem="iGE-5o-iKk" firstAttribute="top" secondItem="YtF-Br-zw5" secondAttribute="top" constant="32" id="SZX-Tf-fKx"/>
+                            <constraint firstItem="JgX-Os-Ykd" firstAttribute="height" secondItem="KC0-AQ-fna" secondAttribute="height" multiplier="0.25" id="TMW-M7-fsj"/>
+                            <constraint firstItem="pS0-jA-ft2" firstAttribute="leading" secondItem="YtF-Br-zw5" secondAttribute="leading" constant="16" id="dg5-6Y-l0d"/>
+                            <constraint firstItem="iGE-5o-iKk" firstAttribute="leading" secondItem="YtF-Br-zw5" secondAttribute="leading" constant="16" id="fJ1-pr-U5y"/>
+                            <constraint firstItem="pS0-jA-ft2" firstAttribute="top" secondItem="JgX-Os-Ykd" secondAttribute="bottom" constant="16" id="fjD-8q-cuB"/>
+                            <constraint firstItem="JgX-Os-Ykd" firstAttribute="leading" secondItem="YtF-Br-zw5" secondAttribute="leading" constant="16" id="puO-AW-haL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="About Us" id="rD9-IK-NZX"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uYq-64-Fr9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-828" y="1351"/>
         </scene>
     </scenes>
     <resources>
         <image name="about-us" width="666.66668701171875" height="666.66668701171875"/>
+        <image name="contact-us" width="666.66668701171875" height="666.66668701171875"/>
         <image name="empty-cart" width="666.66668701171875" height="666.66668701171875"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
