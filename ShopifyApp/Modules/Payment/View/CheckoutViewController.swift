@@ -6,10 +6,15 @@
 //
 
 import UIKit
+import Combine
 
 class CheckoutViewController: UIViewController {
     
     @IBOutlet weak var shippingView: UIView!
+    @IBOutlet weak var applyPromoBtn: UIButton!
+    @IBOutlet weak var promoTextField: UITextField!
+    
+    var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +25,17 @@ class CheckoutViewController: UIViewController {
         shippingView.layer.borderWidth = 1
         shippingView.layer.borderColor = UIColor.lightGray.cgColor
         shippingView.layer.cornerRadius = 8
+                
+        enableApplyWhenPromoIsAvailable()
+    }
+    
+    func enableApplyWhenPromoIsAvailable() {
+        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: promoTextField)
+            .compactMap { ($0.object as? UITextField)?.text }
+            .map { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.isEnabled, on: applyPromoBtn)
+            .store(in: &cancellables)
     }
     
     @IBAction func payButton(_ sender: UIButton) {
