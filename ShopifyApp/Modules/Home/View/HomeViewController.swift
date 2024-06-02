@@ -55,10 +55,34 @@ extension HomeViewController:UICollectionViewDelegateFlowLayout{
    
 
 }
+
 class CustomTabBar: UITabBar {
+    private var shapeLayer: CAShapeLayer?
+
     override func layoutSubviews() {
         super.layoutSubviews()
-        layer.cornerRadius = 40
-        clipsToBounds = true
+
+        layer.shadowColor = UIColor.gray.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 5
+        layer.masksToBounds = false
+
+        if shapeLayer == nil {
+            let newShapeLayer = CAShapeLayer()
+            newShapeLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 40).cgPath
+            newShapeLayer.fillColor = UIColor.white.cgColor
+
+            newShapeLayer.shadowColor = layer.shadowColor
+            newShapeLayer.shadowOpacity = layer.shadowOpacity
+            newShapeLayer.shadowOffset = layer.shadowOffset
+            newShapeLayer.shadowRadius = layer.shadowRadius
+            layer.insertSublayer(newShapeLayer, at: 0)
+            shapeLayer = newShapeLayer
+        } else {
+            shapeLayer?.path = UIBezierPath(roundedRect: bounds, cornerRadius: 40).cgPath
+            shapeLayer?.frame = bounds
+        }
     }
 }
+
