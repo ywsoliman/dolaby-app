@@ -41,8 +41,7 @@ extension CategoriesViewController:UICollectionViewDataSource{
         cell.categoryName.text="Adidas"
         cell.categoryPrice.text="30 LE"
         return cell
-    }
-    
+    }    
     
 }
 extension CategoriesViewController:UICollectionViewDelegateFlowLayout{
