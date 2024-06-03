@@ -62,7 +62,7 @@ class LoginViewController: UIViewController {
                     showAlert(message: "Password must be at least 8 characters long.")
                     return
                 }
-        let customer = Customer(email: emailTextField.text ?? "", password: passwordTextField.text ?? "")
+        let customer = CustomerCredentials(email: emailTextField.text ?? "", password: passwordTextField.text ?? "")
         viewModel.login(customer: customer)
     }
     private func isValidEmail(_ email: String) -> Bool {

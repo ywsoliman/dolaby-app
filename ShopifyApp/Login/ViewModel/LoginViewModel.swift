@@ -14,7 +14,7 @@ final class LoginViewModel{
         self.authManager = authManager
     }
     
-    func login(customer:Customer){
+    func login(customer:CustomerCredentials){
         Task{
             isLoading = true
             do{

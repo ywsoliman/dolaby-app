@@ -24,7 +24,7 @@ final class AuthenticationManager{
                     ])
         
     }
-    func login(customer:Customer)async throws{
+    func login(customer:CustomerCredentials)async throws{
         let authDataResult = try await Auth.auth().signIn(withEmail: customer.email, password: customer.password)
     }
     func fetchUserData(uid: String) async throws -> Customer {
@@ -35,7 +35,7 @@ final class AuthenticationManager{
               let address = data["address"] as? String else {
             throw NSError(domain: "com.yourapp", code: -1, userInfo: [NSLocalizedDescriptionKey: "User data is invalid"])
         }
-        return Customer(email: email, password: "", username: username, address: address)
+        return Customer(email: email, userName: "", address: username, password: address)
     }
     
 }

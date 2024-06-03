@@ -9,10 +9,15 @@ import UIKit
 import Combine
 class SignupViewController: UIViewController {
 
+    @IBOutlet weak var userNameTextField: UITextField!
+    @IBOutlet weak var addressTextField: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
+    
+    
+    
     private var cancellables = Set<AnyCancellable>()
     private var viewModel: SignupScreenViewModel = SignupScreenViewModel(authManager: AuthenticationManager.shared)
    private var passwordVisible = false
@@ -39,6 +44,14 @@ class SignupViewController: UIViewController {
                     }
                 }
                 .store(in: &cancellables)
+        viewModel.$isSuccessful
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isSuccessful in
+                if isSuccessful {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }
+            .store(in: &cancellables)
 
             viewModel.$errorMessage
                 .compactMap { $0 }
@@ -48,13 +61,6 @@ class SignupViewController: UIViewController {
                 }
                 .store(in: &cancellables)
         }
-    
-    
-    
-    
-    
-    
-    
     
     @IBAction func signup(_ sender: Any) {
         
@@ -70,13 +76,27 @@ class SignupViewController: UIViewController {
                     showAlert(message: "Passwords do not match.")
                     return
                 }
-        
-        let customer = Customer(email: emailTextField.text ?? "", password: passwordTextField.text ?? "")
+        guard isValidUsername(userNameTextField.text ?? "") else {
+                  showAlert(message: "Username must be at least 4 characters long.")
+                  return
+              }
+        guard isValidAddress(addressTextField.text ?? "") else {
+                  showAlert(message: "Address cannot be empty.")
+                  return
+              }
+
+        let customer = Customer(email: emailTextField.text ?? "", userName:userNameTextField.text ?? "" ,address:addressTextField.text ?? "", password:passwordTextField.text ?? ""  )
         viewModel.signup(customer: customer)
     }
     
     
-    
+    private func isValidUsername(_ username: String) -> Bool {
+           return username.count >= 4
+       }
+
+       private func isValidAddress(_ address: String) -> Bool {
+           return !address.isEmpty
+       }
     
     private func isValidEmail(_ email: String) -> Bool {
             let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
