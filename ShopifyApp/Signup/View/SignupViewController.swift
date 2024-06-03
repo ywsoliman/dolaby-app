@@ -1,0 +1,122 @@
+//
+//  SignupViewController.swift
+//  ShopifyApp
+//
+//  Created by Samuel Adel on 02/06/2024.
+//
+
+import UIKit
+
+class SignupViewController: UIViewController {
+
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var confirmPasswordTextField: UITextField!
+
+    var viewModel: SignupScreenViewModel!
+    var passwordVisible = false
+    var confirmPasswordVisible = false
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        viewModel = SignupScreenViewModel(authManager: AuthenticationManager.shared)
+        setupPasswordField(passwordTextField)
+        setupConfirmPasswordField(confirmPasswordTextField)
+        // Do any additional setup after loading the view.
+    }
+    
+    @IBAction func signup(_ sender: Any) {
+        
+        guard isValidEmail(emailTextField.text ?? "") else {
+                    showAlert(message: "Please enter a valid email address.")
+                    return
+                }
+        guard isValidPassword(passwordTextField.text ?? "") else {
+                    showAlert(message: "Password must be at least 8 characters long.")
+                    return
+                }
+        guard passwordTextField.text == confirmPasswordTextField.text else {
+                    showAlert(message: "Passwords do not match.")
+                    return
+                }
+        
+        let customer = Customer(email: emailTextField.text ?? "", password: passwordTextField.text ?? "")
+        viewModel.signup(customer: customer)
+    }
+    
+    
+    
+    
+    private func isValidEmail(_ email: String) -> Bool {
+            let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+            let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailRegex)
+            return emailPredicate.evaluate(with: email)
+        }
+        
+    private func isValidPassword(_ password: String) -> Bool {
+            return password.count >= 8
+        }
+    
+    
+    private func showAlert(message: String) {
+           let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+           alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+           present(alert, animated: true, completion: nil)
+       }
+    
+    private func setupPasswordField(_ textField: UITextField) {
+            textField.isSecureTextEntry = true
+            let button = UIButton(type: .custom)
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(systemName: "eye")
+            config.baseForegroundColor = .systemGray
+            config.imagePadding = 8
+            button.configuration = config
+            button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            button.addTarget(self, action: #selector(togglePasswordVisibility(_:)), for: .touchUpInside)
+            textField.rightView = button
+            textField.rightViewMode = .always
+        }
+
+        @objc private func togglePasswordVisibility(_ sender: UIButton) {
+            passwordVisible.toggle()
+            passwordTextField.isSecureTextEntry = !passwordVisible
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(systemName: passwordVisible ? "eye.slash" : "eye")
+            config.baseForegroundColor = passwordVisible ? UIColor.systemBlue.withAlphaComponent(0.7) : .systemGray
+            config.imagePadding = 8
+            sender.configuration = config
+        }
+    private func setupConfirmPasswordField(_ textField: UITextField) {
+            textField.isSecureTextEntry = true
+            let button = UIButton(type: .custom)
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(systemName: "eye")
+            config.baseForegroundColor = .systemGray
+            config.imagePadding = 8
+            button.configuration = config
+            button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+            button.addTarget(self, action: #selector(toggleConfirmPasswordVisibility(_:)), for: .touchUpInside)
+            textField.rightView = button
+            textField.rightViewMode = .always
+        }
+
+        @objc private func toggleConfirmPasswordVisibility(_ sender: UIButton) {
+            confirmPasswordVisible.toggle()
+            confirmPasswordTextField.isSecureTextEntry = !confirmPasswordVisible
+            var config = UIButton.Configuration.plain()
+            config.image = UIImage(systemName: confirmPasswordVisible ? "eye.slash" : "eye")
+            config.baseForegroundColor = confirmPasswordVisible ? UIColor.systemBlue.withAlphaComponent(0.7) : .systemGray
+            config.imagePadding = 8
+            sender.configuration = config
+        }
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
+}
