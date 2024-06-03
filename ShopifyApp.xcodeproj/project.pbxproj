@@ -16,6 +16,9 @@
 		034623692C0CC6B4003A9B50 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 034623682C0CC6B4003A9B50 /* FirebaseAuth */; };
 		037F48982C0DC6EB001DDA55 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037F48972C0DC6EB001DDA55 /* Customer.swift */; };
 		037F489B2C0DC76A001DDA55 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 037F489A2C0DC76A001DDA55 /* AuthenticationManager.swift */; };
+		0389E36D2C0E482D0022B41A /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0389E36C2C0E482D0022B41A /* LoginViewModel.swift */; };
+		0389E3702C0E5AD60022B41A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 0389E36F2C0E5AD60022B41A /* FirebaseFirestore */; };
+		0389E3722C0E5AD60022B41A /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0389E3712C0E5AD60022B41A /* FirebaseFirestoreSwift */; };
 		03C7B4062C02AABC00D63144 /* SignupScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C7B4052C02AABC00D63144 /* SignupScreenViewModel.swift */; };
 		BE8610172BFF5001001AB5A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8610162BFF5001001AB5A6 /* AppDelegate.swift */; };
 		BE8610192BFF5001001AB5A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8610182BFF5001001AB5A6 /* SceneDelegate.swift */; };
@@ -53,6 +56,7 @@
 		034623612C0CB66E003A9B50 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		037F48972C0DC6EB001DDA55 /* Customer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		037F489A2C0DC76A001DDA55 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
+		0389E36C2C0E482D0022B41A /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		03C7B4052C02AABC00D63144 /* SignupScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupScreenViewModel.swift; sourceTree = "<group>"; };
 		BE8610132BFF5001001AB5A6 /* ShopifyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopifyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8610162BFF5001001AB5A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -75,7 +79,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0389E3722C0E5AD60022B41A /* FirebaseFirestoreSwift in Frameworks */,
 				034623672C0CC6B4003A9B50 /* FirebaseAnalyticsSwift in Frameworks */,
+				0389E3702C0E5AD60022B41A /* FirebaseFirestore in Frameworks */,
 				034623692C0CC6B4003A9B50 /* FirebaseAuth in Frameworks */,
 				034623652C0CC6B4003A9B50 /* FirebaseAnalytics in Frameworks */,
 			);
@@ -101,6 +107,7 @@
 		0346233C2C0C9146003A9B50 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				0389E36B2C0E481A0022B41A /* ViewModel */,
 				0346233E2C0C9160003A9B50 /* View */,
 			);
 			path = Login;
@@ -120,6 +127,21 @@
 				037F489A2C0DC76A001DDA55 /* AuthenticationManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		0389E36B2C0E481A0022B41A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0389E36C2C0E482D0022B41A /* LoginViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0389E36E2C0E5AD60022B41A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		03C7B4012C02AA8E00D63144 /* Signup */ = {
@@ -163,6 +185,7 @@
 				BE86102F2BFF5003001AB5A6 /* ShopifyAppTests */,
 				BE8610392BFF5003001AB5A6 /* ShopifyAppUITests */,
 				BE8610142BFF5001001AB5A6 /* Products */,
+				0389E36E2C0E5AD60022B41A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -233,6 +256,8 @@
 				034623642C0CC6B4003A9B50 /* FirebaseAnalytics */,
 				034623662C0CC6B4003A9B50 /* FirebaseAnalyticsSwift */,
 				034623682C0CC6B4003A9B50 /* FirebaseAuth */,
+				0389E36F2C0E5AD60022B41A /* FirebaseFirestore */,
+				0389E3712C0E5AD60022B41A /* FirebaseFirestoreSwift */,
 			);
 			productName = ShopifyApp;
 			productReference = BE8610132BFF5001001AB5A6 /* ShopifyApp.app */;
@@ -362,6 +387,7 @@
 				BE86101B2BFF5001001AB5A6 /* ViewController.swift in Sources */,
 				BE8610172BFF5001001AB5A6 /* AppDelegate.swift in Sources */,
 				BE8610212BFF5001001AB5A6 /* ShopifyApp.xcdatamodeld in Sources */,
+				0389E36D2C0E482D0022B41A /* LoginViewModel.swift in Sources */,
 				BE8610192BFF5001001AB5A6 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -732,6 +758,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 034623632C0CC6B4003A9B50 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		0389E36F2C0E5AD60022B41A /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 034623632C0CC6B4003A9B50 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		0389E3712C0E5AD60022B41A /* FirebaseFirestoreSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 034623632C0CC6B4003A9B50 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestoreSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 

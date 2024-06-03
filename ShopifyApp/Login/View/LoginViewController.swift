@@ -6,24 +6,52 @@
 //
 
 import UIKit
-
+import Combine
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var passwordTextField: UITextField!
     
     @IBOutlet weak var signupText: UILabel!
     var passwordVisible = false
-
+    private var viewModel = LoginViewModel(authManager: AuthenticationManager.shared )
+    private var cancellables = Set<AnyCancellable>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupPasswordField(passwordTextField)
+        activityIndicator.isHidden=true
+       bindViewModel()
+    setupPasswordField(passwordTextField)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(signupTextTapped))
                 signupText.isUserInteractionEnabled = true
                 signupText.addGestureRecognizer(tapGesture)
     }
+    private func bindViewModel() {
+            viewModel.$isLoading
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] isLoading in
+                    if isLoading {
+                        self?.activityIndicator.isHidden = false
+                        self?.activityIndicator.startAnimating()
+                    } else {
+                        self?.activityIndicator.isHidden = true
+                        self?.activityIndicator.stopAnimating()
+                    }
+                }
+                .store(in: &cancellables)
+
+            viewModel.$errorMessage
+                .compactMap { $0 }
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] errorMessage in
+                    self?.showAlert(message: errorMessage)
+                }
+                .store(in: &cancellables)
+        }
+    
     
     @IBAction func login(_ sender: Any) {
         guard isValidEmail(emailTextField.text ?? "") else {
@@ -34,6 +62,8 @@ class LoginViewController: UIViewController {
                     showAlert(message: "Password must be at least 8 characters long.")
                     return
                 }
+        let customer = Customer(email: emailTextField.text ?? "", password: passwordTextField.text ?? "")
+        viewModel.login(customer: customer)
     }
     private func isValidEmail(_ email: String) -> Bool {
             let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"

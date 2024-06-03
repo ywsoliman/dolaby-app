@@ -87,10 +87,14 @@
                                     <action selector="signup:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="pry-IV-c1v"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="317-v8-EnU">
+                                <rect key="frame" x="178" y="79" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="317-v8-EnU" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="178" id="02Y-Ii-r7J"/>
                             <constraint firstItem="pkB-n5-S8X" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="0oi-LA-Faw"/>
                             <constraint firstItem="Np5-r9-Ga9" firstAttribute="top" secondItem="42e-ro-25f" secondAttribute="bottom" constant="8" symbolic="YES" id="0s1-eZ-pzz"/>
                             <constraint firstItem="cGd-Fo-hcH" firstAttribute="top" secondItem="Np5-r9-Ga9" secondAttribute="bottom" constant="8" symbolic="YES" id="2Ih-YQ-jht"/>
@@ -104,8 +108,10 @@
                             <constraint firstItem="gcx-S4-Gju" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="PIB-kD-h8V"/>
                             <constraint firstItem="Np5-r9-Ga9" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="PvB-DX-68F"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="gcx-S4-Gju" secondAttribute="trailing" constant="16" id="Sd6-Jh-aau"/>
+                            <constraint firstItem="317-v8-EnU" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="TVy-gS-egU"/>
                             <constraint firstItem="qpC-bX-Ul3" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="VK5-JD-SlP"/>
                             <constraint firstItem="SmF-bN-kn0" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="VZH-zv-eic"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="317-v8-EnU" secondAttribute="trailing" constant="178" id="XcQ-qA-3YI"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="pkB-n5-S8X" secondAttribute="trailing" constant="16" id="Z9K-op-Dht"/>
                             <constraint firstItem="vrq-xC-2Nk" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="bSa-bh-SfP"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Skv-Tk-d8Q" secondAttribute="trailing" constant="94" id="dNx-rc-VKX"/>
@@ -118,10 +124,12 @@
                             <constraint firstItem="42e-ro-25f" firstAttribute="top" secondItem="vrq-xC-2Nk" secondAttribute="bottom" constant="8" symbolic="YES" id="pbz-by-8vK"/>
                             <constraint firstItem="2gC-Za-5gw" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="st6-vL-ZsZ"/>
                             <constraint firstItem="qpC-bX-Ul3" firstAttribute="top" secondItem="SmF-bN-kn0" secondAttribute="bottom" constant="8" symbolic="YES" id="uT1-2x-AcZ"/>
+                            <constraint firstItem="317-v8-EnU" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="xwd-0D-5TJ"/>
                             <constraint firstItem="pkB-n5-S8X" firstAttribute="top" secondItem="2gC-Za-5gw" secondAttribute="bottom" constant="8" symbolic="YES" id="zUI-v4-SHv"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="317-v8-EnU" id="coO-fx-Lxp"/>
                         <outlet property="confirmPasswordTextField" destination="cGd-Fo-hcH" id="7r4-9Y-3qL"/>
                         <outlet property="emailTextField" destination="gcx-S4-Gju" id="Aj6-vv-4BK"/>
                         <outlet property="passwordTextField" destination="42e-ro-25f" id="kKH-kF-cVF"/>
@@ -200,6 +208,9 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="OfC-1h-zxA">
+                                <rect key="frame" x="178" y="92" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pTI-n5-EE0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -211,6 +222,7 @@
                             <constraint firstItem="5NA-Ri-ien" firstAttribute="leading" secondItem="pTI-n5-EE0" secondAttribute="leading" constant="68" id="Bqf-dt-len"/>
                             <constraint firstItem="c56-uo-g5s" firstAttribute="top" secondItem="pOf-Nm-LJH" secondAttribute="bottom" constant="87" id="Bxt-Jq-lcP"/>
                             <constraint firstItem="c56-uo-g5s" firstAttribute="leading" secondItem="pTI-n5-EE0" secondAttribute="leading" constant="16" id="EsT-OB-JvE"/>
+                            <constraint firstItem="OfC-1h-zxA" firstAttribute="centerX" secondItem="XIR-UZ-q85" secondAttribute="centerX" id="G1o-Fj-nEq"/>
                             <constraint firstItem="uFM-aN-1rG" firstAttribute="leading" secondItem="pTI-n5-EE0" secondAttribute="leading" constant="16" id="HKG-z4-LZ6"/>
                             <constraint firstItem="G6a-Ny-svH" firstAttribute="top" secondItem="uFM-aN-1rG" secondAttribute="bottom" constant="66" id="HV4-ef-8ls"/>
                             <constraint firstItem="fNS-cK-ni8" firstAttribute="leading" secondItem="pTI-n5-EE0" secondAttribute="leading" constant="16" id="I8z-FN-z8f"/>
@@ -226,11 +238,13 @@
                             <constraint firstItem="pTI-n5-EE0" firstAttribute="trailing" secondItem="6mE-fk-wJ4" secondAttribute="trailing" constant="16" id="h7X-Na-Eb5"/>
                             <constraint firstItem="pTI-n5-EE0" firstAttribute="trailing" secondItem="l5K-QS-HEZ" secondAttribute="trailing" constant="66" id="jeS-8G-uhM"/>
                             <constraint firstItem="pOf-Nm-LJH" firstAttribute="top" secondItem="3Ph-PM-7v4" secondAttribute="bottom" constant="8" symbolic="YES" id="wtc-3K-N8k"/>
+                            <constraint firstItem="OfC-1h-zxA" firstAttribute="top" secondItem="XIR-UZ-q85" secondAttribute="top" constant="92" id="xgp-ub-fol"/>
                             <constraint firstItem="pTI-n5-EE0" firstAttribute="trailing" secondItem="pOf-Nm-LJH" secondAttribute="trailing" constant="70" id="y2k-Ef-42D"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xkS-67-L6D"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="OfC-1h-zxA" id="tV0-6o-haA"/>
                         <outlet property="emailTextField" destination="6mE-fk-wJ4" id="Xbd-77-9Ua"/>
                         <outlet property="passwordTextField" destination="uFM-aN-1rG" id="OvE-7P-bC1"/>
                         <outlet property="signupText" destination="l5K-QS-HEZ" id="CnA-OW-AGH"/>

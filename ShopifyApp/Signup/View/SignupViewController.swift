@@ -6,24 +6,55 @@
 //
 
 import UIKit
-
+import Combine
 class SignupViewController: UIViewController {
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
-
-    var viewModel: SignupScreenViewModel!
-    var passwordVisible = false
-    var confirmPasswordVisible = false
+    private var cancellables = Set<AnyCancellable>()
+    private var viewModel: SignupScreenViewModel = SignupScreenViewModel(authManager: AuthenticationManager.shared)
+   private var passwordVisible = false
+   private var confirmPasswordVisible = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        viewModel = SignupScreenViewModel(authManager: AuthenticationManager.shared)
+        activityIndicator.isHidden=true
         setupPasswordField(passwordTextField)
         setupConfirmPasswordField(confirmPasswordTextField)
+        bindViewModel()
         // Do any additional setup after loading the view.
     }
+    private func bindViewModel() {
+            viewModel.$isLoading
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] isLoading in
+                    if isLoading {
+                        self?.activityIndicator.isHidden = false
+                        self?.activityIndicator.startAnimating()
+                    } else {
+                        self?.activityIndicator.isHidden = true
+                        self?.activityIndicator.stopAnimating()
+                    }
+                }
+                .store(in: &cancellables)
+
+            viewModel.$errorMessage
+                .compactMap { $0 }
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] errorMessage in
+                    self?.showAlert(message: errorMessage)
+                }
+                .store(in: &cancellables)
+        }
+    
+    
+    
+    
+    
+    
+    
     
     @IBAction func signup(_ sender: Any) {
         
