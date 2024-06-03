@@ -23,7 +23,15 @@ class HomeViewController: UIViewController {
 
 }
 extension HomeViewController:UICollectionViewDelegate{
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row)
+        
+         guard let productDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "brandProductsScreen") as? BrandProductsViewController else {
+             return
+         }
+       
+         navigationController?.pushViewController(productDetailsViewController, animated: true)
+    }
 }
 extension HomeViewController:UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

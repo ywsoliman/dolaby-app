@@ -1,26 +1,30 @@
 //
-//  CategoriesViewController.swift
+//  BrandProductsViewController.swift
 //  ShopifyApp
 //
-//  Created by Israa Assem on 01/06/2024.
+//  Created by Israa Assem on 03/06/2024.
 //
 
 import UIKit
 
-class CategoriesViewController: UIViewController {
+class BrandProductsViewController: UIViewController {
 
-    @IBOutlet weak var categoriesCollectionView: UICollectionView!
+    @IBOutlet weak var brandProductsCollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        categoriesCollectionView.dataSource=self
-        categoriesCollectionView.delegate=self
-        categoriesCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        
+        
+        brandProductsCollectionView.dataSource=self
+        brandProductsCollectionView.delegate=self
+        brandProductsCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         let cellNib=UINib(nibName: "CategoriesCollectionViewCell", bundle: nil)
-        categoriesCollectionView.register(cellNib, forCellWithReuseIdentifier: "categoriesCell")
+        brandProductsCollectionView.register(cellNib, forCellWithReuseIdentifier: "categoriesCell")
     }
+    
+
 
 }
-extension CategoriesViewController:UICollectionViewDelegate{
+extension BrandProductsViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
         
@@ -31,7 +35,7 @@ extension CategoriesViewController:UICollectionViewDelegate{
          navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
 }
-extension CategoriesViewController:UICollectionViewDataSource{
+extension BrandProductsViewController:UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         10
     }
@@ -40,12 +44,13 @@ extension CategoriesViewController:UICollectionViewDataSource{
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
         cell.categoryName.text="Adidas"
         cell.categoryPrice.text="30 LE"
+
         return cell
     }
     
     
 }
-extension CategoriesViewController:UICollectionViewDelegateFlowLayout{
+extension BrandProductsViewController:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width=self.view.frame.width*0.44
         let height=width*1.2
