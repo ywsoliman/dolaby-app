@@ -21,7 +21,7 @@ struct SingleDraftOrder: Codable {
     let taxExempt: Bool
     let completedAt: String?
     var lineItems: [LineItem]
-    let shippingAddress: CustomerAddress
+    let shippingAddress: Address
     let appliedDiscount, orderID, shippingLine: String??
     let totalPrice, subtotalPrice: String
     let paymentTerms: String?

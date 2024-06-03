@@ -196,6 +196,9 @@
                                                 <constraint firstItem="Lqr-JY-WZ4" firstAttribute="top" secondItem="Fsf-SU-FHD" secondAttribute="topMargin" constant="16" id="cdc-D4-hME"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Twh-ed-18P" kind="show" id="sUz-am-Ikf"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="xfD-Il-PeV">
                                         <rect key="frame" x="0.0" y="126.33333587646484" width="393" height="76.333335876464844"/>
@@ -402,7 +405,36 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wnt-ND-Tqm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-47" y="1351"/>
+            <point key="canvasLocation" x="-387" y="1433"/>
+        </scene>
+        <!--Addresses-->
+        <scene sceneID="5l2-7C-PAI">
+            <objects>
+                <tableViewController id="Twh-ed-18P" customClass="AddressesTableViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="CAB-L8-mdR">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Zmd-Bg-Di2">
+                                <rect key="frame" x="0.0" y="50" width="393" height="47.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Zmd-Bg-Di2" id="hTb-hh-R9N">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="47.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Twh-ed-18P" id="wTz-sB-YC8"/>
+                            <outlet property="delegate" destination="Twh-ed-18P" id="vdw-NO-wyF"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Addresses" id="OdK-Qn-F38"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T8N-sz-0j5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="347" y="1432"/>
         </scene>
         <!--Contact Us-->
         <scene sceneID="8VI-7Q-r4a">
@@ -447,7 +479,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uYq-64-Fr9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-828" y="1351"/>
+            <point key="canvasLocation" x="-1140" y="1432"/>
         </scene>
     </scenes>
     <resources>

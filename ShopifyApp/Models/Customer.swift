@@ -16,8 +16,8 @@ struct Customer: Codable {
     let verifiedEmail, taxExempt: Bool?
     let lastOrderName: String?
     let currency, phone: String?
-    let addresses: [CustomerAddress]?
-    let defaultAddress: CustomerAddress?
+    let addresses: CustomerAddresses?
+    let defaultAddress: Address?
     
     enum CodingKeys: String, CodingKey {
         case id, email
@@ -34,7 +34,11 @@ struct Customer: Codable {
     }
 }
 
-struct CustomerAddress: Codable {
+struct CustomerAddresses: Codable {
+    let addresses: [Address]
+}
+
+struct Address: Codable {
     
     let id, customerID: Int?
     let firstName, lastName, address1, city: String?
