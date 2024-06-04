@@ -30,7 +30,9 @@ class AddressesViewModel {
             
             switch result {
             case .success(let addresses):
-                self.addresses = addresses
+                DispatchQueue.main.async {
+                    self.addresses = addresses
+                }
                 print("Addresses = \(addresses)")
             case .failure(let error):
                 print("Addresses error: \(error)")
@@ -48,7 +50,6 @@ class AddressesViewModel {
             
             switch result {
             case .success:
-//                self.removeAddress(withId: id)
                 completion()
             case .failure(let error):
                 print("Deleting address error: \(error)")
@@ -56,16 +57,6 @@ class AddressesViewModel {
             
         }
         
-    }
-    
-    func removeAddress(withId id: Int) {
-        guard var addresses = addresses?.addresses else { return }
-        for i in addresses.indices {
-            if addresses[i].id == id {
-                addresses.remove(at: i)
-                break
-            }
-        }
     }
     
     func setDefault(addressID: Int) {
