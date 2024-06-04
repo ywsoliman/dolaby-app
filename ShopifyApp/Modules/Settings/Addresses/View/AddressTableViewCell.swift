@@ -18,8 +18,6 @@ class AddressTableViewCell: UITableViewCell {
     @IBOutlet weak var countryLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var addressLabel: UILabel!
-    @IBOutlet weak var phoneLabel: UILabel!
-    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,7 +34,6 @@ class AddressTableViewCell: UITableViewCell {
         countryLabel.text = "\(address.countryCode ?? ""), \(address.countryName ?? "")"
         cityLabel.text = address.city ?? ""
         addressLabel.text = address.address1 ?? ""
-        phoneLabel.text = address.phone ?? ""
         accessoryType = address.addressDefault ?? false ? .checkmark : .none
     }
     

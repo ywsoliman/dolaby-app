@@ -17,12 +17,14 @@ class AddressesViewModel {
         }
     }
     
+    var onAddressDeleted: (() -> ()) = {}
+    
     init(service: NetworkService) {
         self.service = service
         getAddresses()
     }
     
-    private func getAddresses() {
+    func getAddresses() {
         
         service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses.json", method: .get) { (result: Result<CustomerAddresses, APIError>) in
             
@@ -36,6 +38,34 @@ class AddressesViewModel {
             
         }
         
+    }
+    
+    func delete(address: Address, completion: @escaping (() -> Void)) {
+        
+        guard let id = address.id else { return }
+        
+        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses/\(id).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
+            
+            switch result {
+            case .success:
+//                self.removeAddress(withId: id)
+                completion()
+            case .failure(let error):
+                print("Deleting address error: \(error)")
+            }
+            
+        }
+        
+    }
+    
+    func removeAddress(withId id: Int) {
+        guard var addresses = addresses?.addresses else { return }
+        for i in addresses.indices {
+            if addresses[i].id == id {
+                addresses.remove(at: i)
+                break
+            }
+        }
     }
     
     func setDefault(addressID: Int) {

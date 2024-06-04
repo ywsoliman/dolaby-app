@@ -20,25 +20,19 @@
                         <rect key="frame" x="16" y="16" width="288" height="88"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EG, Egypt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkI-1D-TkO">
-                                <rect key="frame" x="0.0" y="0.0" width="288" height="22"/>
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="29.333333333333332"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Giza" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EUs-6Y-sYa">
-                                <rect key="frame" x="0.0" y="22" width="288" height="22"/>
+                                <rect key="frame" x="0.0" y="29.333333333333336" width="288" height="29.333333333333336"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="El-Eshrein Street, Faisal" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B3G-PL-ics">
-                                <rect key="frame" x="0.0" y="44" width="288" height="22"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+201014510307" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="voX-rC-khS">
-                                <rect key="frame" x="0.0" y="66" width="288" height="22"/>
+                                <rect key="frame" x="0.0" y="58.666666666666679" width="288" height="29.333333333333336"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -58,7 +52,6 @@
                 <outlet property="addressLabel" destination="B3G-PL-ics" id="nnR-Db-xes"/>
                 <outlet property="cityLabel" destination="EUs-6Y-sYa" id="pOx-2U-3Jb"/>
                 <outlet property="countryLabel" destination="zkI-1D-TkO" id="a3N-ag-9nr"/>
-                <outlet property="phoneLabel" destination="voX-rC-khS" id="gFu-Eu-p7z"/>
             </connections>
             <point key="canvasLocation" x="-15.267175572519083" y="15.492957746478874"/>
         </tableViewCell>
