@@ -289,6 +289,9 @@
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrowshape.right.fill" catalog="system" imagePlacement="trailing" title="More "/>
+                                <connections>
+                                    <segue destination="GTd-0X-axN" kind="show" id="mGJ-ev-xLJ"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fR1-j9-cLW">
                                 <rect key="frame" x="8" y="702" width="377" height="35"/>
@@ -402,53 +405,58 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ab7-Rf-KLG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4654" y="1911"/>
+            <point key="canvasLocation" x="4514" y="1554"/>
         </scene>
-        <!--Table View Controller-->
-        <scene sceneID="11t-8c-YTS">
+        <!--Orders View Controller-->
+        <scene sceneID="W9G-yp-P4V">
             <objects>
-                <tableViewController id="h3j-sm-eLr" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="PdZ-fe-Q6S">
+                <viewController id="GTd-0X-axN" customClass="OrdersViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wWG-LD-1gd">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0tY-ua-9mU">
+                                <rect key="frame" x="0.0" y="133" width="389" height="685"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ordersCell" id="CJz-Qz-MEg">
+                                        <rect key="frame" x="0.0" y="50" width="389" height="43.666667938232422"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CJz-Qz-MEg" id="ptu-ft-mj7">
+                                            <rect key="frame" x="0.0" y="0.0" width="389" height="43.666667938232422"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Orders" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RLa-H4-Ci0">
+                                <rect key="frame" x="0.0" y="103" width="393" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Oia-NJ-XBC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="515" id="07N-hi-S2t">
-                                <rect key="frame" x="0.0" y="50" width="393" height="515"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="07N-hi-S2t" id="kFi-wu-1mP">
-                                    <rect key="frame" x="0.0" y="0.0" width="393" height="515"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shoes" translatesAutoresizingMaskIntoConstraints="NO" id="flZ-lD-6co">
-                                            <rect key="frame" x="0.0" y="0.0" width="393" height="512"/>
-                                        </imageView>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zZi-Nc-OCH">
-                                            <rect key="frame" x="20" y="504" width="353" height="0.0"/>
-                                            <color key="backgroundColor" systemColor="systemBrownColor"/>
-                                        </view>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="trailingMargin" secondItem="zZi-Nc-OCH" secondAttribute="trailing" id="KRA-EN-ii5"/>
-                                        <constraint firstItem="zZi-Nc-OCH" firstAttribute="leading" secondItem="kFi-wu-1mP" secondAttribute="leadingMargin" id="YF6-1F-LKe"/>
-                                        <constraint firstAttribute="trailing" secondItem="flZ-lD-6co" secondAttribute="trailing" id="gVq-JO-Mhu"/>
-                                        <constraint firstItem="zZi-Nc-OCH" firstAttribute="top" secondItem="flZ-lD-6co" secondAttribute="bottom" constant="-8" id="lsR-S8-Q14"/>
-                                        <constraint firstItem="flZ-lD-6co" firstAttribute="top" secondItem="kFi-wu-1mP" secondAttribute="top" id="o4d-Zg-WeR"/>
-                                        <constraint firstItem="flZ-lD-6co" firstAttribute="leading" secondItem="kFi-wu-1mP" secondAttribute="leading" id="vnc-s0-76S"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="zZi-Nc-OCH" secondAttribute="bottom" id="zRu-yv-btK"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="h3j-sm-eLr" id="ZCw-hJ-eFM"/>
-                            <outlet property="delegate" destination="h3j-sm-eLr" id="M9u-8K-bFa"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Zie-RO-IRx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstItem="Oia-NJ-XBC" firstAttribute="bottom" secondItem="0tY-ua-9mU" secondAttribute="bottom" id="AB4-r9-Tv2"/>
+                            <constraint firstItem="Oia-NJ-XBC" firstAttribute="trailing" secondItem="RLa-H4-Ci0" secondAttribute="trailing" id="BDk-ex-P3W"/>
+                            <constraint firstItem="RLa-H4-Ci0" firstAttribute="leading" secondItem="Oia-NJ-XBC" secondAttribute="leading" id="JKu-qM-Fv4"/>
+                            <constraint firstItem="0tY-ua-9mU" firstAttribute="leading" secondItem="Oia-NJ-XBC" secondAttribute="leading" id="VGY-PX-rNY"/>
+                            <constraint firstItem="0tY-ua-9mU" firstAttribute="top" secondItem="RLa-H4-Ci0" secondAttribute="bottom" constant="6" id="bSZ-JV-1ag"/>
+                            <constraint firstItem="RLa-H4-Ci0" firstAttribute="centerX" secondItem="wWG-LD-1gd" secondAttribute="centerX" id="k6b-Ts-VBo"/>
+                            <constraint firstItem="Oia-NJ-XBC" firstAttribute="trailing" secondItem="0tY-ua-9mU" secondAttribute="trailing" constant="4" id="rmB-He-BOU"/>
+                            <constraint firstItem="RLa-H4-Ci0" firstAttribute="top" secondItem="Oia-NJ-XBC" secondAttribute="top" id="xjC-O8-sZ9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="TWT-La-yBn"/>
+                    <connections>
+                        <outlet property="ordersTable" destination="0tY-ua-9mU" id="bNF-MF-Ebd"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LHe-ep-OTG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6323" y="1877"/>
+            <point key="canvasLocation" x="5675.5725190839694" y="1654.9295774647887"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BgY-nJ-SEf">
@@ -635,24 +643,21 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EyO-pX-bpZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5425" y="2536"/>
+            <point key="canvasLocation" x="4830" y="2483"/>
         </scene>
     </scenes>
     <resources>
         <image name="arrowshape.right.fill" catalog="system" width="32" height="32"/>
-        <image name="cart.fill" catalog="system" width="128" height="102"/>
+        <image name="cart.fill" catalog="system" width="32" height="32"/>
         <image name="gearshape.fill" catalog="system" width="32" height="32"/>
         <image name="heart" catalog="system" width="128" height="107"/>
-        <image name="heart.fill" catalog="system" width="128" height="107"/>
+        <image name="heart.fill" catalog="system" width="32" height="32"/>
         <image name="house.fill" catalog="system" width="32" height="32"/>
-        <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="person.fill" catalog="system" width="32" height="32"/>
         <image name="shoes" width="1024" height="683"/>
         <image name="square.grid.2x2.fill" catalog="system" width="32" height="32"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBrownColor">
-            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGray3Color">
             <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
