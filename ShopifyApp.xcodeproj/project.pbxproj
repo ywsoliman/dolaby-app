@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE7C13D72C085B9E005C3FCE /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7C13D62C085B9E005C3FCE /* PaymentViewController.swift */; };
-		BE84EBB52C0B3542000CBCF0 /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE84EBB42C0B3542000CBCF0 /* CheckoutViewController.swift */; };
 		3C0120DA4CC45BE481E4796C /* Pods_ShopifyApp_ShopifyAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088C76444BEEC05367A7019C /* Pods_ShopifyApp_ShopifyAppUITests.framework */; };
 		78513D7DBBFEA67BE7CC2E68 /* Pods_ShopifyAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3528FF3D6A1B558416D19C0 /* Pods_ShopifyAppTests.framework */; };
 		87D644AE2F695EF6E9828A31 /* Pods_ShopifyApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 313F7B147D1A5113BEEDE597 /* Pods_ShopifyApp.framework */; };
+		BE0F9F862C106BCC0027DEE7 /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0F9F852C106BCC0027DEE7 /* SettingsStoryboard.storyboard */; };
+		BE0F9F882C106BF20027DEE7 /* PaymentStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0F9F872C106BF20027DEE7 /* PaymentStoryboard.storyboard */; };
 		BE1372992C0E322000CBC44B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1372952C0E322000CBC44B /* NetworkService.swift */; };
 		BE13729A2C0E322000CBC44B /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1372962C0E322000CBC44B /* NetworkServiceProtocol.swift */; };
 		BE2333332C0E334600D80BE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333312C0E334600D80BE9 /* Constants.swift */; };
@@ -19,10 +19,12 @@
 		BE2333392C0E33A600D80BE9 /* DraftOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333352C0E33A600D80BE9 /* DraftOrder.swift */; };
 		BE23333A2C0E33A600D80BE9 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333362C0E33A600D80BE9 /* Product.swift */; };
 		BE23333D2C0E354800D80BE9 /* AddressesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE23333C2C0E354800D80BE9 /* AddressesViewModel.swift */; };
+		BE7C13D72C085B9E005C3FCE /* PaymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7C13D62C085B9E005C3FCE /* PaymentViewController.swift */; };
 		BE82CAD42C0D15F1009B6594 /* AddressesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE82CAD32C0D15F1009B6594 /* AddressesViewController.swift */; };
 		BE82CAD72C0D1656009B6594 /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE82CAD62C0D1656009B6594 /* AddressTableViewCell.xib */; };
 		BE82CAD82C0D1656009B6594 /* AddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE82CAD52C0D1656009B6594 /* AddressTableViewCell.swift */; };
 		BE84EBAD2C0B1683000CBCF0 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE84EBAC2C0B1683000CBCF0 /* SettingsTableViewController.swift */; };
+		BE84EBB52C0B3542000CBCF0 /* CheckoutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE84EBB42C0B3542000CBCF0 /* CheckoutViewController.swift */; };
 		BE8610172BFF5001001AB5A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8610162BFF5001001AB5A6 /* AppDelegate.swift */; };
 		BE8610192BFF5001001AB5A6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8610182BFF5001001AB5A6 /* SceneDelegate.swift */; };
 		BE86101B2BFF5001001AB5A6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86101A2BFF5001001AB5A6 /* ViewController.swift */; };
@@ -62,8 +64,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		BE7C13D62C085B9E005C3FCE /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
-		BE84EBB42C0B3542000CBCF0 /* CheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
 		088C76444BEEC05367A7019C /* Pods_ShopifyApp_ShopifyAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopifyApp_ShopifyAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C90F1B2FB321A2B984BBFF6 /* Pods-ShopifyApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyApp.release.xcconfig"; path = "Target Support Files/Pods-ShopifyApp/Pods-ShopifyApp.release.xcconfig"; sourceTree = "<group>"; };
 		313F7B147D1A5113BEEDE597 /* Pods_ShopifyApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopifyApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +71,8 @@
 		61EB39C1B6C6C7D97EF095F2 /* Pods-ShopifyApp-ShopifyAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyApp-ShopifyAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-ShopifyApp-ShopifyAppUITests/Pods-ShopifyApp-ShopifyAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A3528FF3D6A1B558416D19C0 /* Pods_ShopifyAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopifyAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC6B9EC0C9BAC07738E2F7E6 /* Pods-ShopifyAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyAppTests.release.xcconfig"; path = "Target Support Files/Pods-ShopifyAppTests/Pods-ShopifyAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		BE0F9F852C106BCC0027DEE7 /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
+		BE0F9F872C106BF20027DEE7 /* PaymentStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PaymentStoryboard.storyboard; sourceTree = "<group>"; };
 		BE1372952C0E322000CBC44B /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		BE1372962C0E322000CBC44B /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		BE2333312C0E334600D80BE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -78,10 +80,12 @@
 		BE2333352C0E33A600D80BE9 /* DraftOrder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftOrder.swift; sourceTree = "<group>"; };
 		BE2333362C0E33A600D80BE9 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		BE23333C2C0E354800D80BE9 /* AddressesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressesViewModel.swift; sourceTree = "<group>"; };
+		BE7C13D62C085B9E005C3FCE /* PaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentViewController.swift; sourceTree = "<group>"; };
 		BE82CAD32C0D15F1009B6594 /* AddressesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressesViewController.swift; sourceTree = "<group>"; };
 		BE82CAD52C0D1656009B6594 /* AddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTableViewCell.swift; sourceTree = "<group>"; };
 		BE82CAD62C0D1656009B6594 /* AddressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressTableViewCell.xib; sourceTree = "<group>"; };
 		BE84EBAC2C0B1683000CBCF0 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		BE84EBB42C0B3542000CBCF0 /* CheckoutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutViewController.swift; sourceTree = "<group>"; };
 		BE8610132BFF5001001AB5A6 /* ShopifyApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopifyApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE8610162BFF5001001AB5A6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE8610182BFF5001001AB5A6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -137,27 +141,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		BE7C13D42C085B92005C3FCE /* Payment */ = {
-			isa = PBXGroup;
-			children = (
-				BE7C13D52C085B97005C3FCE /* View */,
-			);
-			path = Payment;
-			sourceTree = "<group>";
-		};
-		BE7C13D52C085B97005C3FCE /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BE7C13D62C085B9E005C3FCE /* PaymentViewController.swift */,
-				BE84EBB42C0B3542000CBCF0 /* CheckoutViewController.swift */,
-				BEFDF1292C0B5C7B007173E0 /* PaymentOptionsViewController.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		BE84EBAE2C0B1B9A000CBCF0 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
 		0FD6D523B9FFD8E3083708E7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +203,25 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		BE7C13D42C085B92005C3FCE /* Payment */ = {
+			isa = PBXGroup;
+			children = (
+				BE7C13D52C085B97005C3FCE /* View */,
+			);
+			path = Payment;
+			sourceTree = "<group>";
+		};
+		BE7C13D52C085B97005C3FCE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BE7C13D62C085B9E005C3FCE /* PaymentViewController.swift */,
+				BE84EBB42C0B3542000CBCF0 /* CheckoutViewController.swift */,
+				BEFDF1292C0B5C7B007173E0 /* PaymentOptionsViewController.swift */,
+				BE0F9F872C106BF20027DEE7 /* PaymentStoryboard.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		BE82CAD12C0D15E0009B6594 /* Addresses */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +254,7 @@
 		BE84EBAB2C0B167B000CBCF0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				BE0F9F852C106BCC0027DEE7 /* SettingsStoryboard.storyboard */,
 				BE84EBAC2C0B1683000CBCF0 /* SettingsTableViewController.swift */,
 			);
 			path = View;
@@ -282,7 +285,6 @@
 		BE8610152BFF5001001AB5A6 /* ShopifyApp */ = {
 			isa = PBXGroup;
 			children = (
-				BE84EBAE2C0B1B9A000CBCF0 /* Utils */,
 				BE2333372C0E33A600D80BE9 /* Models */,
 				BE2333322C0E334600D80BE9 /* Utils */,
 				BE1372982C0E322000CBC44B /* Service */,
@@ -494,6 +496,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEF6A5142C0084FE00221795 /* CartTableViewCell.xib in Resources */,
+				BE0F9F862C106BCC0027DEE7 /* SettingsStoryboard.storyboard in Resources */,
+				BE0F9F882C106BF20027DEE7 /* PaymentStoryboard.storyboard in Resources */,
 				BE8610232BFF5002001AB5A6 /* Assets.xcassets in Resources */,
 				BE8610262BFF5002001AB5A6 /* Base in Resources */,
 				BE86101E2BFF5001001AB5A6 /* Base in Resources */,
