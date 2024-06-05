@@ -92,4 +92,14 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         present(alert, animated: true, completion: nil)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "checkoutSegue" {
+            guard let cart = cartViewModel.cart else { return }
+            let destVC = segue.destination as? CheckoutViewController
+            destVC?.checkoutViewModel = CheckoutViewModel(draftOrder: cart)
+        }
+        
+    }
+    
 }

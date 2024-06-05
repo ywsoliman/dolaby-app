@@ -99,6 +99,7 @@
                 <outlet property="priceLabel" destination="0J4-Rv-18H" id="lbJ-Bb-pSG"/>
                 <outlet property="productImage" destination="tVV-Tb-EWp" id="rjk-0C-itn"/>
                 <outlet property="quantityLabel" destination="XxQ-mm-Ehf" id="TQm-od-Paq"/>
+                <outlet property="quantityStackView" destination="Jct-JP-cfK" id="Gik-C3-BBs"/>
                 <outlet property="titleLabel" destination="wm9-vM-a6I" id="c2M-Bc-V7A"/>
             </connections>
             <point key="canvasLocation" x="4.5801526717557248" y="12.67605633802817"/>

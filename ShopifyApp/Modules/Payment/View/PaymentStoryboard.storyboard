@@ -45,7 +45,7 @@
                                                     <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
                                                 <connections>
-                                                    <segue destination="tnK-pc-q8I" kind="show" id="q7m-Mj-zga"/>
+                                                    <segue destination="tnK-pc-q8I" kind="show" identifier="checkoutSegue" id="q7m-Mj-zga"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -254,7 +254,7 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pZt-X8-9ov">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="pZt-X8-9ov">
                                 <rect key="frame" x="16" y="347.66666666666663" width="361" height="260.66666666666663"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
@@ -288,6 +288,9 @@
                         <outlet property="applyPromoBtn" destination="wki-4X-Uud" id="FVk-0i-egO"/>
                         <outlet property="promoTextField" destination="gV4-YY-c3i" id="lYw-Hb-zLE"/>
                         <outlet property="shippingView" destination="u35-wp-eDU" id="cqC-Ns-gpB"/>
+                        <outlet property="subtotalLabel" destination="AgM-Ax-WX7" id="3OP-zg-iOQ"/>
+                        <outlet property="tableView" destination="pZt-X8-9ov" id="gBI-KG-Uzt"/>
+                        <outlet property="totalLabel" destination="bEx-8Z-7rw" id="kLq-JT-2fX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pvG-G2-HEH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

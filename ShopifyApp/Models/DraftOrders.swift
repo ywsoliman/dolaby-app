@@ -7,22 +7,22 @@
 
 import Foundation
 
-struct DraftOrder: Codable {
-    let draftOrders: [SingleDraftOrder]
+struct DraftOrders: Codable {
+    let draftOrders: [DraftOrder]
 
     enum CodingKeys: String, CodingKey {
         case draftOrders = "draft_orders"
     }
 }
 
-struct SingleDraftOrder: Codable {
+struct DraftOrder: Codable {
     let id: Int
     let email, currency: String
     let taxExempt: Bool
     let completedAt: String?
     var lineItems: [LineItem]
     let shippingAddress: Address
-    let appliedDiscount, orderID, shippingLine: String??
+    let appliedDiscount, orderID, shippingLine: String?
     let totalPrice, subtotalPrice: String
     let paymentTerms: String?
     let customer: Customer

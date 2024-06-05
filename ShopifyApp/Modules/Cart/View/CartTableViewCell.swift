@@ -16,6 +16,7 @@ class CartTableViewCell: UITableViewCell {
         UINib(nibName: "CartTableViewCell", bundle: nil)
     }
     
+    @IBOutlet weak var quantityStackView: UIStackView!
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!

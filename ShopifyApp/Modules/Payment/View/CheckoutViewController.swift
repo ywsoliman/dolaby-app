@@ -10,14 +10,24 @@ import Combine
 
 class CheckoutViewController: UIViewController {
     
+    var checkoutViewModel: CheckoutViewModel!
+    
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var shippingView: UIView!
     @IBOutlet weak var applyPromoBtn: UIButton!
     @IBOutlet weak var promoTextField: UITextField!
+    @IBOutlet weak var subtotalLabel: UILabel!
+    @IBOutlet weak var totalLabel: UILabel!
     
     var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(CartTableViewCell.nib(), forCellReuseIdentifier: CartTableViewCell.identifier)
+        
         initUI()
     }
     
@@ -25,6 +35,9 @@ class CheckoutViewController: UIViewController {
         shippingView.layer.borderWidth = 1
         shippingView.layer.borderColor = UIColor.lightGray.cgColor
         shippingView.layer.cornerRadius = 8
+        
+        subtotalLabel.text = checkoutViewModel.draftOrder.subtotalPrice
+        totalLabel.text = checkoutViewModel.draftOrder.totalPrice
                 
         enableApplyWhenPromoIsAvailable()
     }
@@ -44,6 +57,26 @@ class CheckoutViewController: UIViewController {
         destinationVC.sheetPresentationController?.detents = [.medium()]
         destinationVC.sheetPresentationController?.prefersGrabberVisible = true
         present(destinationVC, animated: true)
+    }
+    
+}
+
+extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        checkoutViewModel.draftOrder.lineItems.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.identifier, for: indexPath) as! CartTableViewCell
+        
+        cell.quantityStackView.isHidden = true
+        cell.configure(lineItem: checkoutViewModel.draftOrder.lineItems[indexPath.row])
+        
+        return cell
+        
     }
     
 }
