@@ -14,10 +14,13 @@ class CheckoutViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var shippingView: UIView!
+    @IBOutlet weak var shippingCountryLabel: UILabel!
+    @IBOutlet weak var shippingAddressLabel: UILabel!
     @IBOutlet weak var applyPromoBtn: UIButton!
     @IBOutlet weak var promoTextField: UITextField!
     @IBOutlet weak var subtotalLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
+    @IBOutlet weak var discountLabel: UILabel!
     
     var cancellables = Set<AnyCancellable>()
     
@@ -36,9 +39,18 @@ class CheckoutViewController: UIViewController {
         shippingView.layer.borderColor = UIColor.lightGray.cgColor
         shippingView.layer.cornerRadius = 8
         
-        subtotalLabel.text = checkoutViewModel.draftOrder.subtotalPrice
-        totalLabel.text = checkoutViewModel.draftOrder.totalPrice
-                
+        let order = checkoutViewModel.draftOrder
+        
+        subtotalLabel.text = order.subtotalPrice
+        totalLabel.text = order.totalPrice
+        if let discount = order.appliedDiscount {
+            let type = (discount.valueType == "fixed_amount") ? order.currency : "%"
+            discountLabel.text = "\(discount.amount)\(type)"
+        }
+        
+        shippingCountryLabel.text = "\(order.shippingAddress.city), \(order.shippingAddress.country)"
+        shippingAddressLabel.text = order.shippingAddress.address1
+        
         enableApplyWhenPromoIsAvailable()
     }
     
@@ -49,6 +61,11 @@ class CheckoutViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .assign(to: \.isEnabled, on: applyPromoBtn)
             .store(in: &cancellables)
+    }
+    @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
+        
+        
+        
     }
     
     @IBAction func payButton(_ sender: UIButton) {
@@ -72,7 +89,8 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.identifier, for: indexPath) as! CartTableViewCell
         
-        cell.quantityStackView.isHidden = true
+        cell.quantityBtns[0].isHidden = true
+        cell.quantityBtns[1].isHidden = true
         cell.configure(lineItem: checkoutViewModel.draftOrder.lineItems[indexPath.row])
         
         return cell

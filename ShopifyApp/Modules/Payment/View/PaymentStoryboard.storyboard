@@ -198,6 +198,9 @@
                                                 <buttonConfiguration key="configuration" style="filled" title="Apply">
                                                     <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="applyPromoBtnTapped:" destination="tnK-pc-q8I" eventType="touchUpInside" id="WJ6-0c-8S7"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                     </stackView>
@@ -286,7 +289,10 @@
                     <navigationItem key="navigationItem" title="Checkout" id="L5W-oA-1Gy"/>
                     <connections>
                         <outlet property="applyPromoBtn" destination="wki-4X-Uud" id="FVk-0i-egO"/>
+                        <outlet property="discountLabel" destination="HZi-gT-jlq" id="YnP-fY-1xX"/>
                         <outlet property="promoTextField" destination="gV4-YY-c3i" id="lYw-Hb-zLE"/>
+                        <outlet property="shippingAddressLabel" destination="7Nu-Nm-JAE" id="sx7-AA-Pnv"/>
+                        <outlet property="shippingCountryLabel" destination="aFo-iO-cqL" id="HjA-e8-Z6k"/>
                         <outlet property="shippingView" destination="u35-wp-eDU" id="cqC-Ns-gpB"/>
                         <outlet property="subtotalLabel" destination="AgM-Ax-WX7" id="3OP-zg-iOQ"/>
                         <outlet property="tableView" destination="pZt-X8-9ov" id="gBI-KG-Uzt"/>

@@ -41,8 +41,9 @@ struct CustomerAddresses: Codable {
 struct Address: Codable {
     
     let id, customerID: Int?
-    let firstName, lastName, address1, city: String?
-    let country, phone, name, countryCode: String?
+    let firstName, lastName: String
+    let country, address1, city: String
+    let phone, name, countryCode: String?
     let countryName: String?
     let addressDefault: Bool?
     

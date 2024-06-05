@@ -56,7 +56,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="minus.circle" catalog="system"/>
                                 <connections>
-                                    <action selector="decrementBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="6Jk-VV-rKg"/>
+                                    <action selector="decrementBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="z64-nj-lHN"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XxQ-mm-Ehf">
@@ -99,8 +99,9 @@
                 <outlet property="priceLabel" destination="0J4-Rv-18H" id="lbJ-Bb-pSG"/>
                 <outlet property="productImage" destination="tVV-Tb-EWp" id="rjk-0C-itn"/>
                 <outlet property="quantityLabel" destination="XxQ-mm-Ehf" id="TQm-od-Paq"/>
-                <outlet property="quantityStackView" destination="Jct-JP-cfK" id="Gik-C3-BBs"/>
                 <outlet property="titleLabel" destination="wm9-vM-a6I" id="c2M-Bc-V7A"/>
+                <outletCollection property="quantityBtns" destination="uz7-b8-wrU" collectionClass="NSMutableArray" id="sR9-4o-EDy"/>
+                <outletCollection property="quantityBtns" destination="GKr-YR-niJ" collectionClass="NSMutableArray" id="jFL-3O-cKx"/>
             </connections>
             <point key="canvasLocation" x="4.5801526717557248" y="12.67605633802817"/>
         </tableViewCell>
