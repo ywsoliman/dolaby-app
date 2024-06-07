@@ -7,29 +7,39 @@
 
 import Foundation
 
+// MARK: - Customer
 struct Customer: Codable {
-    let id: Int?
-    let email, firstName, lastName: String?
-    let ordersCount: Int?
-    let totalSpent: String?
-    let lastOrderID: String?
-    let verifiedEmail, taxExempt: Bool?
+    let id: Int
+    let email: String
+    let firstName, lastName: String
+    let ordersCount: Int
+    let state, totalSpent: String
+    let lastOrderID, note: String?
+    let verifiedEmail: Bool
+    let multipassIdentifier: String?
+    let taxExempt: Bool
+    let tags: String
     let lastOrderName: String?
-    let currency, phone: String?
-    let addresses: CustomerAddresses?
-    let defaultAddress: Address?
-    
+    let currency, phone: String
+    let taxExemptions: [String]
+    let defaultAddress: Address
+
     enum CodingKeys: String, CodingKey {
         case id, email
         case firstName = "first_name"
         case lastName = "last_name"
         case ordersCount = "orders_count"
+        case state
         case totalSpent = "total_spent"
         case lastOrderID = "last_order_id"
+        case note
         case verifiedEmail = "verified_email"
+        case multipassIdentifier = "multipass_identifier"
         case taxExempt = "tax_exempt"
+        case tags
         case lastOrderName = "last_order_name"
-        case currency, phone, addresses
+        case currency, phone
+        case taxExemptions = "tax_exemptions"
         case defaultAddress = "default_address"
     }
 }
@@ -38,25 +48,10 @@ struct CustomerAddresses: Codable {
     let addresses: [Address]
 }
 
-struct Address: Codable {
-    
-    let id, customerID: Int?
-    let firstName, lastName: String
-    let country, address1, city: String
-    let phone, name, countryCode: String?
-    let countryName: String?
-    let addressDefault: Bool?
+struct CustomerAddress: Codable {
+    let customerAddress: Address
     
     enum CodingKeys: String, CodingKey {
-        case id
-        case customerID = "customer_id"
-        case firstName = "first_name"
-        case lastName = "last_name"
-        case address1, city, country, phone, name
-        case countryCode = "country_code"
-        case countryName = "country_name"
-        case addressDefault = "default"
+        case customerAddress = "customer_address"
     }
-    
-    
 }

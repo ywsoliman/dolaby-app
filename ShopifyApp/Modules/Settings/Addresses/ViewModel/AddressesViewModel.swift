@@ -70,7 +70,7 @@ class AddressesViewModel {
     
     func setDefault(addressID: Int) {
         
-        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses/\(addressID)/default.json", method: .put) { (result: Result<Address, APIError>) in
+        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses/\(addressID)/default.json", method: .put) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
             case .success(_):
