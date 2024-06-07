@@ -83,7 +83,10 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            guard let cart = self.cartViewModel.cart else { return }
+            self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id)
+            
         }
         
         alert.addAction(cancelAction)
@@ -97,7 +100,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "checkoutSegue" {
             guard let cart = cartViewModel.cart else { return }
             let destVC = segue.destination as? CheckoutViewController
-            destVC?.checkoutViewModel = CheckoutViewModel(draftOrder: cart)
+            destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart)
         }
         
     }
