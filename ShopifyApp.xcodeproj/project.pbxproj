@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		036D56572C139E2600C3CC8C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D56562C139E2600C3CC8C /* OnboardingViewController.swift */; };
 		039792762C136AC5005104C5 /* CustomerCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039792752C136AC5005104C5 /* CustomerCredentials.swift */; };
 		039792782C136AD9005104C5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039792772C136AD9005104C5 /* LoginViewModel.swift */; };
 		0397927A2C136AFE005104C5 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039792792C136AFE005104C5 /* AuthenticationManager.swift */; };
@@ -79,6 +80,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		036D56562C139E2600C3CC8C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		039792752C136AC5005104C5 /* CustomerCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCredentials.swift; sourceTree = "<group>"; };
 		039792772C136AD9005104C5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		039792792C136AFE005104C5 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
@@ -171,6 +173,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		036D56542C139E0C00C3CC8C /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				036D56552C139E1400C3CC8C /* View */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		036D56552C139E1400C3CC8C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				036D56562C139E2600C3CC8C /* OnboardingViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		0397927D2C136D2A005104C5 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
@@ -457,6 +475,7 @@
 		BEF6A5092C0075B500221795 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				036D56542C139E0C00C3CC8C /* Onboarding */,
 				0397927D2C136D2A005104C5 /* Signup */,
 				03F1101B2C13223000C3452D /* Login */,
 				BE7C13D42C085B92005C3FCE /* Payment */,
@@ -784,6 +803,7 @@
 				BE23333D2C0E354800D80BE9 /* AddressesViewModel.swift in Sources */,
 				BED61F992C0EEF1D0084ED32 /* AddAddressViewModel.swift in Sources */,
 				BE8610192BFF5001001AB5A6 /* SceneDelegate.swift in Sources */,
+				036D56572C139E2600C3CC8C /* OnboardingViewController.swift in Sources */,
 				BE2333332C0E334600D80BE9 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
