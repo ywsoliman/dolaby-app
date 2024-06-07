@@ -67,15 +67,23 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         guard let addresses = addressesViewModel.addresses else { return }
         guard let id = addresses.addresses[indexPath.row].id else { return }
-        
         addressesViewModel.setDefault(addressID: id)
+        changeCellsAccessory(tableView, indexPath)
+    }
+    
+    func changeCellsAccessory(_ tableView: UITableView, _ indexPath: IndexPath) {
+        for cell in tableView.visibleCells {
+            cell.accessoryType = .none
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryType = .checkmark
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
         
         if editingStyle == .delete {
             deleteAddressAlert(indexPath, tableView)

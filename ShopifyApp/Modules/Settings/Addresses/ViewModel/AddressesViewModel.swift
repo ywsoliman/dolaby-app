@@ -81,7 +81,7 @@ class AddressesViewModel {
             switch result {
             case .success(let address):
                 self.defaultAddress = address.customerAddress
-                self.getAddresses()
+//                self.getAddresses()
                 self.changeCartShippingAddressToDefault(address)
             case .failure(let error):
                 print("Setting default address error: \(error)")
