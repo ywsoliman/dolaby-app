@@ -73,10 +73,46 @@ class AddressesViewModel {
         service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses/\(addressID)/default.json", method: .put) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
-            case .success(_):
+            case .success(let address):
                 self.getAddresses()
+                self.changeCartShippingAddressToDefault(address)
             case .failure(let error):
                 print("Setting default address error: \(error)")
+            }
+            
+        }
+        
+    }
+    
+    func changeCartShippingAddressToDefault(_ address: CustomerAddress) {
+        
+        func convertToDictionary() -> [String: Any]? {
+            do {
+                let data = try JSONEncoder().encode(address)
+                if let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
+                    return dictionary
+                }
+            } catch {
+                print("Error converting to parameters: \(error)")
+            }
+            return nil
+        }
+                
+        guard var shippingParams = convertToDictionary() else { return }
+        if let value = shippingParams.removeValue(forKey: "customer_address") {
+            shippingParams["shipping_address"] = value
+            shippingParams["billing_address"] = value
+        }
+        
+        let addressParams = ["draft_order": shippingParams]
+        
+        service.makeRequest(endPoint: "/draft_orders/\(CART_ID).json", method: .put, parameters: addressParams) { (result: Result<DraftOrderResponse, APIError>) in
+            
+            switch result {
+            case .success(_):
+                print("Changed cart shipping address successfully!")
+            case .failure(let error):
+                print("Couldn't change cart shipping address: \(error)")
             }
             
         }
