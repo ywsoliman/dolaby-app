@@ -11,7 +11,8 @@ class AddressesViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var addressesViewModel: AddressesViewModel!
+    var addressesViewModel: AddressesViewModel!
+    var onAddressChanged: (() -> ()) = {}
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,10 @@ class AddressesViewController: UIViewController {
         addressesViewModel = AddressesViewModel(service: NetworkService.shared)
         addressesViewModel.bindAddressesToViewController = { [weak self] in
             self?.tableView.reloadData()
+            self?.onAddressChanged()
+        }
+        addressesViewModel.bindDefaultAddressToViewController = { [weak self] in
+            self?.onAddressChanged()
         }
         
     }

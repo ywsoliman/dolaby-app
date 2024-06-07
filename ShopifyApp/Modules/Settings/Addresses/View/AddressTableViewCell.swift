@@ -31,9 +31,9 @@ class AddressTableViewCell: UITableViewCell {
     }
     
     func configure(address: Address) {
-        countryLabel.text = "\(address.countryCode ?? ""), \(address.countryName ?? "")"
-        cityLabel.text = address.city ?? ""
-        addressLabel.text = address.address1 ?? ""
+        countryLabel.text = "\(address.countryCode), \(address.countryName ?? "")"
+        cityLabel.text = address.city
+        addressLabel.text = address.address1
         accessoryType = address.addressDefault ?? false ? .checkmark : .none
     }
     

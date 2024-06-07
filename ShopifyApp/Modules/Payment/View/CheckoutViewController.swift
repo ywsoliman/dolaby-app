@@ -39,19 +39,18 @@ class CheckoutViewController: UIViewController {
         shippingView.layer.borderColor = UIColor.lightGray.cgColor
         shippingView.layer.cornerRadius = 8
         
+        enableApplyWhenPromoIsAvailable()
+        
         let order = checkoutViewModel.draftOrder
         
-        subtotalLabel.text = order.subtotalPrice
-        totalLabel.text = order.totalPrice
-        if let discount = order.appliedDiscount {
-            let type = (discount.valueType == "fixed_amount") ? order.currency : "%"
-            discountLabel.text = "\(discount.amount)\(type)"
-        }
+        setPriceSetction(order)
         
-        shippingCountryLabel.text = "\(order.shippingAddress.city), \(order.shippingAddress.country)"
-        shippingAddressLabel.text = order.shippingAddress.address1
-        
-        enableApplyWhenPromoIsAvailable()
+        let shippingAddress = order.shippingAddress
+        setShippingAddress(
+            city: shippingAddress.city,
+            country: shippingAddress.country,
+            address: shippingAddress.address1
+        )
     }
     
     func enableApplyWhenPromoIsAvailable() {
@@ -62,6 +61,7 @@ class CheckoutViewController: UIViewController {
             .assign(to: \.isEnabled, on: applyPromoBtn)
             .store(in: &cancellables)
     }
+    
     @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
         
         
@@ -75,6 +75,21 @@ class CheckoutViewController: UIViewController {
         destinationVC.sheetPresentationController?.prefersGrabberVisible = true
         present(destinationVC, animated: true)
     }
+    
+    func setShippingAddress(city: String, country: String, address: String) {
+        shippingCountryLabel.text = "\(city), \(country)"
+        shippingAddressLabel.text = address
+    }
+    
+    func setPriceSetction(_ order: DraftOrder) {
+        subtotalLabel.text = order.subtotalPrice
+        totalLabel.text = order.totalPrice
+        if let discount = order.appliedDiscount {
+            let type = (discount.valueType == "fixed_amount") ? order.currency : "%"
+            discountLabel.text = "\(discount.amount)\(type)"
+        }
+    }
+    
     
 }
 
@@ -94,6 +109,19 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(lineItem: checkoutViewModel.draftOrder.lineItems[indexPath.row])
         
         return cell
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "changeAddressSegue" {
+
+            let destVC = segue.destination as? AddressesViewController
+            destVC?.onAddressChanged = {
+                guard let defaultAddress = destVC?.addressesViewModel.defaultAddress else { return }
+                self.setShippingAddress(city: defaultAddress.city, country: defaultAddress.country, address: defaultAddress.address1)
+            }
+        }
         
     }
     

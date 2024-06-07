@@ -9,9 +9,12 @@ import Foundation
 
 class CheckoutViewModel {
     
-    let draftOrder: DraftOrder
+    let service: NetworkService
+    var draftOrder: DraftOrder
+    var bindCheckoutToViewController: (() -> ()) = {}
     
-    init(draftOrder: DraftOrder) {
+    init(service: NetworkService, draftOrder: DraftOrder) {
+        self.service = service
         self.draftOrder = draftOrder
     }
     

@@ -11,9 +11,15 @@ class AddressesViewModel {
     
     private let service: NetworkService
     var bindAddressesToViewController: (() -> ()) = {}
+    var bindDefaultAddressToViewController: (() -> ()) = {}
     var addresses: CustomerAddresses? {
         didSet {
             bindAddressesToViewController()
+        }
+    }
+    var defaultAddress: Address? {
+        didSet {
+            bindDefaultAddressToViewController()
         }
     }
     
@@ -74,6 +80,7 @@ class AddressesViewModel {
             
             switch result {
             case .success(let address):
+                self.defaultAddress = address.customerAddress
                 self.getAddresses()
                 self.changeCartShippingAddressToDefault(address)
             case .failure(let error):
