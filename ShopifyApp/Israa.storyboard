@@ -59,13 +59,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="280" height="171"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="shoes" translatesAutoresizingMaskIntoConstraints="NO" id="skb-9D-sXx">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="loadingPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="skb-9D-sXx">
                                                     <rect key="frame" x="0.0" y="0.0" width="280" height="136.66666666666666"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SKJ-tj-2qg">
                                                     <rect key="frame" x="0.0" y="144.66666666666666" width="280" height="20.333333333333343"/>
-                                                    <color key="backgroundColor" systemColor="systemGray3Color"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -80,7 +79,6 @@
                                                 <constraint firstAttribute="trailing" secondItem="SKJ-tj-2qg" secondAttribute="trailing" id="tKc-fS-RrI"/>
                                             </constraints>
                                         </collectionViewCellContentView>
-                                        <color key="backgroundColor" systemColor="systemGray3Color"/>
                                         <size key="customSize" width="280" height="171"/>
                                         <connections>
                                             <outlet property="brandImage" destination="skb-9D-sXx" id="wpB-Ed-sfO"/>
@@ -647,20 +645,18 @@
         </scene>
     </scenes>
     <resources>
-        <image name="arrowshape.right.fill" catalog="system" width="32" height="32"/>
-        <image name="cart.fill" catalog="system" width="32" height="32"/>
-        <image name="gearshape.fill" catalog="system" width="32" height="32"/>
+        <image name="arrowshape.right.fill" catalog="system" width="128" height="104"/>
+        <image name="cart.fill" catalog="system" width="128" height="102"/>
+        <image name="gearshape.fill" catalog="system" width="128" height="123"/>
         <image name="heart" catalog="system" width="128" height="107"/>
-        <image name="heart.fill" catalog="system" width="32" height="32"/>
-        <image name="house.fill" catalog="system" width="32" height="32"/>
-        <image name="person.fill" catalog="system" width="32" height="32"/>
+        <image name="heart.fill" catalog="system" width="128" height="107"/>
+        <image name="house.fill" catalog="system" width="128" height="104"/>
+        <image name="loadingPlaceholder" width="1024" height="1024"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="shoes" width="1024" height="683"/>
-        <image name="square.grid.2x2.fill" catalog="system" width="32" height="32"/>
+        <image name="square.grid.2x2.fill" catalog="system" width="128" height="114"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray3Color">
-            <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
