@@ -41,7 +41,7 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
                 "country": address.country
             ]]
         
-        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses.json", method: .post, parameters: addressParams) { (result: Result<Address, APIError>) in
+        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses.json", method: .post, parameters: addressParams) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
             case .success(_):

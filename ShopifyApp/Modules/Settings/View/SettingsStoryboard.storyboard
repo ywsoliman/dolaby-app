@@ -252,7 +252,7 @@
         <!--Addresses-->
         <scene sceneID="J1q-16-1nJ">
             <objects>
-                <viewController id="7tS-PT-NNH" customClass="AddressesViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddressesViewController" id="7tS-PT-NNH" customClass="AddressesViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="75P-CF-KKK">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

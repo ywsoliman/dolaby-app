@@ -11,7 +11,8 @@ class AddressesViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    private var addressesViewModel: AddressesViewModel!
+    var addressesViewModel: AddressesViewModel!
+    var onAddressChanged: (() -> ()) = {}
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +24,10 @@ class AddressesViewController: UIViewController {
         addressesViewModel = AddressesViewModel(service: NetworkService.shared)
         addressesViewModel.bindAddressesToViewController = { [weak self] in
             self?.tableView.reloadData()
+            self?.onAddressChanged()
+        }
+        addressesViewModel.bindDefaultAddressToViewController = { [weak self] in
+            self?.onAddressChanged()
         }
         
     }
@@ -62,15 +67,23 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         guard let addresses = addressesViewModel.addresses else { return }
         guard let id = addresses.addresses[indexPath.row].id else { return }
-        
         addressesViewModel.setDefault(addressID: id)
+        changeCellsAccessory(tableView, indexPath)
+    }
+    
+    func changeCellsAccessory(_ tableView: UITableView, _ indexPath: IndexPath) {
+        for cell in tableView.visibleCells {
+            cell.accessoryType = .none
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryType = .checkmark
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        
         
         if editingStyle == .delete {
             deleteAddressAlert(indexPath, tableView)
