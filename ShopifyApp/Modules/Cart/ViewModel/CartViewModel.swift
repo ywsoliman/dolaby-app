@@ -35,6 +35,21 @@ class CartViewModel {
         }
     }
     
+    func deleteCart() {
+        
+        service.makeRequest(endPoint: "/draft_orders/\(CART_ID).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
+            
+            switch result {
+            case .success:
+                self.cart = nil
+            case .failure(let error):
+                print("Error DraftOrder: \(error)")
+            }
+            
+        }
+        
+    }
+    
     func deleteItem(withId id: Int) {
         
         guard var cart = cart else { return }
