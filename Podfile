@@ -8,6 +8,7 @@ target 'ShopifyApp' do
   # Pods for ShopifyApp
 	pod 'Alamofire'
 	pod 'Kingfisher', '~> 7.0'
+	pod 'lottie-ios'
 
   target 'ShopifyAppTests' do
     inherit! :search_paths
