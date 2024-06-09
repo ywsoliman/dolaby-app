@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		030DAE802C14C896006B9EF3 /* OnBoardingSlide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DAE7F2C14C896006B9EF3 /* OnBoardingSlide.swift */; };
+		030DAE832C14C8FA006B9EF3 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030DAE822C14C8FA006B9EF3 /* OnboardingViewModel.swift */; };
+		035FFC6A2C15103D0003EAA2 /* OnBoardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035FFC692C15103D0003EAA2 /* OnBoardingCollectionViewCell.swift */; };
+		035FFC6D2C15349D0003EAA2 /* Extentions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 035FFC6C2C15349D0003EAA2 /* Extentions.swift */; };
+		035FFC6F2C1539F70003EAA2 /* launch_screen.json in Resources */ = {isa = PBXBuildFile; fileRef = 035FFC6E2C1539F70003EAA2 /* launch_screen.json */; };
 		036D56572C139E2600C3CC8C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036D56562C139E2600C3CC8C /* OnboardingViewController.swift */; };
 		039792762C136AC5005104C5 /* CustomerCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039792752C136AC5005104C5 /* CustomerCredentials.swift */; };
 		039792782C136AD9005104C5 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039792772C136AD9005104C5 /* LoginViewModel.swift */; };
@@ -80,6 +85,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		030DAE7F2C14C896006B9EF3 /* OnBoardingSlide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingSlide.swift; sourceTree = "<group>"; };
+		030DAE822C14C8FA006B9EF3 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		035FFC692C15103D0003EAA2 /* OnBoardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnBoardingCollectionViewCell.swift; sourceTree = "<group>"; };
+		035FFC6C2C15349D0003EAA2 /* Extentions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extentions.swift; sourceTree = "<group>"; };
+		035FFC6E2C1539F70003EAA2 /* launch_screen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = launch_screen.json; sourceTree = "<group>"; };
 		036D56562C139E2600C3CC8C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		039792752C136AC5005104C5 /* CustomerCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCredentials.swift; sourceTree = "<group>"; };
 		039792772C136AD9005104C5 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -173,9 +183,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		030DAE7E2C14C87E006B9EF3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				030DAE7F2C14C896006B9EF3 /* OnBoardingSlide.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		030DAE812C14C8E7006B9EF3 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				030DAE822C14C8FA006B9EF3 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		035FFC6B2C15348A0003EAA2 /* Extentions */ = {
+			isa = PBXGroup;
+			children = (
+				035FFC6C2C15349D0003EAA2 /* Extentions.swift */,
+			);
+			path = Extentions;
+			sourceTree = "<group>";
+		};
 		036D56542C139E0C00C3CC8C /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				030DAE812C14C8E7006B9EF3 /* ViewModel */,
+				030DAE7E2C14C87E006B9EF3 /* Model */,
 				036D56552C139E1400C3CC8C /* View */,
 			);
 			path = Onboarding;
@@ -185,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				036D56562C139E2600C3CC8C /* OnboardingViewController.swift */,
+				035FFC692C15103D0003EAA2 /* OnBoardingCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -296,6 +333,7 @@
 		BE2333322C0E334600D80BE9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				035FFC6B2C15348A0003EAA2 /* Extentions */,
 				BE2333312C0E334600D80BE9 /* Constants.swift */,
 			);
 			path = Utils;
@@ -422,6 +460,7 @@
 				BE86101A2BFF5001001AB5A6 /* ViewController.swift */,
 				BE86101C2BFF5001001AB5A6 /* Main.storyboard */,
 				BE8610222BFF5002001AB5A6 /* Assets.xcassets */,
+				035FFC6E2C1539F70003EAA2 /* launch_screen.json */,
 				BE8610242BFF5002001AB5A6 /* LaunchScreen.storyboard */,
 				BE8610272BFF5002001AB5A6 /* Info.plist */,
 				BE86101F2BFF5001001AB5A6 /* ShopifyApp.xcdatamodeld */,
@@ -638,6 +677,7 @@
 			files = (
 				BEF6A5142C0084FE00221795 /* CartTableViewCell.xib in Resources */,
 				BE0F9F862C106BCC0027DEE7 /* SettingsStoryboard.storyboard in Resources */,
+				035FFC6F2C1539F70003EAA2 /* launch_screen.json in Resources */,
 				BE0F9F882C106BF20027DEE7 /* PaymentStoryboard.storyboard in Resources */,
 				BE8610232BFF5002001AB5A6 /* Assets.xcassets in Resources */,
 				03F1101A2C13222500C3452D /* Samuel.storyboard in Resources */,
@@ -772,11 +812,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				030DAE802C14C896006B9EF3 /* OnBoardingSlide.swift in Sources */,
 				BE1372992C0E322000CBC44B /* NetworkService.swift in Sources */,
 				BE86101B2BFF5001001AB5A6 /* ViewController.swift in Sources */,
 				BE23333A2C0E33A600D80BE9 /* Product.swift in Sources */,
 				BE8610172BFF5001001AB5A6 /* AppDelegate.swift in Sources */,
+				030DAE832C14C8FA006B9EF3 /* OnboardingViewModel.swift in Sources */,
 				BE82CAD42C0D15F1009B6594 /* AddressesViewController.swift in Sources */,
+				035FFC6D2C15349D0003EAA2 /* Extentions.swift in Sources */,
 				039792842C136D9C005104C5 /* SignupViewModel.swift in Sources */,
 				BE84EBAD2C0B1683000CBCF0 /* SettingsTableViewController.swift in Sources */,
 				BEF6A50D2C0075CF00221795 /* CartViewController.swift in Sources */,
@@ -797,6 +840,7 @@
 				BE84EBB52C0B3542000CBCF0 /* CheckoutViewController.swift in Sources */,
 				039792762C136AC5005104C5 /* CustomerCredentials.swift in Sources */,
 				BED61F952C0EEE440084ED32 /* AddAddressTableViewController.swift in Sources */,
+				035FFC6A2C15103D0003EAA2 /* OnBoardingCollectionViewCell.swift in Sources */,
 				BE2333382C0E33A600D80BE9 /* Customer.swift in Sources */,
 				BED61F9D2C0F10730084ED32 /* EmptyResponse.swift in Sources */,
 				BE13729A2C0E322000CBC44B /* NetworkServiceProtocol.swift in Sources */,
