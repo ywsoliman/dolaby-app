@@ -318,20 +318,11 @@
 		BE7C13D42C085B92005C3FCE /* Payment */ = {
 			isa = PBXGroup;
 			children = (
-				BE0F9F8D2C10A0750027DEE7 /* ViewModel */,
-				BE7C13D52C085B97005C3FCE /* View */,
-			);
-			path = Payment;
-			sourceTree = "<group>";
-		};
-		BE7C13D52C085B97005C3FCE /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BE84EBB42C0B3542000CBCF0 /* CheckoutViewController.swift */,
-				BEFDF1292C0B5C7B007173E0 /* PaymentOptionsViewController.swift */,
+				BEBAE0352C1617DF007F005C /* PaymentOptions */,
+				BEBAE0332C161790007F005C /* Checkout */,
 				BE0F9F872C106BF20027DEE7 /* PaymentStoryboard.storyboard */,
 			);
-			path = View;
+			path = Payment;
 			sourceTree = "<group>";
 		};
 		BE82CAD12C0D15E0009B6594 /* Addresses */ = {
@@ -430,6 +421,47 @@
 				BE86103C2BFF5003001AB5A6 /* ShopifyAppUITestsLaunchTests.swift */,
 			);
 			path = ShopifyAppUITests;
+			sourceTree = "<group>";
+		};
+		BEBAE0332C161790007F005C /* Checkout */ = {
+			isa = PBXGroup;
+			children = (
+				BEBAE0342C16179D007F005C /* View */,
+				BE0F9F8D2C10A0750027DEE7 /* ViewModel */,
+			);
+			path = Checkout;
+			sourceTree = "<group>";
+		};
+		BEBAE0342C16179D007F005C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BE84EBB42C0B3542000CBCF0 /* CheckoutViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BEBAE0352C1617DF007F005C /* PaymentOptions */ = {
+			isa = PBXGroup;
+			children = (
+				BEBAE0372C1617EB007F005C /* ViewModel */,
+				BEBAE0362C1617E6007F005C /* View */,
+			);
+			path = PaymentOptions;
+			sourceTree = "<group>";
+		};
+		BEBAE0362C1617E6007F005C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BEFDF1292C0B5C7B007173E0 /* PaymentOptionsViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BEBAE0372C1617EB007F005C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		BED61F932C0EEDC10084ED32 /* AddAddress */ = {
