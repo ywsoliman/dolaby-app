@@ -80,14 +80,6 @@ class CheckoutViewController: UIViewController {
         
     }
     
-    @IBAction func payButton(_ sender: UIButton) {
-        let destinationVC = PaymentOptionsViewController()
-        destinationVC.modalPresentationStyle = .pageSheet
-        destinationVC.sheetPresentationController?.detents = [.medium()]
-        destinationVC.sheetPresentationController?.prefersGrabberVisible = true
-        present(destinationVC, animated: true)
-    }
-    
     func setShippingAddress(city: String, country: String, address: String) {
         shippingCountryLabel.text = "\(city), \(country)"
         shippingAddressLabel.text = address
