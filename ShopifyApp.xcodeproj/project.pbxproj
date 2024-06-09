@@ -34,6 +34,7 @@
 		BE2333392C0E33A600D80BE9 /* DraftOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333352C0E33A600D80BE9 /* DraftOrders.swift */; };
 		BE23333A2C0E33A600D80BE9 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333362C0E33A600D80BE9 /* Product.swift */; };
 		BE23333D2C0E354800D80BE9 /* AddressesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE23333C2C0E354800D80BE9 /* AddressesViewModel.swift */; };
+		BE6470D82C14C775008D9EFD /* PriceRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6470D72C14C775008D9EFD /* PriceRule.swift */; };
 		BE82CAD42C0D15F1009B6594 /* AddressesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE82CAD32C0D15F1009B6594 /* AddressesViewController.swift */; };
 		BE82CAD72C0D1656009B6594 /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE82CAD62C0D1656009B6594 /* AddressTableViewCell.xib */; };
 		BE82CAD82C0D1656009B6594 /* AddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE82CAD52C0D1656009B6594 /* AddressTableViewCell.swift */; };
@@ -105,6 +106,7 @@
 		BE2333352C0E33A600D80BE9 /* DraftOrders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftOrders.swift; sourceTree = "<group>"; };
 		BE2333362C0E33A600D80BE9 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Product.swift; sourceTree = "<group>"; };
 		BE23333C2C0E354800D80BE9 /* AddressesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressesViewModel.swift; sourceTree = "<group>"; };
+		BE6470D72C14C775008D9EFD /* PriceRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRule.swift; sourceTree = "<group>"; };
 		BE82CAD32C0D15F1009B6594 /* AddressesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressesViewController.swift; sourceTree = "<group>"; };
 		BE82CAD52C0D1656009B6594 /* AddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTableViewCell.swift; sourceTree = "<group>"; };
 		BE82CAD62C0D1656009B6594 /* AddressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressTableViewCell.xib; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 				BE2333362C0E33A600D80BE9 /* Product.swift */,
 				BED61F9C2C0F10730084ED32 /* EmptyResponse.swift */,
 				BE9A0BA12C1375F900864A21 /* Address.swift */,
+				BE6470D72C14C775008D9EFD /* PriceRule.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -758,6 +761,7 @@
 				BE23333A2C0E33A600D80BE9 /* Product.swift in Sources */,
 				BE8610172BFF5001001AB5A6 /* AppDelegate.swift in Sources */,
 				BE82CAD42C0D15F1009B6594 /* AddressesViewController.swift in Sources */,
+				BE6470D82C14C775008D9EFD /* PriceRule.swift in Sources */,
 				039792842C136D9C005104C5 /* SignupViewModel.swift in Sources */,
 				BE84EBAD2C0B1683000CBCF0 /* SettingsTableViewController.swift in Sources */,
 				BEF6A50D2C0075CF00221795 /* CartViewController.swift in Sources */,

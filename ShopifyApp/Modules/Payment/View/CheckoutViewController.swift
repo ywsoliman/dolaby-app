@@ -31,6 +31,11 @@ class CheckoutViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(CartTableViewCell.nib(), forCellReuseIdentifier: CartTableViewCell.identifier)
         
+        checkoutViewModel.bindDraftOrderToViewController = { [weak self] in
+            self?.setOrderInfo()
+            
+        }
+        
         initUI()
     }
     
@@ -41,10 +46,12 @@ class CheckoutViewController: UIViewController {
         
         enableApplyWhenPromoIsAvailable()
         
+        setOrderInfo()
+    }
+    
+    func setOrderInfo() {
         let order = checkoutViewModel.draftOrder
-        
         setPriceSetction(order)
-        
         let shippingAddress = order.shippingAddress
         setShippingAddress(
             city: shippingAddress.city,
@@ -64,7 +71,12 @@ class CheckoutViewController: UIViewController {
     
     @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
         
-        
+        for priceRule in checkoutViewModel.priceRules {
+            if promoTextField.text! == priceRule.title {
+                checkoutViewModel.addDiscountToDraftOrder(priceRule)
+                break
+            }
+        }
         
     }
     
@@ -82,11 +94,11 @@ class CheckoutViewController: UIViewController {
     }
     
     func setPriceSetction(_ order: DraftOrder) {
-        subtotalLabel.text = order.subtotalPrice
+        subtotalLabel.text = checkoutViewModel.subtotalPrice
         totalLabel.text = order.totalPrice
         if let discount = order.appliedDiscount {
             let type = (discount.valueType == "fixed_amount") ? order.currency : "%"
-            discountLabel.text = "\(discount.amount)\(type)"
+            discountLabel.text = "\(discount.value)\(type)"
         }
     }
     

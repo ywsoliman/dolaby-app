@@ -26,10 +26,17 @@ class CartViewController: UIViewController {
         
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
-            self?.priceLabel.text = self?.cartViewModel.cart?.totalPrice
+            self?.setTotalPrice()
             self?.tableView.reloadData()
         }
         
+    }
+    
+    func setTotalPrice() {
+        let total = cartViewModel.cart?.lineItems.reduce(0.0) { (result, item) -> Double in
+            return result + (Double(item.price)! * Double(item.quantity))
+        }
+        priceLabel.text = String(total!)
     }
     
 }
@@ -100,7 +107,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "checkoutSegue" {
             guard let cart = cartViewModel.cart else { return }
             let destVC = segue.destination as? CheckoutViewController
-            destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart)
+            destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, subtotal: priceLabel.text!)
         }
         
     }
