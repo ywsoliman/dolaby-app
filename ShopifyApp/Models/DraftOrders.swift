@@ -26,7 +26,8 @@ struct DraftOrder: Codable {
     let name, status: String
     var lineItems: [LineItem]
     let shippingAddress, billingAddress: Address
-    let orderID, shippingLine: String?
+    let shippingLine: String?
+    let orderID: Int?
     let appliedDiscount: AppliedDiscount?
     let taxLines: [String]
     let tags: String
