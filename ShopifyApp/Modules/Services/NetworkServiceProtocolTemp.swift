@@ -6,7 +6,7 @@
 //
 
 import Foundation
-protocol NetworkServiceProtocol{
+protocol NetworkServiceProtocolTemp{
     func fetchData<T:Decodable>(url:URL,completion:@escaping(Result<T,Error>)->Void)
 }
 

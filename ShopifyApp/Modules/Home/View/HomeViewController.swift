@@ -22,7 +22,7 @@ class HomeViewController: UIViewController {
         adsImage.layer.cornerRadius=15
         brandsCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         indicator.startAnimating()
-        homeViewModel=HomeViewModel(networkService: NetworkService())
+        homeViewModel=HomeViewModel(networkService: NetworkServiceTest())
         homeViewModel?.fetchBrands()
         homeViewModel?.bindBrandsToViewController={[weak self] in
             DispatchQueue.main.async {

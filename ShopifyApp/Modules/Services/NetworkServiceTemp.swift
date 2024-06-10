@@ -6,23 +6,7 @@
 //
 
 import Foundation
-//import Alamofire
-class NetworkService:NetworkServiceProtocol{
-
-    //    func fetchData2<T:Decodable>(url:URL,completion:@escaping(Result<T,Error>)->Void){
-    //        AF.request(url).responseDecodable(of: T.self) { response in
-    //            switch response.result {
-    //            case .success(let data):
-    //                completion(.success(data))
-    //            case .failure(let error):
-    //                if let data = response.data, let jsonError = try? JSONSerialization.jsonObject(with: data, options: []) {
-    //                            print("JSON Error: \(jsonError)")
-    //                        }
-    //                print("Error....",error.localizedDescription)
-    //                completion(.failure(error))
-    //            }
-    //        }
-    //    }
+class NetworkServiceTest:NetworkServiceProtocolTemp{
     func fetchData<T:Decodable>(url:URL,completion : @escaping (Result<T,Error>) -> Void){
         let request = URLRequest(url: url)
         let session = URLSession(configuration: .default)

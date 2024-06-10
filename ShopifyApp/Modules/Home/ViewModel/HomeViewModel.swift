@@ -13,8 +13,8 @@ protocol HomeViewModelProtocol{
     func fetchBrands()->Void
 }
 class HomeViewModel:HomeViewModelProtocol{
-    let networkService:NetworkServiceProtocol
-    init(networkService: NetworkServiceProtocol) {
+    let networkService:NetworkServiceProtocolTemp
+    init(networkService: NetworkServiceProtocolTemp) {
         self.networkService = networkService
     }
     var bindBrandsToViewController:()->Void={}
