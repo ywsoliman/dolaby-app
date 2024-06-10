@@ -57,6 +57,9 @@
 		BE23333A2C0E33A600D80BE9 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333362C0E33A600D80BE9 /* Product.swift */; };
 		BE23333D2C0E354800D80BE9 /* AddressesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE23333C2C0E354800D80BE9 /* AddressesViewModel.swift */; };
 		BE6470D82C14C775008D9EFD /* PriceRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6470D72C14C775008D9EFD /* PriceRule.swift */; };
+		BE8207AF2C17764D00C5FD9B /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8207AE2C17764D00C5FD9B /* CurrencyManager.swift */; };
+		BE8207B22C1776FD00C5FD9B /* CurrencyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8207B12C1776FD00C5FD9B /* CurrencyService.swift */; };
+		BE8207B42C17788E00C5FD9B /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8207B32C17788E00C5FD9B /* Currency.swift */; };
 		BE82CAD42C0D15F1009B6594 /* AddressesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE82CAD32C0D15F1009B6594 /* AddressesViewController.swift */; };
 		BE82CAD72C0D1656009B6594 /* AddressTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BE82CAD62C0D1656009B6594 /* AddressTableViewCell.xib */; };
 		BE82CAD82C0D1656009B6594 /* AddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE82CAD52C0D1656009B6594 /* AddressTableViewCell.swift */; };
@@ -151,6 +154,9 @@
 		BE23333C2C0E354800D80BE9 /* AddressesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressesViewModel.swift; sourceTree = "<group>"; };
 		BE6470D72C14C775008D9EFD /* PriceRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRule.swift; sourceTree = "<group>"; };
 		BE8207A72C172AB400C5FD9B /* ShopifyAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopifyAppDebug.entitlements; sourceTree = "<group>"; };
+		BE8207AE2C17764D00C5FD9B /* CurrencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
+		BE8207B12C1776FD00C5FD9B /* CurrencyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyService.swift; sourceTree = "<group>"; };
+		BE8207B32C17788E00C5FD9B /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		BE82CAD32C0D15F1009B6594 /* AddressesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressesViewController.swift; sourceTree = "<group>"; };
 		BE82CAD52C0D1656009B6594 /* AddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressTableViewCell.swift; sourceTree = "<group>"; };
 		BE82CAD62C0D1656009B6594 /* AddressTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressTableViewCell.xib; sourceTree = "<group>"; };
@@ -452,6 +458,7 @@
 		BE1372972C0E322000CBC44B /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
+				BE8207B02C1776F300C5FD9B /* CurrencyService */,
 				BE1372952C0E322000CBC44B /* NetworkService.swift */,
 				BE1372962C0E322000CBC44B /* NetworkServiceProtocol.swift */,
 				039792792C136AFE005104C5 /* AuthenticationManager.swift */,
@@ -486,6 +493,7 @@
 				BED61F9C2C0F10730084ED32 /* EmptyResponse.swift */,
 				BE9A0BA12C1375F900864A21 /* Address.swift */,
 				BE6470D72C14C775008D9EFD /* PriceRule.swift */,
+				BE8207B32C17788E00C5FD9B /* Currency.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -516,6 +524,22 @@
 			path = Checkout;
 			sourceTree = "<group>";
 		};
+		BE8207AD2C17764100C5FD9B /* Currency */ = {
+			isa = PBXGroup;
+			children = (
+				BE8207AE2C17764D00C5FD9B /* CurrencyManager.swift */,
+			);
+			path = Currency;
+			sourceTree = "<group>";
+		};
+		BE8207B02C1776F300C5FD9B /* CurrencyService */ = {
+			isa = PBXGroup;
+			children = (
+				BE8207B12C1776FD00C5FD9B /* CurrencyService.swift */,
+			);
+			path = CurrencyService;
+			sourceTree = "<group>";
+		};
 		BE82CAD12C0D15E0009B6594 /* Addresses */ = {
 			isa = PBXGroup;
 			children = (
@@ -539,6 +563,7 @@
 		BE84EBAA2C0B1676000CBCF0 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				BE8207AD2C17764100C5FD9B /* Currency */,
 				BE82CAD12C0D15E0009B6594 /* Addresses */,
 				BE84EBAB2C0B167B000CBCF0 /* View */,
 			);
@@ -967,6 +992,7 @@
 				9F9423202C0D3B300082A544 /* HomeViewModel.swift in Sources */,
 				BE1372992C0E322000CBC44B /* NetworkService.swift in Sources */,
 				BE86101B2BFF5001001AB5A6 /* ViewController.swift in Sources */,
+				BE8207B42C17788E00C5FD9B /* Currency.swift in Sources */,
 				BE23333A2C0E33A600D80BE9 /* Product.swift in Sources */,
 				BE8610172BFF5001001AB5A6 /* AppDelegate.swift in Sources */,
 				9FBF0B7E2C09425A005FD71D /* BrandsCollectionViewCell.swift in Sources */,
@@ -999,6 +1025,8 @@
 				039792862C136E0C005104C5 /* SignupViewController.swift in Sources */,
 				0397927A2C136AFE005104C5 /* AuthenticationManager.swift in Sources */,
 				03F110202C13225C00C3452D /* LoginViewController.swift in Sources */,
+				BE8207B22C1776FD00C5FD9B /* CurrencyService.swift in Sources */,
+				BE8207AF2C17764D00C5FD9B /* CurrencyManager.swift in Sources */,
 				039792822C136D51005104C5 /* CustomerData.swift in Sources */,
 				BE8610212BFF5001001AB5A6 /* ShopifyApp.xcdatamodeld in Sources */,
 				BE84EBB52C0B3542000CBCF0 /* CheckoutViewController.swift in Sources */,

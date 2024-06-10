@@ -10,3 +10,4 @@ import Foundation
 let APIKey = "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"
 let MY_CUSTOMER = "8093190160684"
 let CART_ID = "1162500047148"
+let CURRENCY_KEY = "cur_live_4i5iZKvcKBmbfaWZqMeVeCcXbvnrBFSf2NIkf32S"
