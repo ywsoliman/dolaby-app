@@ -22,7 +22,7 @@ struct Customer: Codable {
     let lastOrderName: String?
     let currency, phone: String
     let taxExemptions: [String]
-    let defaultAddress: Address
+    let defaultAddress: [Address]?
 
     enum CodingKeys: String, CodingKey {
         case id, email
