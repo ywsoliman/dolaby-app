@@ -16,32 +16,12 @@ class CheckoutViewModel {
             bindDraftOrderToViewController()
         }
     }
-    var priceRules: [PriceRule] = []
     var bindDraftOrderToViewController: (() -> ()) = {}
     
     init(service: NetworkService, draftOrder: DraftOrder, subtotal: String) {
         self.service = service
         self.draftOrder = draftOrder
         self.subtotalPrice = subtotal
-        getDiscountCodes()
-    }
-    
-    
-    func getDiscountCodes() {
-        
-        service.makeRequest(endPoint: "/price_rules.json", method: .get) { (result: Result<PriceRulesResponse, APIError>) in
-            
-            switch result {
-            case .success(let response):
-                DispatchQueue.main.async {
-                    self.priceRules = response.priceRules
-                }
-            case .failure(let error):
-                print("Error in retrieving price rules: \(error)")
-            }
-            
-        }
-        
     }
     
     func addDiscountToDraftOrder(_ priceRule: PriceRule) {
@@ -82,13 +62,14 @@ class CheckoutViewModel {
         
     }
     
-    func completeOrder() {
+    func completeOrder(completion: @escaping () -> ()) {
         
         service.makeRequest(endPoint: "/draft_orders/\(CART_ID)/complete.json", method: .put) { (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
-            case .success(let draftOrder):
+            case .success(_):
                 print("Compeleted Order Successfully!")
+                completion()
             case .failure(let error):
                 print("Error in completing an order: \(error)")
             }
