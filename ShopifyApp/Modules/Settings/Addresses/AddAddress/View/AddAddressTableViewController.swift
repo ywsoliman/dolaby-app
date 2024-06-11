@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 class AddAddressTableViewController: UITableViewController {
     
@@ -15,12 +16,16 @@ class AddAddressTableViewController: UITableViewController {
     @IBOutlet weak var addressTextField: UITextField!
     @IBOutlet weak var cityTextField: UITextField!
     @IBOutlet weak var countryTextField: UITextField!
+    @IBOutlet weak var saveBtn: UIButton!
     
-    
+    private var cancellables = Set<AnyCancellable>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         title = "Add an Address"
+        
+        observeTextFieldsToEnableSaveBtn()
         
         addAddressViewModel = AddAddressViewModel(service: NetworkService.shared)
         addAddressViewModel.bindAddressToViewController = { [weak self] in
@@ -32,13 +37,7 @@ class AddAddressTableViewController: UITableViewController {
             self?.showNoLocationAlert()
         }
         addAddressViewModel.bindLocationToViewController = { [weak self] in
-            
-            guard let placemark = self?.addAddressViewModel.placemark else { return }
-            
-            self?.addressTextField.text = placemark.name ?? ""
-            self?.cityTextField.text = placemark.locality ?? ""
-            self?.countryTextField.text = placemark.country ?? ""
-            
+            self?.setAddressDataFromLocation()
         }
         
     }
@@ -57,7 +56,7 @@ class AddAddressTableViewController: UITableViewController {
         
     }
     
-    func showNoLocationAlert() {
+    private func showNoLocationAlert() {
         let alert = UIAlertController(title: "Location Services Disabled", message: "Please enable location services in Settings.", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -71,11 +70,46 @@ class AddAddressTableViewController: UITableViewController {
         present(alert, animated: true)
     }
     
-    func openAppSettings() {
+    private func openAppSettings() {
         if let url = URL(string: UIApplication.openSettingsURLString) {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
     }
+    
+    private func setAddressDataFromLocation() {
+        guard let placemark = addAddressViewModel.placemark else { return }
+        addressTextField.text = placemark.name ?? ""
+        cityTextField.text = placemark.locality ?? ""
+        countryTextField.text = placemark.country ?? ""
+    }
+    
+    private func observeTextFieldsToEnableSaveBtn() {
+        
+        saveBtn.isEnabled = false
+        
+        let addressPublisher = NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: addressTextField)
+            .map { ($0.object as? UITextField)?.text ?? "" }
+        
+        let cityPublisher = NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: cityTextField)
+            .map { ($0.object as? UITextField)?.text ?? "" }
+        
+        let countryPublisher = NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: countryTextField)
+            .map { ($0.object as? UITextField)?.text ?? "" }
+        
+        Publishers.CombineLatest3(addressPublisher, cityPublisher, countryPublisher)
+            .map { address, city, country in
+                !address.isEmpty && !city.isEmpty && !country.isEmpty
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { isValid in
+                print(isValid)
+                self.saveBtn.isEnabled = isValid
+            }
+            .store(in: &cancellables)
+            
+        
+    }
+    
 }

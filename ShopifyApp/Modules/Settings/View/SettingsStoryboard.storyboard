@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UOB-2q-Jcr">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -400,7 +401,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8F-bK-rGG">
                                                     <rect key="frame" x="16" y="0.0" width="361" height="39"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="filled" title="Add">
+                                                    <buttonConfiguration key="configuration" style="filled" title="Save">
                                                         <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </buttonConfiguration>
                                                     <connections>
@@ -435,6 +436,7 @@
                         <outlet property="addressTextField" destination="As5-oj-UBg" id="M2R-Sb-4Yk"/>
                         <outlet property="cityTextField" destination="TYx-eP-FlI" id="Qr9-kK-qtV"/>
                         <outlet property="countryTextField" destination="cCt-d9-qf0" id="fUp-wZ-4wt"/>
+                        <outlet property="saveBtn" destination="Y8F-bK-rGG" id="d5S-bC-7q6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NaB-Z1-4S7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
