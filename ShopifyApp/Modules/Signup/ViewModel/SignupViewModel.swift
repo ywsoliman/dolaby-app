@@ -35,11 +35,10 @@ final class SignupScreenViewModel{
             endPoint: "/customers.json",
             method: .post,
             parameters: parameters
-        ) {[weak self] (result: Result<CustomerData, APIError>) in
+        ) {[weak self] (result: Result<CustomerDataResponse, APIError>) in
             switch result {
             case .success(let response):
-                print("Customer created: \(response.id)")
-                self?.bindSuccessToViewController(response)
+                self?.bindSuccessToViewController(response.customer)
             case .failure(let error):
                 print("Failed to create customer: \(error)")
                 self?.isLoading = false

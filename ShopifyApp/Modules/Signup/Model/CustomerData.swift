@@ -24,11 +24,13 @@ class CustomerData:Codable{
     }
     
     enum CodingKeys: String, CodingKey {
-           case id
-           case email
+           case id , email
            case firstName = "first_name"
            case lastName = "last_name"
            case phone
            case password
        }
+}
+struct CustomerDataResponse: Codable {
+    let customer: CustomerData
 }
