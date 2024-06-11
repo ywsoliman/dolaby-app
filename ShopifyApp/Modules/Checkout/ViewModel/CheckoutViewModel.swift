@@ -62,13 +62,14 @@ class CheckoutViewModel {
         
     }
     
-    func completeOrder() {
+    func completeOrder(completion: @escaping () -> ()) {
         
         service.makeRequest(endPoint: "/draft_orders/\(CART_ID)/complete.json", method: .put) { (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
             case .success(_):
                 print("Compeleted Order Successfully!")
+                completion()
             case .failure(let error):
                 print("Error in completing an order: \(error)")
             }
