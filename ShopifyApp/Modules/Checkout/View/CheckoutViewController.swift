@@ -105,9 +105,9 @@ class CheckoutViewController: UIViewController {
     
     @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
         
-        for priceRule in checkoutViewModel.priceRules {
-            if promoTextField.text! == priceRule.title {
-                checkoutViewModel.addDiscountToDraftOrder(priceRule)
+        for discount in Discounts.discounts {
+            if promoTextField.text! == discount.title {
+                checkoutViewModel.addDiscountToDraftOrder(discount)
                 break
             }
         }

@@ -75,6 +75,7 @@
 		BE9A0BA22C1375F900864A21 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9A0BA12C1375F900864A21 /* Address.swift */; };
 		BE9A0BA42C1396DA00864A21 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE9A0BA32C1396DA00864A21 /* GoogleService-Info.plist */; };
 		BEC28E2D2C18A936007A61BC /* Discounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC28E2C2C18A936007A61BC /* Discounts.swift */; };
+		BEC28E2F2C18AF51007A61BC /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC28E2E2C18AF51007A61BC /* MainTabBarViewController.swift */; };
 		BED61F952C0EEE440084ED32 /* AddAddressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED61F942C0EEE440084ED32 /* AddAddressTableViewController.swift */; };
 		BED61F992C0EEF1D0084ED32 /* AddAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED61F982C0EEF1D0084ED32 /* AddAddressViewModel.swift */; };
 		BED61F9B2C0EF9990084ED32 /* AddedAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = BED61F9A2C0EF9990084ED32 /* AddedAddress.swift */; };
@@ -174,6 +175,7 @@
 		BE9A0BA12C1375F900864A21 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		BE9A0BA32C1396DA00864A21 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BEC28E2C2C18A936007A61BC /* Discounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discounts.swift; sourceTree = "<group>"; };
+		BEC28E2E2C18AF51007A61BC /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		BED61F942C0EEE440084ED32 /* AddAddressTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAddressTableViewController.swift; sourceTree = "<group>"; };
 		BED61F982C0EEF1D0084ED32 /* AddAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAddressViewModel.swift; sourceTree = "<group>"; };
 		BED61F9A2C0EF9990084ED32 /* AddedAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddedAddress.swift; sourceTree = "<group>"; };
@@ -635,6 +637,14 @@
 			path = Discounts;
 			sourceTree = "<group>";
 		};
+		BEC28E302C18AF5B007A61BC /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				BEC28E2E2C18AF51007A61BC /* MainTabBarViewController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		BED61F932C0EEDC10084ED32 /* AddAddress */ = {
 			isa = PBXGroup;
 			children = (
@@ -663,6 +673,7 @@
 		BEF6A5092C0075B500221795 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				BEC28E302C18AF5B007A61BC /* TabBar */,
 				BEC28E2B2C18A92B007A61BC /* Discounts */,
 				9FB67A632C0F5DFB00C59B5B /* Orders */,
 				9F77147B2C0E28C500DA640D /* BrandProducts */,
@@ -975,6 +986,7 @@
 				9F3D185C2C0CE4210015A463 /* NetworkServiceTemp.swift in Sources */,
 				9F94CBFB2C0DA4550009F3DE /* CustomTabBar.swift in Sources */,
 				9F9423222C0D3B430082A544 /* BrandsResponse.swift in Sources */,
+				BEC28E2F2C18AF51007A61BC /* MainTabBarViewController.swift in Sources */,
 				9F9423202C0D3B300082A544 /* HomeViewModel.swift in Sources */,
 				BE1372992C0E322000CBC44B /* NetworkService.swift in Sources */,
 				BE86101B2BFF5001001AB5A6 /* ViewController.swift in Sources */,

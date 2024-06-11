@@ -16,7 +16,6 @@ class CheckoutViewModel {
             bindDraftOrderToViewController()
         }
     }
-    var priceRules: [PriceRule] = []
     var bindDraftOrderToViewController: (() -> ()) = {}
     
     init(service: NetworkService, draftOrder: DraftOrder, subtotal: String) {
@@ -68,7 +67,7 @@ class CheckoutViewModel {
         service.makeRequest(endPoint: "/draft_orders/\(CART_ID)/complete.json", method: .put) { (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
-            case .success(let draftOrder):
+            case .success(_):
                 print("Compeleted Order Successfully!")
             case .failure(let error):
                 print("Error in completing an order: \(error)")

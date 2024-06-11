@@ -466,10 +466,10 @@
             </objects>
             <point key="canvasLocation" x="1784" y="1494"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Main Tab Bar View Controller-->
         <scene sceneID="MnK-qF-8jA">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="VaA-xP-xmt" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="VaA-xP-xmt" customClass="MainTabBarViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="tcP-c1-apQ">
                         <rightBarButtonItems>
@@ -478,6 +478,9 @@
                             </barButtonItem>
                             <barButtonItem image="cart.fill" catalog="system" id="SF5-aL-8DK">
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="cartBarBtn:" destination="VaA-xP-xmt" id="Mjr-lI-uri"/>
+                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
