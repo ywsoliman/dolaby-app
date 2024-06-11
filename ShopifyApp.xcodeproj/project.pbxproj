@@ -231,8 +231,9 @@
 		036D56542C139E0C00C3CC8C /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				039CA1462C18907100095FEE /* Model */,
+				039CA1452C18905300095FEE /* ViewModel */,
 				036D56552C139E1400C3CC8C /* View */,
-				9FB4B1792C1784C8006F347F /* OnboardingViewModel.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -278,6 +279,22 @@
 				039792852C136E0C005104C5 /* SignupViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		039CA1452C18905300095FEE /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9FB4B1792C1784C8006F347F /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		039CA1462C18907100095FEE /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9FB4B1772C17828F006F347F /* OnBoardingSlide.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		03E5B5442C17E8F40052FE09 /* LocalService */ = {
@@ -354,7 +371,6 @@
 			isa = PBXGroup;
 			children = (
 				9F9423212C0D3B430082A544 /* BrandsResponse.swift */,
-				9FB4B1772C17828F006F347F /* OnBoardingSlide.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
