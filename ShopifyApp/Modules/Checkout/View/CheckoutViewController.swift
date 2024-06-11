@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import PassKit
 
 class CheckoutViewController: UIViewController {
     
@@ -31,7 +32,86 @@ class CheckoutViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(CartTableViewCell.nib(), forCellReuseIdentifier: CartTableViewCell.identifier)
         
+        checkoutViewModel.bindDraftOrderToViewController = { [weak self] in
+            self?.setOrderInfo()
+        }
+        
         initUI()
+    }
+    
+    @IBAction func cashOnDeliveryBtn(_ sender: UIButton) {
+        confirmationAlert()
+    }
+    
+    func confirmationAlert() {
+        
+        let alert = UIAlertController(title: "Purchase Confirmation", message: "Are you sure you want to make this purchase?", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
+            self.checkoutViewModel.completeOrder()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(confirmAction)
+        
+        present(alert, animated: true)
+        
+    }
+    
+    @IBAction func applePayBtn(_ sender: UIButton) {
+        if let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: createPaymentRequest()) {
+            paymentVC.delegate = self
+            present(paymentVC, animated: true, completion: nil)
+        }
+    }
+    
+    func createPaymentRequest() -> PKPaymentRequest {
+        let request = PKPaymentRequest()
+        request.merchantIdentifier = "merchant.com.welly.ShopifyApp"
+        request.supportedNetworks = [.visa, .masterCard, .amex]
+        request.merchantCapabilities = .capability3DS
+        request.countryCode = "US"
+        request.currencyCode = "USD"
+        request.paymentSummaryItems = createItemsSummary()
+        
+        return request
+    }
+    
+    func createItemsSummary() -> [PKPaymentSummaryItem] {
+        
+        let draftOrder = checkoutViewModel.draftOrder
+        var itemsSummary: [PKPaymentSummaryItem] = []
+        
+        for item in draftOrder.lineItems {
+            itemsSummary.append(
+                PKPaymentSummaryItem(
+                    label: "\(item.title) x\(item.quantity)",
+                    amount: NSDecimalNumber(string: String(Double(item.price)! * Double(item.quantity)))
+                )
+            )
+            
+        }
+        
+        itemsSummary.append(
+            PKPaymentSummaryItem(
+                label: "Total",
+                amount: NSDecimalNumber(string: draftOrder.totalPrice)
+            )
+        )
+
+        return itemsSummary
+    }
+    
+    @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
+        
+        for priceRule in checkoutViewModel.priceRules {
+            if promoTextField.text! == priceRule.title {
+                checkoutViewModel.addDiscountToDraftOrder(priceRule)
+                break
+            }
+        }
+        
     }
     
     func initUI() {
@@ -41,10 +121,12 @@ class CheckoutViewController: UIViewController {
         
         enableApplyWhenPromoIsAvailable()
         
+        setOrderInfo()
+    }
+    
+    func setOrderInfo() {
         let order = checkoutViewModel.draftOrder
-        
         setPriceSetction(order)
-        
         let shippingAddress = order.shippingAddress
         setShippingAddress(
             city: shippingAddress.city,
@@ -62,31 +144,17 @@ class CheckoutViewController: UIViewController {
             .store(in: &cancellables)
     }
     
-    @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
-        
-        
-        
-    }
-    
-    @IBAction func payButton(_ sender: UIButton) {
-        let destinationVC = PaymentOptionsViewController()
-        destinationVC.modalPresentationStyle = .pageSheet
-        destinationVC.sheetPresentationController?.detents = [.medium()]
-        destinationVC.sheetPresentationController?.prefersGrabberVisible = true
-        present(destinationVC, animated: true)
-    }
-    
     func setShippingAddress(city: String, country: String, address: String) {
         shippingCountryLabel.text = "\(city), \(country)"
         shippingAddressLabel.text = address
     }
     
     func setPriceSetction(_ order: DraftOrder) {
-        subtotalLabel.text = order.subtotalPrice
+        subtotalLabel.text = checkoutViewModel.subtotalPrice
         totalLabel.text = order.totalPrice
         if let discount = order.appliedDiscount {
             let type = (discount.valueType == "fixed_amount") ? order.currency : "%"
-            discountLabel.text = "\(discount.amount)\(type)"
+            discountLabel.text = "\(discount.value)\(type)"
         }
     }
     
@@ -124,5 +192,19 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
     }
+    
+}
+
+extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
+    
+    func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
+        checkoutViewModel.completeOrder()
+        controller.dismiss(animated: true)
+    }
+    
+    func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
+        completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+    }
+    
     
 }

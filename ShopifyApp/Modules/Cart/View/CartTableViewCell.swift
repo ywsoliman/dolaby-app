@@ -54,7 +54,7 @@ class CartTableViewCell: UITableViewCell {
             
             switch result {
             case .success(let image):
-                self.setProductImage(src: image.images[0].src)
+                self.setProductImage(src: image.images[0].src!)
             case .failure(let error):
                 print("Failed to set cart image: \(error)")
             }
