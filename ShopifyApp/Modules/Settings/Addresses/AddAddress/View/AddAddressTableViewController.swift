@@ -39,7 +39,19 @@ class AddAddressTableViewController: UITableViewController {
         addAddressViewModel.bindLocationToViewController = { [weak self] in
             self?.setAddressDataFromLocation()
         }
+        addAddressViewModel.bindInvalidCountryToViewController = { [weak self] in
+            self?.showInvalidCountryAlert()
+        }
         
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if section == 3 { return 0 }
+        return 20
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        0
     }
 
     @IBAction func getLocationBtn(_ sender: UIBarButtonItem) {
@@ -76,6 +88,13 @@ class AddAddressTableViewController: UITableViewController {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }
+    }
+    
+    private func showInvalidCountryAlert() {
+        let alert = UIAlertController(title: "Invalid Country", message: "Please enter a valid country", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "OK", style: .cancel)
+        alert.addAction(cancel)
+        present(alert, animated: true)
     }
     
     private func setAddressDataFromLocation() {
