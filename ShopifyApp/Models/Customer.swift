@@ -14,15 +14,15 @@ struct Customer: Codable {
     let firstName, lastName: String
     let ordersCount: Int
     let state, totalSpent: String
-    let lastOrderID, note: String?
+    let lastOrderID, cart: Int?
     let verifiedEmail: Bool
     let multipassIdentifier: String?
     let taxExempt: Bool
     let tags: String
     let lastOrderName: String?
     let currency, phone: String
-    let taxExemptions: [String]
-    let defaultAddress: [Address]?
+    let completedOrders: [DraftOrder]
+    let defaultAddress: Address
 
     enum CodingKeys: String, CodingKey {
         case id, email
@@ -32,14 +32,14 @@ struct Customer: Codable {
         case state
         case totalSpent = "total_spent"
         case lastOrderID = "last_order_id"
-        case note
+        case cart = "note"
         case verifiedEmail = "verified_email"
         case multipassIdentifier = "multipass_identifier"
         case taxExempt = "tax_exempt"
         case tags
         case lastOrderName = "last_order_name"
         case currency, phone
-        case taxExemptions = "tax_exemptions"
+        case completedOrders = "tax_exemptions"
         case defaultAddress = "default_address"
     }
 }
