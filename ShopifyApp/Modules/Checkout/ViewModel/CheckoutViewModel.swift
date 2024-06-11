@@ -23,25 +23,6 @@ class CheckoutViewModel {
         self.service = service
         self.draftOrder = draftOrder
         self.subtotalPrice = subtotal
-        getDiscountCodes()
-    }
-    
-    
-    func getDiscountCodes() {
-        
-        service.makeRequest(endPoint: "/price_rules.json", method: .get) { (result: Result<PriceRulesResponse, APIError>) in
-            
-            switch result {
-            case .success(let response):
-                DispatchQueue.main.async {
-                    self.priceRules = response.priceRules
-                }
-            case .failure(let error):
-                print("Error in retrieving price rules: \(error)")
-            }
-            
-        }
-        
     }
     
     func addDiscountToDraftOrder(_ priceRule: PriceRule) {
