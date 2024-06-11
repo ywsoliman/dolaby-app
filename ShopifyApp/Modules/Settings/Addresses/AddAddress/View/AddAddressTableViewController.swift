@@ -55,9 +55,7 @@ class AddAddressTableViewController: UITableViewController {
     }
 
     @IBAction func getLocationBtn(_ sender: UIBarButtonItem) {
-        
         addAddressViewModel.getLocation()
-        
     }
     
     @IBAction func addAddressBtn(_ sender: UIButton) {
@@ -102,6 +100,7 @@ class AddAddressTableViewController: UITableViewController {
         addressTextField.text = placemark.name ?? ""
         cityTextField.text = placemark.locality ?? ""
         countryTextField.text = placemark.country ?? ""
+        sendTextChangeNotification()
     }
     
     private func observeTextFieldsToEnableSaveBtn() {
@@ -129,6 +128,12 @@ class AddAddressTableViewController: UITableViewController {
             .store(in: &cancellables)
             
         
+    }
+    
+    func sendTextChangeNotification() {
+        [addressTextField, countryTextField, cityTextField].forEach { textField in
+            NotificationCenter.default.post(name: UITextField.textDidChangeNotification, object: textField)
+        }
     }
     
 }
