@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     
     var passwordVisible = false
    
-    private var viewModel = LoginViewModel(authManager: AuthenticationManager.shared )
+    private var viewModel = LoginViewModel(authManager: AuthenticationManager.shared,newtworkService: NetworkService.shared,localDatabase: CoreDataManager.shared )
     private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
@@ -122,5 +122,5 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+  
 }

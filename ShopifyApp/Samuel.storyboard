@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YSy-FV-hRA">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
@@ -182,20 +182,26 @@
                                 <color key="textColor" white="0.54396816380000002" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hd-iY-ztk">
-                                <rect key="frame" x="16" y="290" width="95" height="22"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4hd-iY-ztk">
+                                <rect key="frame" x="16" y="290" width="90.666666666666671" height="22"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baC-9f-69V">
-                                <rect key="frame" x="16" y="362" width="72" height="22"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Last name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1RS-iy-OTh">
+                                <rect key="frame" x="200.66666666666666" y="290" width="88.999999999999972" height="22"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GW2-cC-A5v">
-                                <rect key="frame" x="16" y="320" width="361" height="34"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="baC-9f-69V">
+                                <rect key="frame" x="16" y="362" width="126" height="22"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fGC-IL-6Pe">
+                                <rect key="frame" x="201" y="320" width="176" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
@@ -246,7 +252,7 @@
                                 <rect key="frame" x="178" y="89" width="37" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
-                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="96k-Ok-1C8">
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Your phone" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="96k-Ok-1C8">
                                 <rect key="frame" x="16" y="386" width="361" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -256,15 +262,23 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GW2-cC-A5v">
+                                <rect key="frame" x="16" y="320" width="176" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Z9D-hb-gPQ"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="1RS-iy-OTh" firstAttribute="leading" secondItem="GW2-cC-A5v" secondAttribute="trailing" constant="8.6666666666666288" id="0ku-JR-vfn"/>
+                            <constraint firstItem="1RS-iy-OTh" firstAttribute="top" secondItem="chD-ES-HKv" secondAttribute="bottom" constant="24" id="1FM-iJ-Fgw"/>
                             <constraint firstItem="4hd-iY-ztk" firstAttribute="top" secondItem="chD-ES-HKv" secondAttribute="bottom" constant="24" id="35S-Ee-mSm"/>
                             <constraint firstItem="MLK-AQ-6ak" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="6ns-eb-gkp"/>
                             <constraint firstItem="GW2-cC-A5v" firstAttribute="top" secondItem="4hd-iY-ztk" secondAttribute="bottom" constant="8" symbolic="YES" id="Fey-Ms-KJC"/>
                             <constraint firstItem="0GI-WP-bA2" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="IbS-hD-NlA"/>
                             <constraint firstItem="MLK-AQ-6ak" firstAttribute="top" secondItem="Z9D-hb-gPQ" secondAttribute="top" constant="150" id="IsG-Kr-la5"/>
+                            <constraint firstItem="GW2-cC-A5v" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="Jk9-Mu-kUp"/>
                             <constraint firstItem="Z9D-hb-gPQ" firstAttribute="trailing" secondItem="96k-Ok-1C8" secondAttribute="trailing" constant="16" id="Jtn-LF-O4V"/>
                             <constraint firstItem="eAl-I0-E5K" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="94" id="KPa-Ot-xEz"/>
                             <constraint firstItem="Z9D-hb-gPQ" firstAttribute="trailing" secondItem="vsg-Mi-wSe" secondAttribute="trailing" constant="16" id="LEs-Tf-Avd"/>
@@ -281,36 +295,39 @@
                             <constraint firstItem="zo5-Ik-lys" firstAttribute="top" secondItem="wIJ-F2-iSe" secondAttribute="bottom" constant="8" symbolic="YES" id="gUm-x3-WXt"/>
                             <constraint firstItem="baC-9f-69V" firstAttribute="top" secondItem="GW2-cC-A5v" secondAttribute="bottom" constant="8" symbolic="YES" id="hUI-VU-gju"/>
                             <constraint firstItem="p2N-D8-rEn" firstAttribute="top" secondItem="96k-Ok-1C8" secondAttribute="bottom" constant="8" symbolic="YES" id="jdk-00-ClG"/>
-                            <constraint firstItem="Z9D-hb-gPQ" firstAttribute="trailing" secondItem="GW2-cC-A5v" secondAttribute="trailing" constant="16" id="kqe-IU-a4E"/>
                             <constraint firstItem="zo5-Ik-lys" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="lMG-t1-1YE"/>
+                            <constraint firstItem="fGC-IL-6Pe" firstAttribute="top" secondItem="1RS-iy-OTh" secondAttribute="bottom" constant="8" symbolic="YES" id="pbd-D4-wpH"/>
                             <constraint firstItem="4hd-iY-ztk" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="pea-df-J20"/>
                             <constraint firstItem="wIJ-F2-iSe" firstAttribute="top" secondItem="bqO-MS-LD2" secondAttribute="bottom" constant="8" symbolic="YES" id="pnu-Wh-heO"/>
                             <constraint firstItem="96k-Ok-1C8" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="qDd-bA-loV"/>
-                            <constraint firstItem="GW2-cC-A5v" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="qhf-yt-MZv"/>
                             <constraint firstItem="96k-Ok-1C8" firstAttribute="top" secondItem="baC-9f-69V" secondAttribute="bottom" constant="2" id="rQb-YV-pJV"/>
+                            <constraint firstItem="fGC-IL-6Pe" firstAttribute="leading" secondItem="GW2-cC-A5v" secondAttribute="trailing" constant="9" id="rhv-KN-Mqp"/>
                             <constraint firstItem="bqO-MS-LD2" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="rty-pi-7Qd"/>
+                            <constraint firstItem="Z9D-hb-gPQ" firstAttribute="trailing" secondItem="fGC-IL-6Pe" secondAttribute="trailing" constant="16" id="sfD-Y1-DCZ"/>
                             <constraint firstItem="chD-ES-HKv" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="x2r-eZ-8fm"/>
                             <constraint firstItem="bqO-MS-LD2" firstAttribute="top" secondItem="vsg-Mi-wSe" secondAttribute="bottom" constant="8" symbolic="YES" id="ysg-62-V1C"/>
+                            <constraint firstItem="GW2-cC-A5v" firstAttribute="width" secondItem="fGC-IL-6Pe" secondAttribute="width" id="zZU-QG-byS"/>
                             <constraint firstItem="baC-9f-69V" firstAttribute="leading" secondItem="Z9D-hb-gPQ" secondAttribute="leading" constant="16" id="ztZ-gV-cvW"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="JTO-MG-Ump" id="SWP-oY-XRi"/>
-                        <outlet property="addressTextField" destination="96k-Ok-1C8" id="Vtb-yF-t6d"/>
                         <outlet property="confirmPasswordTextField" destination="0GI-WP-bA2" id="aGy-S4-B9a"/>
                         <outlet property="emailTextField" destination="vsg-Mi-wSe" id="eLT-nU-xhk"/>
+                        <outlet property="firstNameTextField" destination="GW2-cC-A5v" id="kUE-yq-XVu"/>
+                        <outlet property="lastNameTextField" destination="fGC-IL-6Pe" id="KIJ-SV-eFc"/>
                         <outlet property="passwordTextField" destination="wIJ-F2-iSe" id="1ZT-gl-Abe"/>
-                        <outlet property="userNameTextField" destination="GW2-cC-A5v" id="OEh-Eu-cdA"/>
+                        <outlet property="phoneTextField" destination="96k-Ok-1C8" id="LIn-em-J49"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="usl-FS-W2x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1790" y="-6"/>
+            <point key="canvasLocation" x="1788.5496183206105" y="-6.3380281690140849"/>
         </scene>
         <!--Onboarding View Controller-->
         <scene sceneID="JNl-Ll-xCO">
             <objects>
-                <viewController id="YSy-FV-hRA" customClass="OnboardingViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="onboardingVC" id="YSy-FV-hRA" customClass="OnboardingViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="roF-6W-3u2">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
