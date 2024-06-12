@@ -10,15 +10,24 @@ final class LoginViewModel{
    @Published  var isLoading:Bool = false
    @Published  var errorMessage:String?
     private var authManager:AuthenticationManager
-    init(authManager: AuthenticationManager) {
+    private var localDatabase:CoreDataManager
+    private var networkService:NetworkService
+//    var bindingSuccessToViewController :((_ customerCoreDataModel:CustomerCoreDataModel)->()) = {customerData in}
+   
+    init(authManager: AuthenticationManager,newtworkService:NetworkService,localDatabase:CoreDataManager) {
+        self.localDatabase = localDatabase
         self.authManager = authManager
+        self.networkService = newtworkService
     }
     
     func login(customer:CustomerCredentials){
         Task{
             isLoading = true
             do{
-                try await authManager.login(customer: customer)
+             let customer = try await authManager.login(customer: customer)
+               try localDatabase.saveCustomerData(customer: customer)
+               let customerCoreData = try localDatabase.getCustomerData()
+//                bindingSuccessToViewController(customerCoreData)
                 isLoading = false
                 print("successfully")
             }catch{
@@ -28,4 +37,17 @@ final class LoginViewModel{
             }
         }
     }
+//    func getCustomer(customerData:CustomerCoreDataModel){
+//        networkService.makeRequest(
+//            endPoint: "/customers/\(customerData.id).json",
+//            method: .get
+//        ) { (result: Result<Customer, APIError>) in
+//            switch result {
+//            case .success(let customerData):
+//                print("Customer data: \(customerData.id)")
+//            case .failure(let error):
+//                print("Error: \(error)")
+//            }
+//        }
+//    }
 }

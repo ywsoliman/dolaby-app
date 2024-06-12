@@ -6,16 +6,31 @@
 //
 
 import Foundation
-class CustomerData{
+class CustomerData:Codable{
+    var id:Int?
     let email:String
-    let userName:String
-    let address:String
-    let password:String
+    let firstName:String
+    let lastName:String
+    let phone:String
+    let password:String?
     
-    init(email: String, userName: String, address: String, password: String) {
+    init(id:Int?,firstName: String, lastName: String, phone: String,email: String, password: String) {
+        self.id = id
         self.email = email
-        self.userName = userName
-        self.address = address
+        self.firstName = firstName
+        self.lastName = lastName
+        self.phone = phone
         self.password = password
     }
+    
+    enum CodingKeys: String, CodingKey {
+           case id , email
+           case firstName = "first_name"
+           case lastName = "last_name"
+           case phone
+           case password
+       }
+}
+struct CustomerDataResponse: Codable {
+    let customer: CustomerData
 }

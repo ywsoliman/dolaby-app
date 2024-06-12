@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="UOB-2q-Jcr">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -270,7 +271,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="iVd-y5-NPK">
-                                <rect key="frame" x="0.0" y="171" width="393" height="576"/>
+                                <rect key="frame" x="0.0" y="171" width="393" height="631"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="a4c-ZZ-srM" customClass="AddressTableViewCell" customModule="ShopifyApp" customModuleProvider="target">
@@ -283,31 +284,23 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xLo-m6-JoW">
-                                <rect key="frame" x="16" y="763" width="361" height="39"/>
-                                <color key="tintColor" systemColor="tintColor"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Add an Address">
-                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="addAnAddressBtn:" destination="7tS-PT-NNH" eventType="touchUpInside" id="JqG-Ki-FzU"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XmE-3P-B0j"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="iVd-y5-NPK" firstAttribute="leading" secondItem="XmE-3P-B0j" secondAttribute="leading" id="1Wv-5H-6Qh"/>
                             <constraint firstItem="XmE-3P-B0j" firstAttribute="trailing" secondItem="iVd-y5-NPK" secondAttribute="trailing" id="I9N-cl-wUx"/>
-                            <constraint firstItem="XmE-3P-B0j" firstAttribute="bottom" secondItem="xLo-m6-JoW" secondAttribute="bottom" constant="16" id="Sjx-d0-6KM"/>
-                            <constraint firstItem="XmE-3P-B0j" firstAttribute="trailing" secondItem="xLo-m6-JoW" secondAttribute="trailing" constant="16" id="TJW-hv-j8Z"/>
-                            <constraint firstItem="xLo-m6-JoW" firstAttribute="leading" secondItem="XmE-3P-B0j" secondAttribute="leading" constant="16" id="fvV-yc-EGe"/>
                             <constraint firstItem="iVd-y5-NPK" firstAttribute="top" secondItem="XmE-3P-B0j" secondAttribute="top" constant="16" id="wHw-da-25f"/>
-                            <constraint firstItem="xLo-m6-JoW" firstAttribute="top" secondItem="iVd-y5-NPK" secondAttribute="bottom" constant="16" id="zIY-Xe-V05"/>
+                            <constraint firstItem="XmE-3P-B0j" firstAttribute="bottom" secondItem="iVd-y5-NPK" secondAttribute="bottom" constant="16" id="yPN-6a-fst"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Addresses" id="yfu-7f-8mu"/>
+                    <navigationItem key="navigationItem" title="Addresses" id="yfu-7f-8mu">
+                        <barButtonItem key="rightBarButtonItem" image="plus" catalog="system" id="YXU-WZ-Tje">
+                            <connections>
+                                <segue destination="sxM-qi-j8R" kind="show" identifier="addAddressSegue" id="6mj-2u-hpf"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="iVd-y5-NPK" id="msQ-A4-k5X"/>
                     </connections>
@@ -316,7 +309,7 @@
             </objects>
             <point key="canvasLocation" x="405" y="1432"/>
         </scene>
-        <!--Add an Address-->
+        <!--Add Address Table View Controller-->
         <scene sceneID="rae-e0-5hK">
             <objects>
                 <tableViewController storyboardIdentifier="AddAddressTableViewController" id="sxM-qi-j8R" customClass="AddAddressTableViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -412,7 +405,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y8F-bK-rGG">
                                                     <rect key="frame" x="16" y="0.0" width="361" height="39"/>
                                                     <state key="normal" title="Button"/>
-                                                    <buttonConfiguration key="configuration" style="filled" title="Add">
+                                                    <buttonConfiguration key="configuration" style="filled" title="Save">
                                                         <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </buttonConfiguration>
                                                     <connections>
@@ -436,10 +429,10 @@
                             <outlet property="delegate" destination="sxM-qi-j8R" id="DiT-ps-Vxp"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Add an Address" id="dF0-Uu-V4N">
-                        <barButtonItem key="rightBarButtonItem" image="location" catalog="system" id="xQF-0R-Hv9">
+                    <navigationItem key="navigationItem" id="AGA-aj-lX5">
+                        <barButtonItem key="rightBarButtonItem" image="location" catalog="system" id="bFm-Gd-cl4">
                             <connections>
-                                <action selector="getLocationBtn:" destination="sxM-qi-j8R" id="65S-tc-I31"/>
+                                <action selector="getLocationBtn:" destination="sxM-qi-j8R" id="KaN-dm-cJB"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -447,6 +440,7 @@
                         <outlet property="addressTextField" destination="As5-oj-UBg" id="M2R-Sb-4Yk"/>
                         <outlet property="cityTextField" destination="TYx-eP-FlI" id="Qr9-kK-qtV"/>
                         <outlet property="countryTextField" destination="cCt-d9-qf0" id="fUp-wZ-4wt"/>
+                        <outlet property="saveBtn" destination="Y8F-bK-rGG" id="d5S-bC-7q6"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NaB-Z1-4S7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -503,6 +497,7 @@
         <image name="about-us" width="666.66668701171875" height="666.66668701171875"/>
         <image name="contact-us" width="666.66668701171875" height="666.66668701171875"/>
         <image name="location" catalog="system" width="128" height="119"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
