@@ -9,20 +9,12 @@ import Foundation
 
 // MARK: - CurrencyResponse
 struct CurrencyResponse: Codable {
-    let data: Currencies
-}
-
-// MARK: - Currencies
-struct Currencies: Codable {
-    let egp: EGP
+    let result, baseCode: String
+    let conversionRates: [String: Double]
 
     enum CodingKeys: String, CodingKey {
-        case egp = "EGP"
+        case result
+        case baseCode = "base_code"
+        case conversionRates = "conversion_rates"
     }
-}
-
-// MARK: - EGP
-struct EGP: Codable {
-    let code: String
-    let value: Double
 }

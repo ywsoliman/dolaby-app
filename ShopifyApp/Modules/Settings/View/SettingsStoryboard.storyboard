@@ -12,7 +12,7 @@
         <!--Settings-->
         <scene sceneID="Vxo-nr-vQ4">
             <objects>
-                <tableViewController id="AFE-CQ-bQn" customClass="SettingsTableViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="SettingsTableViewController" id="AFE-CQ-bQn" customClass="SettingsTableViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" id="2Hk-TH-coV">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -72,6 +72,9 @@
                                                 <constraint firstItem="YDQ-fS-ESL" firstAttribute="leading" secondItem="sqR-1c-hV2" secondAttribute="leadingMargin" constant="16" id="tXq-cf-1eY"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="hUO-Hr-icw" kind="show" identifier="changeCurrencySegue" id="IID-4V-49K"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="gJu-fq-veC">
                                         <rect key="frame" x="0.0" y="203.33333587646484" width="393" height="76.666664123535156"/>
@@ -163,6 +166,35 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Y2-hK-APQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-466.41221374045801" y="613.38028169014092"/>
+        </scene>
+        <!--Currencies-->
+        <scene sceneID="6Pz-Cm-JnU">
+            <objects>
+                <tableViewController id="hUO-Hr-icw" customClass="CurrenciesTableViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="gKe-Vb-T3L">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CurrencyCell" id="N9E-G6-aYO">
+                                <rect key="frame" x="0.0" y="50" width="393" height="47.666667938232422"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="N9E-G6-aYO" id="rm3-tC-mip">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="47.666667938232422"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="hUO-Hr-icw" id="z1d-iJ-PJT"/>
+                            <outlet property="delegate" destination="hUO-Hr-icw" id="Drf-Te-DCW"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Currencies" id="onY-rd-pnx"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LQS-Zw-AuP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="367" y="613"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3pM-r7-kFb">
@@ -503,9 +535,6 @@
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="tintColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

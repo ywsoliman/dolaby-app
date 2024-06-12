@@ -8,20 +8,25 @@
 import Foundation
 import Alamofire
 
-struct CurrencyService {
+protocol CurrencyServiceProtocol {
+    func fetchCurrencies()
+}
+
+struct CurrencyService: CurrencyServiceProtocol {
     
     static let shared = CurrencyService()
     
     private init() {}
     
-    func makeRequest() {
+    func fetchCurrencies() {
         
-        let url = "https://api.currencyapi.com/v3/latest?apikey=\(CURRENCY_KEY)&currencies=EGP"
+        let url = "https://v6.exchangerate-api.com/v6/\(CURRENCY_KEY)/latest/USD"
         AF.request(url).responseDecodable(of: CurrencyResponse.self) { response in
             
             switch response.result {
             case .success(let response):
-                print(response)
+                CurrencyManager.currencies = response.conversionRates
+                print("Currencies:\n\(response.conversionRates)")
             case .failure(let error):
                 print("Currency error: \(error)")
             }

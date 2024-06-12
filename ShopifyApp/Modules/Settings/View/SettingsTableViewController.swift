@@ -13,41 +13,16 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        currencyLabel.text = CurrencyManager.currency
     }
     
-    @IBAction func logoutBtn(_ sender: UIButton) {
-        
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-        if indexPath.section == 0 && indexPath.row == 1 {
-            currencyAlert()
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "changeCurrencySegue" {
+            let destVC = segue.destination as? CurrenciesTableViewController
+            destVC?.onCurrencyChanged = { selectedCurrency in
+                self.currencyLabel.text = selectedCurrency
+            }
         }
-        
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-    }
-    
-    func currencyAlert() {
-        
-        let alert = UIAlertController(title: "Choose a currency", message: "", preferredStyle: .actionSheet)
-        
-        let usd = UIAlertAction(title: "USD", style: .default) { action in
-            CurrencyService.shared.makeRequest()
-            self.currencyLabel.text = action.title!
-        }
-        let egp = UIAlertAction(title: "EGP", style: .default) { action in
-            self.currencyLabel.text = action.title!
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alert.addAction(usd)
-        alert.addAction(egp)
-        alert.addAction(cancel)
-        
-        present(alert, animated: true)
-        
     }
     
 }
