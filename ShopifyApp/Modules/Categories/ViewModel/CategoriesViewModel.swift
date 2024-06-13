@@ -7,7 +7,7 @@
 
 import Foundation
 protocol CategoriesViewModelProtocol{
-    func getProducts()->[Product]
+    func getProducts()->[CategoriesProduct]
     func getProductsCount()->Int
     var  bindProductsToViewController:()->Void { get set }
     func fetchProducts()->Void
@@ -20,7 +20,7 @@ class CategoriesViewModel:CategoriesViewModelProtocol{
         self.networkService = networkService
     }
     var bindProductsToViewController:()->Void={}
-    var allProducts:[Product]?=nil
+    var allProducts:[CategoriesProduct]?=nil
     
 
     func fetchProducts(){
@@ -28,14 +28,13 @@ class CategoriesViewModel:CategoriesViewModelProtocol{
             switch result {
             case .success(let response):
                 self?.allProducts=response.products
-                self?.filterProducts()
                 self?.bindProductsToViewController()
             case .failure(let error):
                 print("Error in retrieving categories products: \(error)")
             }
         }
     }
-    func getProducts()->[Product]{
+    func getProducts()->[CategoriesProduct]{
         return allProducts ?? []
     }
     func getProductsCount()->Int{
