@@ -22,19 +22,17 @@ class HomeViewModel:HomeViewModelProtocol{
     init(service: NetworkService) {
         self.service = service
     }
-    
+
     func fetchBrands(){
-//        let url = URL(string: "https://d4ac16c358057de2fb38bf18d04b7259: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@mad44-sv-ios3.myshopify.com/admin/api/2024-04/smart_collections.json")!
-//
-//        networkService.fetchData(url: url) { [weak self](result:Result<BrandsResponse,Error>) in
-//            switch result{
-//            case .failure(let error):
-//                print("Error: ",error.localizedDescription)
-//            case .success(let data):
-//                self?.brands=data.brands
-//                self?.bindBrandsToViewController()
-//            }
-//        }
+        service.makeRequest(endPoint: "/smart_collections.json", method: .get) {[weak self] (result: Result<BrandsResponse, APIError>) in
+            switch result {
+            case .success(let response):
+                self?.brands=response.brands
+                self?.bindBrandsToViewController()
+            case .failure(let error):
+                print("Error in retrieving brands: \(error)")
+            }
+        }
     }
     
     func getBrands()->[Brand]{
