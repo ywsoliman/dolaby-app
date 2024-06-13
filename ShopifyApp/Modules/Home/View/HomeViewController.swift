@@ -11,7 +11,6 @@ class HomeViewController: UIViewController {
     
     let indicator = UIActivityIndicatorView(style: .large)
     var homeViewModel: HomeViewModelProtocol?
-    var brands = [Brand]()
     var discountImages: [String: String] = [:]
     
     @IBOutlet weak var discountScrollView: UIScrollView!
@@ -28,7 +27,6 @@ class HomeViewController: UIViewController {
         homeViewModel?.fetchBrands()
         homeViewModel?.bindBrandsToViewController={[weak self] in
             DispatchQueue.main.async {
-                self?.brands=self?.homeViewModel?.getBrands() ?? []
                 self?.indicator.stopAnimating()
                 self?.brandsCollectionView.reloadData()
             }
@@ -141,37 +139,17 @@ extension HomeViewController:UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "BrandsCell", for: indexPath) as! BrandsCollectionViewCell
-        cell.brandName.text="Adidas"
         cell.brandImage.layer.borderColor = UIColor.darkGray.cgColor
         cell.brandImage.layer.borderWidth=1
         cell.brandImage.layer.cornerRadius=20
-        
-        cell.brandName.text=brands[indexPath.item].title
-        downloadImage(from: brands[indexPath.item].image?.src ?? "") { image in
-            cell.brandImage.image = image
+        cell.brandName.text=homeViewModel?.getBrands()[indexPath.item].title
+        let url=URL(string: homeViewModel?.getBrands()[indexPath.item].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")
+        guard let imageUrl=url else{
+            print("Error loading image: ",APIError.invalidURL)
+            return cell
         }
+        cell.brandImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "loadingPlaceholder"))
         return cell
-    }
-    func downloadImage(from urlString: String, completion: @escaping (UIImage?) -> Void) {
-        guard let url = URL(string: urlString) else {
-            completion(nil)
-            return
-        }
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            do {
-                let data = try Data(contentsOf: url)
-                let image = UIImage(data: data)
-                DispatchQueue.main.async {
-                    completion(image)
-                }
-            } catch {
-                print("Error downloading image: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
-        }
     }
     
 }
