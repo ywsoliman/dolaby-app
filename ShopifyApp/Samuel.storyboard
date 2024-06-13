@@ -660,18 +660,13 @@
                                                     <constraint firstItem="nCq-o2-QUq" firstAttribute="leading" secondItem="aYl-bK-LWL" secondAttribute="leading" constant="16" id="lar-yD-Wje"/>
                                                     <constraint firstItem="apR-6o-bCe" firstAttribute="leading" secondItem="aYl-bK-LWL" secondAttribute="leading" constant="18" id="maN-DY-x14"/>
                                                     <constraint firstItem="nCq-o2-QUq" firstAttribute="top" secondItem="dR4-1D-PiG" secondAttribute="bottom" constant="2" id="oXV-i0-LJX"/>
-                                                    <constraint firstItem="9Cx-KJ-xC2" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iLJ-kS-BKI" secondAttribute="bottom" constant="20" id="puJ-yE-AUH"/>
                                                     <constraint firstAttribute="trailing" secondItem="ptu-rn-2Y5" secondAttribute="trailing" constant="16" id="rKH-Rp-zbe"/>
                                                     <constraint firstItem="upY-V3-Vel" firstAttribute="leading" secondItem="aYl-bK-LWL" secondAttribute="leading" constant="16" id="tyc-v7-kC9"/>
                                                     <constraint firstItem="kbo-ev-aJA" firstAttribute="leading" secondItem="dR4-1D-PiG" secondAttribute="trailing" constant="16" id="u1w-JW-Gjb"/>
+                                                    <constraint firstItem="9Cx-KJ-xC2" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iLJ-kS-BKI" secondAttribute="bottom" constant="20" id="wdv-Lb-ofy"/>
                                                     <constraint firstItem="apR-6o-bCe" firstAttribute="top" secondItem="ml9-QX-Opa" secondAttribute="bottom" constant="9" id="xyw-Yg-0on"/>
                                                     <constraint firstItem="d4h-ZX-teJ" firstAttribute="leading" secondItem="9Cx-KJ-xC2" secondAttribute="trailing" constant="136" id="zaa-7s-GDb"/>
                                                 </constraints>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRaduis">
-                                                        <real key="value" value="20"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
                                             </view>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

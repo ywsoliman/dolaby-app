@@ -18,10 +18,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         let userAlreadyLoggedIn = checkCoreDataForUserData()
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+        let storyboard2 = UIStoryboard(name: "Israa", bundle: nil)
         /// TODO replcace Signup with Home
-        guard let homeViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
-                fatalError("Unable to instantiate desired view controller.")
-            }
+        let homeViewController =
+                storyboard2.instantiateViewController(identifier: "HomeViewController") as! UINavigationController
         guard let onboardingViewController = storyboard.instantiateViewController(withIdentifier: "onboardingVC") as? OnboardingViewController else {
                 fatalError("Unable to instantiate desired view controller.")
             }
