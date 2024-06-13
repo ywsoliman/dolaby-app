@@ -8,6 +8,7 @@
 import Foundation
 final class LoginViewModel{
    @Published  var isLoading:Bool = false
+   @Published  var successful:Bool = false
    @Published  var errorMessage:String?
     private var authManager:AuthenticationManager
     private var localDatabase:CoreDataManager
@@ -26,11 +27,13 @@ final class LoginViewModel{
             do{
              let customer = try await authManager.login(customer: customer)
                try localDatabase.saveCustomerData(customer: customer)
-               let customerCoreData = try localDatabase.getCustomerData()
+                _ = try localDatabase.getCustomerData()
 //                bindingSuccessToViewController(customerCoreData)
                 isLoading = false
                 print("successfully")
+                successful = true
             }catch{
+                successful = false
                 isLoading = false
                 errorMessage = error.localizedDescription
                 print("Error \(error)")
