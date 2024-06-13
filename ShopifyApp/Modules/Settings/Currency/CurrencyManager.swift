@@ -15,11 +15,7 @@ struct CurrencyManager {
             UserDefaults.standard.set(currency, forKey: "currency")
         }
     }
-    static var value: Double = UserDefaults.standard.value(forKey: "currencyValue") as? Double ?? 1.0 {
-        didSet {
-            UserDefaults.standard.set(value, forKey: "currencyValue")
-        }
-    }
+    static var value: Double = 1.0
     
     private init() {}
     

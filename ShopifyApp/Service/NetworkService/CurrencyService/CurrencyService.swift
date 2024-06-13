@@ -26,7 +26,10 @@ struct CurrencyService: CurrencyServiceProtocol {
             switch response.result {
             case .success(let response):
                 CurrencyManager.currencies = response.conversionRates
-                print("Currencies:\n\(response.conversionRates)")
+                CurrencyManager.currency = UserDefaults.standard.value(forKey: "currency") as? String ?? "USD"
+                CurrencyManager.value = response.conversionRates[CurrencyManager.currency] ?? 1.0
+                print("CurrencyManager currency:\(CurrencyManager.currency)")
+                print("CurrencyManager value:\(CurrencyManager.value)")
             case .failure(let error):
                 print("Currency error: \(error)")
             }
