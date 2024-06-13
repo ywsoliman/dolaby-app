@@ -10,12 +10,17 @@ import UIKit
 class CategoriesViewController: UIViewController {
 
     @IBOutlet weak var categoriesCollectionView: UICollectionView!
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var categoryFilterSegment: UISegmentedControl!
+    @IBOutlet weak var typeSegmentControl: UISegmentedControl!
     let indicator = UIActivityIndicatorView(style: .large)
     var categoriesViewModel:CategoriesViewModelProtocol?
     override func viewDidLoad() {
         super.viewDidLoad()
         categoriesCollectionView.dataSource=self
         categoriesCollectionView.delegate=self
+        searchBar.delegate = self
+        categoriesCollectionView.keyboardDismissMode = .onDrag
         categoriesCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         let cellNib=UINib(nibName: "CategoriesCollectionViewCell", bundle: nil)
         categoriesCollectionView.register(cellNib, forCellWithReuseIdentifier: "categoriesCell")
@@ -31,8 +36,40 @@ class CategoriesViewController: UIViewController {
         view.addSubview(indicator)
         indicator.center = self.view.center
         indicator.startAnimating()
+        NotificationCenter.default.addObserver(self, selector: #selector(productsFilteredNotification(_:)), name: .productsFilteredNotification, object: nil)
     }
-
+    @IBAction func categorySegmentControlValueChanged(_ sender: Any) {
+        switch (sender as AnyObject).selectedSegmentIndex {
+                case 1:
+            categoriesViewModel?.updateCategoryFilter("men")
+                case 2:
+            categoriesViewModel?.updateCategoryFilter("women")
+                case 3:
+            categoriesViewModel?.updateCategoryFilter("kid")
+                case 4:
+            categoriesViewModel?.updateCategoryFilter("sale")
+                default:
+            categoriesViewModel?.updateCategoryFilter(nil)
+                }
+    }
+    @IBAction func typeSegmentControlValueChanged(_ sender: Any) {
+        switch (sender as AnyObject).selectedSegmentIndex {
+                case 1:
+            categoriesViewModel?.updateTypeFilter("T-SHIRTS")
+                case 2:
+            categoriesViewModel?.updateTypeFilter("ACCESSORIES")
+                case 3:
+            categoriesViewModel?.updateTypeFilter("SHOES")
+                default:
+            categoriesViewModel?.updateTypeFilter(nil)
+                }
+    }
+    
+    @objc private func productsFilteredNotification(_ notification: Notification) {
+        DispatchQueue.main.async{[weak self] in
+            self?.categoriesCollectionView.reloadData()
+        }
+    }
 }
 extension CategoriesViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -46,13 +83,22 @@ extension CategoriesViewController:UICollectionViewDelegate{
     }
 }
 extension CategoriesViewController:UICollectionViewDataSource{
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-         categoriesViewModel?.getProductsCount() ?? 0
+        let isEmpty = categoriesViewModel?.getProductsCount() == 0 && categoriesViewModel?.getNonFilteredProductsCount() != 0
+        categoriesCollectionView.backgroundView = isEmpty ? getBackgroundView() : nil
+        return categoriesViewModel?.getProductsCount() ?? 0
     }
-    
+    func getBackgroundView() -> UIView {
+           let backgroundView = UIView(frame: categoriesCollectionView.bounds)
+           let imageView = UIImageView(frame: backgroundView.bounds)
+           imageView.contentMode = .scaleAspectFit
+           imageView.image = UIImage(named: "noProductsFound")
+           backgroundView.addSubview(imageView)
+           return backgroundView
+       }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
-
         let titleComponents = categoriesViewModel?.getProducts()[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents?.last ?? "")
         cell.categoryName.text = categoryName
@@ -67,19 +113,24 @@ extension CategoriesViewController:UICollectionViewDataSource{
             return cell
         }
         cell.categoryImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "loadingPlaceholder"))
-        return cell    }
-    
+        return cell
+    }
 }
 extension CategoriesViewController:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width=self.view.frame.width*0.44
         let height=width*1.2
 
-         return CGSize(width: width, height: height)
+        return CGSize(width: width, height: height)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
    
-
+}
+extension CategoriesViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        categoriesViewModel?.setSearchText(searchText)
+        categoriesCollectionView.reloadData()
+    }
 }

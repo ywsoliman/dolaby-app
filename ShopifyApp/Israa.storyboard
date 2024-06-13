@@ -156,9 +156,12 @@
                                     <segment title="Sale"/>
                                 </segments>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="categorySegmentControlValueChanged:" destination="NXV-2H-Ixm" eventType="valueChanged" id="mzJ-Xj-lsr"/>
+                                </connections>
                             </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ox2-16-GXp">
-                                <rect key="frame" x="16" y="194" width="361" height="575"/>
+                                <rect key="frame" x="16" y="233" width="361" height="536"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Wi5-4r-Iqd">
                                     <size key="itemSize" width="128" height="128"/>
@@ -177,16 +180,30 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZMg-Ly-bel">
+                                <rect key="frame" x="91.666666666666671" y="194" width="209.66666666666663" height="32"/>
+                                <segments>
+                                    <segment title="All"/>
+                                    <segment title="" image="tshirt.fill" catalog="system"/>
+                                    <segment title="" image="handbag.fill" catalog="system"/>
+                                    <segment title="" image="shoe.2.fill" catalog="system"/>
+                                </segments>
+                                <connections>
+                                    <action selector="typeSegmentControlValueChanged:" destination="NXV-2H-Ixm" eventType="valueChanged" id="qDE-fe-bHp"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EHy-I3-C8J"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ZMg-Ly-bel" firstAttribute="top" secondItem="DYD-oq-Twb" secondAttribute="bottom" constant="8" id="0oK-ZM-FB6"/>
                             <constraint firstItem="EHy-I3-C8J" firstAttribute="bottom" secondItem="ox2-16-GXp" secondAttribute="bottom" id="Ap6-NP-xYX"/>
                             <constraint firstItem="EHy-I3-C8J" firstAttribute="trailing" secondItem="bXz-xH-Ed4" secondAttribute="trailing" constant="16" id="EDr-5l-fJk"/>
                             <constraint firstItem="bXz-xH-Ed4" firstAttribute="top" secondItem="EHy-I3-C8J" secondAttribute="top" id="Ejn-SB-8VN"/>
-                            <constraint firstItem="ox2-16-GXp" firstAttribute="top" secondItem="DYD-oq-Twb" secondAttribute="bottom" constant="8" id="Fp6-mW-7qV"/>
+                            <constraint firstItem="ox2-16-GXp" firstAttribute="top" secondItem="ZMg-Ly-bel" secondAttribute="bottom" constant="8" id="Fp6-mW-7qV"/>
                             <constraint firstItem="DYD-oq-Twb" firstAttribute="trailing" secondItem="bXz-xH-Ed4" secondAttribute="trailing" id="Oq7-bN-zG6"/>
                             <constraint firstItem="ox2-16-GXp" firstAttribute="trailing" secondItem="DYD-oq-Twb" secondAttribute="trailing" id="RGT-l7-Jj1"/>
+                            <constraint firstItem="ZMg-Ly-bel" firstAttribute="centerX" secondItem="DYD-oq-Twb" secondAttribute="centerX" id="a2p-8w-8l9"/>
                             <constraint firstItem="DYD-oq-Twb" firstAttribute="top" secondItem="bXz-xH-Ed4" secondAttribute="bottom" constant="8" id="cqd-gG-bJE"/>
                             <constraint firstItem="ox2-16-GXp" firstAttribute="leading" secondItem="DYD-oq-Twb" secondAttribute="leading" id="dmu-3w-ClS"/>
                             <constraint firstItem="bXz-xH-Ed4" firstAttribute="leading" secondItem="EHy-I3-C8J" secondAttribute="leading" constant="16" id="m0O-a5-IWC"/>
@@ -196,11 +213,14 @@
                     <tabBarItem key="tabBarItem" title="Categories" image="square.grid.2x2.fill" catalog="system" id="sea-yX-VvF"/>
                     <connections>
                         <outlet property="categoriesCollectionView" destination="ox2-16-GXp" id="KpR-8x-y6F"/>
+                        <outlet property="categoryFilterSegment" destination="DYD-oq-Twb" id="NtG-DG-hEC"/>
+                        <outlet property="searchBar" destination="bXz-xH-Ed4" id="L1r-XI-Exd"/>
+                        <outlet property="typeSegmentControl" destination="ZMg-Ly-bel" id="WQ2-Xo-j9z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ahQ-dH-lvO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3118" y="2240"/>
+            <point key="canvasLocation" x="3215" y="2244"/>
         </scene>
         <!--Me-->
         <scene sceneID="gcr-ew-ZaK">
@@ -647,14 +667,17 @@
         <image name="arrowshape.right.fill" catalog="system" width="128" height="104"/>
         <image name="cart.fill" catalog="system" width="128" height="102"/>
         <image name="gearshape.fill" catalog="system" width="128" height="123"/>
+        <image name="handbag.fill" catalog="system" width="128" height="116"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="house.fill" catalog="system" width="128" height="104"/>
         <image name="loadingPlaceholder" width="1024" height="1024"/>
         <image name="magnifyingglass" catalog="system" width="128" height="117"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
+        <image name="shoe.2.fill" catalog="system" width="128" height="69"/>
         <image name="shoes" width="1024" height="683"/>
         <image name="square.grid.2x2.fill" catalog="system" width="128" height="114"/>
+        <image name="tshirt.fill" catalog="system" width="128" height="98"/>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
