@@ -15,27 +15,32 @@ final class AuthenticationManager{
 
     func createCustomer(customer:CustomerData) async throws{
         
-        let authDataResult = try await Auth.auth().createUser(withEmail: customer.email, password: customer.password)
+        let authDataResult = try await Auth.auth().createUser(withEmail: customer.email, password: customer.password!)
         let uid = authDataResult.user.uid
         try await db.collection("users").document(uid).setData([
                         "email": customer.email,
-                        "username": customer.userName,
-                        "address": customer.address
+                        "id": customer.id!
                     ])
         
     }
-    func login(customer:CustomerCredentials)async throws{
+    func login(customer:CustomerCredentials)async throws->CustomerData{
         let authDataResult = try await Auth.auth().signIn(withEmail: customer.email, password: customer.password)
+        print(authDataResult.user.uid)
+        let customer:CustomerData = try await fetchUserData(uid: authDataResult.user.uid)
+        print(customer.id)
+        print(customer.email)
+        return customer
     }
     func fetchUserData(uid: String) async throws -> CustomerData {
         let document = try await db.collection("users").document(uid).getDocument()
         guard let data = document.data(),
               let email = data["email"] as? String,
-              let username = data["username"] as? String,
-              let address = data["address"] as? String else {
+              let id = data["id"] as? Int
+              else {
             throw NSError(domain: "com.yourapp", code: -1, userInfo: [NSLocalizedDescriptionKey: "User data is invalid"])
         }
-        return CustomerData(email: email, userName: "", address: username, password: address)
+        print("id = \(id)")
+        return CustomerData(id:id,firstName:"", lastName: "", phone: "", email: email, password: "")
     }
     
 }

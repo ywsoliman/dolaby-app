@@ -26,10 +26,17 @@ class CartViewController: UIViewController {
         
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
-            self?.priceLabel.text = self?.cartViewModel.cart?.totalPrice
+            self?.setTotalPrice()
             self?.tableView.reloadData()
         }
         
+    }
+    
+    func setTotalPrice() {
+        let total = cartViewModel.cart?.lineItems.reduce(0.0) { (result, item) -> Double in
+            return result + (Double(item.price)! * Double(item.quantity))
+        }
+        priceLabel.text = String(total ?? 0.0)
     }
     
 }
@@ -37,8 +44,7 @@ class CartViewController: UIViewController {
 extension CartViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let cart = cartViewModel.cart else { return 0 }
-        let numberOfItems = cart.lineItems.count
+        let numberOfItems = cartViewModel.cart?.lineItems.count ?? 0
         checkIfCartIsEmpty(numberOfItems)
         return numberOfItems
     }
@@ -85,7 +91,11 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             
             guard let cart = self.cartViewModel.cart else { return }
-            self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id)
+            if cart.lineItems.count > 1 {
+                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id)
+            } else {
+                self.cartViewModel.deleteCart()
+            }
             
         }
         
@@ -100,7 +110,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "checkoutSegue" {
             guard let cart = cartViewModel.cart else { return }
             let destVC = segue.destination as? CheckoutViewController
-            destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart)
+            destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, subtotal: priceLabel.text!)
         }
         
     }

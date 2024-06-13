@@ -23,7 +23,7 @@ class CartViewModel {
     }
     
     func getCart() {
-        service.makeRequest(endPoint: "/draft_orders/\(1162500047148).json", method: .get) { (result: Result<DraftOrderResponse, APIError>) in
+        service.makeRequest(endPoint: "/draft_orders/\(CART_ID).json", method: .get) { (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
             case .success(let draftOrder):
@@ -33,6 +33,21 @@ class CartViewModel {
             }
             
         }
+    }
+    
+    func deleteCart() {
+        
+        service.makeRequest(endPoint: "/draft_orders/\(CART_ID).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
+            
+            switch result {
+            case .success:
+                self.cart = nil
+            case .failure(let error):
+                print("Error DraftOrder: \(error)")
+            }
+            
+        }
+        
     }
     
     func deleteItem(withId id: Int) {

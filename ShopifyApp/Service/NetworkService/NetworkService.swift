@@ -41,7 +41,13 @@ struct NetworkService: NetworkServiceProtocol {
                 
                 switch response.result {
                 case .success(let data):
+                    
                     do {
+                        #if DEBUG
+                        if let jsonString = String(data: data, encoding: .utf8) {
+                                                    print("Returned JSON: \(jsonString)")
+                        }
+                        #endif
                         let decodedResponse = try JSONDecoder().decode(T.self, from: data)
                         completion(.success(decodedResponse))
                     } catch let decodingError {
