@@ -157,19 +157,25 @@ class CheckoutViewController: UIViewController {
         let subtotalPrice = checkoutViewModel.subtotalPrice
         
         subtotalLabel.text = "\(subtotalPrice) \(currency)"
+        
         if let discount = order.appliedDiscount {
             
             let type: String
             
             if discount.valueType == "fixed_amount" {
+                
                 type = currency
-                let totalPrice = subtotalPrice - Double(discount.value)!
+                var totalPrice = subtotalPrice - Double(discount.value)!
+                if totalPrice < 0 { totalPrice = 0 }
                 totalLabel.text = "\(totalPrice) \(currency)"
+                
             } else {
+                
                 type = "%"
                 let percentage = Double(discount.value)! / 100
                 let totalPrice = subtotalPrice - (subtotalPrice * percentage)
                 totalLabel.text = "\(totalPrice) \(currency)"
+                
             }
             
             discountLabel.text = "\(discount.value)\(type)"
