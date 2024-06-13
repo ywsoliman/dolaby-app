@@ -130,4 +130,7 @@ extension Product {
     func getVariantQuantity(option1:String,option2:String)->Int{
         return variants.first { $0.option1.lowercased() == option1.lowercased() && $0.option2.lowercased() == option2.lowercased()}?.inventoryQuantity ?? 0
     }
+    func getVariantPrice(option1:String,option2:String)->String{
+        return variants.first { $0.option1.lowercased() == option1.lowercased() && $0.option2.lowercased() == option2.lowercased()}?.price ?? "0.0$"
+    }
 }

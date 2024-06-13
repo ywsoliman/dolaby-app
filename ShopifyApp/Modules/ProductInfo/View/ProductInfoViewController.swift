@@ -55,7 +55,7 @@ class ProductInfoViewController: UIViewController {
         sizesSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
         colorSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
 
-    //   applyCornerRadius()
+      applyCornerRadius()
         // Do any additional setup after loading the view.
     }
     private func applyCornerRadius() {
@@ -69,7 +69,8 @@ class ProductInfoViewController: UIViewController {
     private func updateViewWithProductInfo(_ productInfo: Product) {
             productName.text = productInfo.title
             productBrand.text = productInfo.vendor
-            priceLabel.text = "$\(productInfo.variants.first?.price ?? "0.00")"
+            descriptionLabel.text = productInfo.bodyHTML
+       
             sizesSegment.removeAllSegments()
             colorSegment.removeAllSegments()
             let sizes = productInfo.getSizeOptions()
@@ -87,12 +88,13 @@ class ProductInfoViewController: UIViewController {
                 colorSegment.selectedSegmentIndex = 0
             }
             updateQuantityLabel()
-            descriptionLabel.text = productInfo.bodyHTML
+        priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
             collectionView.reloadData()
             pageControl.numberOfPages = productInfo.images.count
         }
     @IBAction func addToCartPressed(_ sender: Any) {
        let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        print("Variant id \(variantId)")
     }
     
     @IBAction func quantityControlPressed(_ sender: UIStepper) {
@@ -121,7 +123,7 @@ class ProductInfoViewController: UIViewController {
     */
 
 }
-extension ProductInfoViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate{
+extension ProductInfoViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.productInfo.images.count
     }

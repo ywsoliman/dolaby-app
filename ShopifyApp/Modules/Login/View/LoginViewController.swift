@@ -48,10 +48,13 @@ class LoginViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isSuccessful in
                 if isSuccessful {
-                    let controller = self?.storyboard?.instantiateViewController(withIdentifier: "productInfoVC") as! ProductInfoViewController
-                    controller.modalPresentationStyle = .fullScreen
-                    controller.modalTransitionStyle = .flipHorizontal
-                    self?.present(controller, animated: true)
+                    let storyboard2 = UIStoryboard(name: "Israa", bundle: nil)
+                    let homeViewController =
+                            storyboard2.instantiateViewController(identifier: "HomeViewController") as! UINavigationController
+                    homeViewController.modalPresentationStyle = .fullScreen
+                    homeViewController.modalTransitionStyle = .flipHorizontal
+                    self?.present(homeViewController, animated: true)
+
                 } 
             }
             .store(in: &cancellables)
