@@ -11,9 +11,9 @@ import Foundation
 struct Product: Codable {
     let id: Int
     let title, bodyHTML, vendor, productType: String
-    let createdAt: Date
+    let createdAt: String
     let handle: String
-    let updatedAt, publishedAt: Date
+    let updatedAt, publishedAt: String
     let publishedScope, tags, status, adminGraphqlAPIID: String
     let variants: [Variant]
     let options: [Option]
@@ -34,6 +34,25 @@ struct Product: Codable {
         case adminGraphqlAPIID = "admin_graphql_api_id"
         case variants, options, images, image
     }
+    static let empty = Product(
+            id: 0,
+            title: "",
+            bodyHTML: "",
+            vendor: "",
+            productType: "",
+            createdAt: "",
+            handle: "",
+            updatedAt: "",
+            publishedAt: "",
+            publishedScope: "",
+            tags: "",
+            status: "",
+            adminGraphqlAPIID: "",
+            variants: [],
+            options: [],
+            images: [],
+            image: Image(src: "")
+        )
 }
 
 // MARK: - Image
@@ -71,7 +90,7 @@ struct Variant: Codable {
     let position: Int
     let inventoryPolicy, option1, option2: String
     let option3: String?
-    let createdAt, updatedAt: Date
+    let createdAt, updatedAt: String
     let taxable: Bool
     let inventoryItemID, inventoryQuantity, oldInventoryQuantity: Int
     let imageID: String?
@@ -94,4 +113,7 @@ struct Variant: Codable {
 
 struct ProductImages: Codable {
     let images: [Image]
+}
+struct ProductResponse :Codable{
+    let product:Product
 }
