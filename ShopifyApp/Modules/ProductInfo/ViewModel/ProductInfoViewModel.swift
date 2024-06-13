@@ -20,9 +20,8 @@ final class ProductInfoViewModel{
             ) {[weak self] (result: Result<ProductResponse, APIError>) in
                 switch result {
                 case .success(let productInfo):
-                    print("productInfo data: \(productInfo.product.images[0].src)")
-                    self?.bindToViewController(productInfo.product)
                     self?.productInfo = productInfo.product
+                    self?.bindToViewController(productInfo.product)
                 case .failure(let error):
                     print("Error: \(error)")
                 }
