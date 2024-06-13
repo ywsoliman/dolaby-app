@@ -39,7 +39,7 @@ class CartViewController: UIViewController {
             return result + (Double(item.price)! * Double(item.quantity))
         }
         totalPrice *= CurrencyManager.value
-        priceLabel.text = "\(totalPrice ?? 0.0) \(CurrencyManager.currency)"
+        priceLabel.text = "\(totalPrice.priceFormatter()) \(CurrencyManager.currency)"
     }
     
 }

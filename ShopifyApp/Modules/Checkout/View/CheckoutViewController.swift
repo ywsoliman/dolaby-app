@@ -156,7 +156,7 @@ class CheckoutViewController: UIViewController {
         let currency = CurrencyManager.currency
         let subtotalPrice = checkoutViewModel.subtotalPrice
         
-        subtotalLabel.text = "\(subtotalPrice) \(currency)"
+        subtotalLabel.text = "\(subtotalPrice.priceFormatter()) \(currency)"
         
         if let discount = order.appliedDiscount {
             
@@ -167,14 +167,14 @@ class CheckoutViewController: UIViewController {
                 type = currency
                 var totalPrice = subtotalPrice - Double(discount.value)!
                 if totalPrice < 0 { totalPrice = 0 }
-                totalLabel.text = "\(totalPrice) \(currency)"
+                totalLabel.text = "\(totalPrice.priceFormatter()) \(currency)"
                 
             } else {
                 
                 type = "%"
                 let percentage = Double(discount.value)! / 100
                 let totalPrice = subtotalPrice - (subtotalPrice * percentage)
-                totalLabel.text = "\(totalPrice) \(currency)"
+                totalLabel.text = "\(totalPrice.priceFormatter()) \(currency)"
                 
             }
             
