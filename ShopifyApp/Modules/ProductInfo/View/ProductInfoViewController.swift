@@ -9,7 +9,19 @@ import UIKit
 
 class ProductInfoViewController: UIViewController {
     
+    @IBOutlet weak var addToCartBtn: UIButton!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var productName: UILabel!
     
+    @IBOutlet weak var productBrand: UILabel!
+    
+    @IBOutlet weak var sizesSegment: UISegmentedControl!
+    
+    @IBOutlet weak var productDescription: UITextView!
+    
+    @IBOutlet weak var bodyViewContainer: UIView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var collectionView: UICollectionView!
     
@@ -32,10 +44,17 @@ class ProductInfoViewController: UIViewController {
             self?.collectionView.reloadData()
             self?.pageControl.numberOfPages =  productInfo.images.count
         }
-       
+    //   applyCornerRadius()
         // Do any additional setup after loading the view.
     }
-    
+    private func applyCornerRadius() {
+           let path = UIBezierPath(roundedRect: bodyViewContainer.bounds,
+                                   byRoundingCorners: [.topLeft, .topRight],
+                                   cornerRadii: CGSize(width: 20, height: 20))
+           let mask = CAShapeLayer()
+           mask.path = path.cgPath
+           bodyViewContainer.layer.mask = mask
+       }
 
     /*
     // MARK: - Navigation
