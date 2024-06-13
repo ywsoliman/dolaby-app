@@ -619,7 +619,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mno-A6-lGL">
-                                        <rect key="frame" x="335" y="262" width="50" height="34"/>
+                                        <rect key="frame" x="327" y="262" width="50" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system" title="">
@@ -645,10 +645,9 @@
                         <viewLayoutGuide key="safeArea" id="E9b-QE-4VC"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <size key="freeformSize" width="393" height="852"/>
                     <connections>
                         <outlet property="addToCartBtn" destination="qag-aQ-zeY" id="7EA-xV-JJO"/>
-                        <outlet property="bodyViewContainer" destination="Jjc-0x-pey" id="lCL-4f-uRM"/>
-                        <outlet property="collectionView" destination="kBE-21-3TJ" id="zoq-T9-bjz"/>
                         <outlet property="colorSegment" destination="u0w-Gb-JIz" id="6yf-bU-VQj"/>
                         <outlet property="descriptionLabel" destination="vWi-cF-I2M" id="95f-Yi-5pS"/>
                         <outlet property="pageControl" destination="Cle-e0-BxO" id="bBg-E8-hgd"/>
