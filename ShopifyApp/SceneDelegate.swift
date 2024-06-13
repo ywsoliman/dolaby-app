@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let userAlreadyLoggedIn = checkCoreDataForUserData()
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
         /// TODO replcace Signup with Home
-        guard let homeViewController = storyboard.instantiateViewController(withIdentifier: "signupVC") as? SignupViewController else {
+        guard let homeViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
                 fatalError("Unable to instantiate desired view controller.")
             }
         guard let onboardingViewController = storyboard.instantiateViewController(withIdentifier: "onboardingVC") as? OnboardingViewController else {

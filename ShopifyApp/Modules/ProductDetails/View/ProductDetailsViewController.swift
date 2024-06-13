@@ -11,9 +11,10 @@ class ProductDetailsViewController: UIViewController {
     @IBOutlet weak var addToCartBtn: UIButton!
     
     @IBOutlet weak var detailsScrollView: UIScrollView!
+    let viewModel:ProductInfoViewModel = ProductInfoViewModel(networkService: NetworkService.shared)
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        viewModel.getProduct(productID: 9365476245804)
         let cornerRadius: CGFloat = 40
         detailsScrollView.layer.cornerRadius = cornerRadius
         detailsScrollView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]

@@ -44,7 +44,17 @@ class LoginViewController: UIViewController {
                     }
                 }
                 .store(in: &cancellables)
-
+        viewModel.$successful
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isSuccessful in
+                if isSuccessful {
+                    let controller = self?.storyboard?.instantiateViewController(withIdentifier: "productInfoVC") as! ProductInfoViewController
+                    controller.modalPresentationStyle = .fullScreen
+                    controller.modalTransitionStyle = .flipHorizontal
+                    self?.present(controller, animated: true)
+                } 
+            }
+            .store(in: &cancellables)
             viewModel.$errorMessage
                 .compactMap { $0 }
                 .receive(on: DispatchQueue.main)
