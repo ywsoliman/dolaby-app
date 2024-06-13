@@ -54,6 +54,7 @@ class LoginViewController: UIViewController {
                     homeViewController.modalPresentationStyle = .fullScreen
                     homeViewController.modalTransitionStyle = .flipHorizontal
                     self?.present(homeViewController, animated: true)
+                    self?.navigationController?.viewControllers = []
 
                 } 
             }
