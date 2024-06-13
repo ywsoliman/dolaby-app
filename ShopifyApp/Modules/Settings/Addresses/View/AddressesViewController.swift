@@ -32,16 +32,17 @@ class AddressesViewController: UIViewController {
         
     }
     
-    @IBAction func addAnAddressBtn(_ sender: UIButton) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if let addAddressVC = UIStoryboard(name: "SettingsStoryboard", bundle: nil).instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController {
-            addAddressVC.onAddressAdded = { [weak self] in
+        if segue.identifier == "addAddressSegue" {
+            let destVC = segue.destination as? AddAddressTableViewController
+            destVC?.onAddressAdded = { [weak self] in
                 self?.addressesViewModel.getAddresses()
             }
-            navigationController?.pushViewController(addAddressVC, animated: true)
         }
         
     }
+    
 }
 
 extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {

@@ -49,7 +49,9 @@ class CheckoutViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
-            self.checkoutViewModel.completeOrder()
+            self.checkoutViewModel.completeOrder() { [weak self] in
+                self?.navigateToHome()
+            }
         }
         
         alert.addAction(cancelAction)
@@ -105,9 +107,9 @@ class CheckoutViewController: UIViewController {
     
     @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
         
-        for priceRule in checkoutViewModel.priceRules {
-            if promoTextField.text! == priceRule.title {
-                checkoutViewModel.addDiscountToDraftOrder(priceRule)
+        for discount in Discounts.discounts {
+            if promoTextField.text! == discount.title {
+                checkoutViewModel.addDiscountToDraftOrder(discount)
                 break
             }
         }
@@ -158,6 +160,12 @@ class CheckoutViewController: UIViewController {
         }
     }
     
+    func navigateToHome() {
+        if let navigationController = navigationController {
+            navigationController.popToRootViewController(animated: true)
+        }
+    }
+    
     
 }
 
@@ -198,7 +206,9 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
 extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-        checkoutViewModel.completeOrder()
+        checkoutViewModel.completeOrder()  { [weak self] in
+            self?.navigateToHome()
+        }
         controller.dismiss(animated: true)
     }
     

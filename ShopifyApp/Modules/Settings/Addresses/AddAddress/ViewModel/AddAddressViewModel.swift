@@ -28,6 +28,7 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
     var bindAlertToViewController: (() -> ()) = {}
     var bindLocationToViewController: (() -> ()) = {}
     var bindAddressToViewController: (() -> ()) = {}
+    var bindInvalidCountryToViewController: (() -> ()) = {}
     
     init(service: NetworkService) {
         self.service = service
@@ -47,6 +48,7 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
             case .success(_):
                 self.bindAddressToViewController()
             case .failure(let error):
+                self.bindInvalidCountryToViewController()
                 print("Adding an address error: \(error)")
             }
             
