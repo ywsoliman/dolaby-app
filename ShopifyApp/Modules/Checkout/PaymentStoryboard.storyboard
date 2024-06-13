@@ -244,8 +244,8 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HZi-gT-jlq">
-                                                <rect key="frame" x="332.33333333333331" y="0.0" width="28.666666666666686" height="20.333333333333332"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HZi-gT-jlq">
+                                                <rect key="frame" x="334.66666666666669" y="0.0" width="26.333333333333314" height="20.333333333333332"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                 <color key="textColor" systemColor="systemRedColor"/>
                                                 <nil key="highlightedColor"/>
@@ -285,7 +285,6 @@
                                 </buttonConfiguration>
                                 <connections>
                                     <action selector="cashOnDeliveryBtn:" destination="tnK-pc-q8I" eventType="touchUpInside" id="0Qq-eD-dEz"/>
-                                    <action selector="cashOnDeliveryBtn:" destination="VEo-ef-gOL" eventType="touchUpInside" id="hL2-YA-Ngd"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -332,56 +331,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pvG-G2-HEH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1777.8625954198474" y="-35.211267605633807"/>
-        </scene>
-        <!--Payment Options View Controller-->
-        <scene sceneID="aOI-3M-w9P">
-            <objects>
-                <viewController modalPresentationStyle="pageSheet" id="VEo-ef-gOL" customClass="PaymentOptionsViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="j7I-d0-u4V">
-                        <rect key="frame" x="0.0" y="0.0" width="393" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aLr-04-mJI">
-                                <rect key="frame" x="106.00000000000001" y="369.66666666666669" width="181.33333333333337" height="39"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" title="Cash On Delivery" imagePadding="8">
-                                    <imageReference key="image" image="backpack" catalog="system" symbolScale="default"/>
-                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="cashOnDeliveryBtn:" destination="VEo-ef-gOL" eventType="touchUpInside" id="J7U-wc-qSN"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d5y-8A-zjB">
-                                <rect key="frame" x="106.00000000000001" y="433.66666666666669" width="181.33333333333337" height="39"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Apple Pay" imagePadding="8">
-                                    <imageReference key="image" image="applelogo" catalog="system" symbolScale="default"/>
-                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="applePayBtn:" destination="VEo-ef-gOL" eventType="touchUpInside" id="91n-bl-Wsz"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="HcK-VM-WmG"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="d5y-8A-zjB" firstAttribute="trailing" secondItem="aLr-04-mJI" secondAttribute="trailing" id="2TL-Vn-rmN"/>
-                            <constraint firstItem="aLr-04-mJI" firstAttribute="centerX" secondItem="j7I-d0-u4V" secondAttribute="centerX" id="F7A-df-VjB"/>
-                            <constraint firstItem="d5y-8A-zjB" firstAttribute="leading" secondItem="aLr-04-mJI" secondAttribute="leading" id="RMn-d8-ufT"/>
-                            <constraint firstItem="d5y-8A-zjB" firstAttribute="centerX" secondItem="j7I-d0-u4V" secondAttribute="centerX" id="nPj-ds-Rne"/>
-                            <constraint firstItem="aLr-04-mJI" firstAttribute="centerY" secondItem="j7I-d0-u4V" secondAttribute="centerY" constant="-32" id="si4-cH-v9J"/>
-                            <constraint firstItem="d5y-8A-zjB" firstAttribute="centerY" secondItem="j7I-d0-u4V" secondAttribute="centerY" constant="32" id="wqZ-dq-V3P"/>
-                        </constraints>
-                    </view>
-                    <modalPageSheetSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="QE0-FP-03H" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1778" y="669"/>
         </scene>
         <!--AddressesViewController-->
         <scene sceneID="qvz-yy-PdC">

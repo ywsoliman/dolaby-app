@@ -10,7 +10,7 @@ import Foundation
 class CheckoutViewModel {
     
     let service: NetworkService
-    let subtotalPrice: String
+    let subtotalPrice: Double
     var draftOrder: DraftOrder {
         didSet {
             bindDraftOrderToViewController()
@@ -18,7 +18,7 @@ class CheckoutViewModel {
     }
     var bindDraftOrderToViewController: (() -> ()) = {}
     
-    init(service: NetworkService, draftOrder: DraftOrder, subtotal: String) {
+    init(service: NetworkService, draftOrder: DraftOrder, subtotal: Double) {
         self.service = service
         self.draftOrder = draftOrder
         self.subtotalPrice = subtotal
