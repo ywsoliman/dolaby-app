@@ -56,6 +56,9 @@
 		BE0F9F912C10C92A0027DEE7 /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0F9F902C10C92A0027DEE7 /* CartViewModel.swift */; };
 		BE1372992C0E322000CBC44B /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1372952C0E322000CBC44B /* NetworkService.swift */; };
 		BE13729A2C0E322000CBC44B /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1372962C0E322000CBC44B /* NetworkServiceProtocol.swift */; };
+		BE1D0CF02C1C6B7600500595 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CEF2C1C6B7600500595 /* NetworkServiceTests.swift */; };
+		BE1D0CF22C1C6B8600500595 /* NetworkServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CF12C1C6B8600500595 /* NetworkServiceMock.swift */; };
+		BE1D0CF42C1C6B9100500595 /* NetworkServiceMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CF32C1C6B9100500595 /* NetworkServiceMockTests.swift */; };
 		BE2333332C0E334600D80BE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333312C0E334600D80BE9 /* Constants.swift */; };
 		BE2333382C0E33A600D80BE9 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333342C0E33A600D80BE9 /* Customer.swift */; };
 		BE2333392C0E33A600D80BE9 /* DraftOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333352C0E33A600D80BE9 /* DraftOrders.swift */; };
@@ -161,6 +164,9 @@
 		BE0F9F902C10C92A0027DEE7 /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
 		BE1372952C0E322000CBC44B /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		BE1372962C0E322000CBC44B /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
+		BE1D0CEF2C1C6B7600500595 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
+		BE1D0CF12C1C6B8600500595 /* NetworkServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceMock.swift; sourceTree = "<group>"; };
+		BE1D0CF32C1C6B9100500595 /* NetworkServiceMockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceMockTests.swift; sourceTree = "<group>"; };
 		BE2333312C0E334600D80BE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BE2333342C0E33A600D80BE9 /* Customer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		BE2333352C0E33A600D80BE9 /* DraftOrders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftOrders.swift; sourceTree = "<group>"; };
@@ -535,6 +541,24 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
+		BE1D0CED2C1C6B6100500595 /* NetworkServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				BE1D0CEE2C1C6B6900500595 /* Mock */,
+				BE1D0CEF2C1C6B7600500595 /* NetworkServiceTests.swift */,
+			);
+			path = NetworkServiceTests;
+			sourceTree = "<group>";
+		};
+		BE1D0CEE2C1C6B6900500595 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				BE1D0CF12C1C6B8600500595 /* NetworkServiceMock.swift */,
+				BE1D0CF32C1C6B9100500595 /* NetworkServiceMockTests.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
 		BE2333322C0E334600D80BE9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -715,6 +739,7 @@
 		BE86102F2BFF5003001AB5A6 /* ShopifyAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				BE1D0CED2C1C6B6100500595 /* NetworkServiceTests */,
 				BE8610302BFF5003001AB5A6 /* ShopifyAppTests.swift */,
 			);
 			path = ShopifyAppTests;
@@ -1182,7 +1207,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE1D0CF42C1C6B9100500595 /* NetworkServiceMockTests.swift in Sources */,
+				BE1D0CF02C1C6B7600500595 /* NetworkServiceTests.swift in Sources */,
 				BE8610312BFF5003001AB5A6 /* ShopifyAppTests.swift in Sources */,
+				BE1D0CF22C1C6B8600500595 /* NetworkServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
