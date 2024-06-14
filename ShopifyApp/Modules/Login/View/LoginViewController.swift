@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     
     var passwordVisible = false
    
-    private var viewModel = LoginViewModel(authManager: AuthenticationManager.shared,newtworkService: NetworkService.shared,localDatabase: CoreDataManager.shared )
+    private var viewModel = LoginViewModel(authManager: AuthenticationManager.shared,newtworkService: NetworkService.shared,localDatabase: LocalDataSource.shared )
     private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
