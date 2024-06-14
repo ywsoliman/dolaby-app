@@ -14,19 +14,13 @@ protocol CategoriesViewModelProtocol{
     func fetchProducts()->Void
     func updateCategoryFilter(_ category: String?)->Void
     func updateTypeFilter(_ type: String?)->Void
-    func setSearchText(_ enteredText: String?)->Void
 }
 class CategoriesViewModel:CategoriesViewModelProtocol{
     func getNonFilteredProductsCount() -> Int {
         return allProducts?.count ?? 0
     }
-    func setSearchText(_ enteredText: String?) {
-        searchText=enteredText ?? ""
-        filterProducts()
-    }
     
     let networkService:NetworkService
-    private var searchText = ""
     init(networkService: NetworkService) {
         self.networkService = networkService
     }
@@ -63,9 +57,6 @@ class CategoriesViewModel:CategoriesViewModelProtocol{
         
         if let typeFilter = typeFilter {
             filteredProducts = filteredProducts.filter { $0.productType == typeFilter }
-        }
-        if searchText != ""{
-            filteredProducts = filteredProducts.filter { $0.title.lowercased().contains(searchText.lowercased()) }
         }
         NotificationCenter.default.post(name: .productsFilteredNotification, object: nil)
     }

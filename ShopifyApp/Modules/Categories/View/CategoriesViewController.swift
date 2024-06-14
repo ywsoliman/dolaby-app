@@ -10,7 +10,6 @@ import UIKit
 class CategoriesViewController: UIViewController {
 
     @IBOutlet weak var categoriesCollectionView: UICollectionView!
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var categoryFilterSegment: UISegmentedControl!
     @IBOutlet weak var typeSegmentControl: UISegmentedControl!
     let indicator = UIActivityIndicatorView(style: .large)
@@ -19,7 +18,6 @@ class CategoriesViewController: UIViewController {
         super.viewDidLoad()
         categoriesCollectionView.dataSource=self
         categoriesCollectionView.delegate=self
-        searchBar.delegate = self
         categoriesCollectionView.keyboardDismissMode = .onDrag
         categoriesCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         let cellNib=UINib(nibName: "CategoriesCollectionViewCell", bundle: nil)
@@ -128,9 +126,4 @@ extension CategoriesViewController:UICollectionViewDelegateFlowLayout{
     }
    
 }
-extension CategoriesViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        categoriesViewModel?.setSearchText(searchText)
-        categoriesCollectionView.reloadData()
-    }
-}
+
