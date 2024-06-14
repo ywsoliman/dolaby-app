@@ -59,6 +59,10 @@
 		BE1D0CF02C1C6B7600500595 /* NetworkServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CEF2C1C6B7600500595 /* NetworkServiceTests.swift */; };
 		BE1D0CF22C1C6B8600500595 /* NetworkServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CF12C1C6B8600500595 /* NetworkServiceMock.swift */; };
 		BE1D0CF42C1C6B9100500595 /* NetworkServiceMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CF32C1C6B9100500595 /* NetworkServiceMockTests.swift */; };
+		BE1D0CF82C1C77EA00500595 /* CurrencyServiceMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CF72C1C77EA00500595 /* CurrencyServiceMockTests.swift */; };
+		BE1D0CFB2C1C7B5300500595 /* CurrencyServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CFA2C1C7B5300500595 /* CurrencyServiceMock.swift */; };
+		BE1D0CFD2C1C7B5E00500595 /* CurrencyServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CFC2C1C7B5E00500595 /* CurrencyServiceTests.swift */; };
+		BE1D0CFF2C1C868F00500595 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1D0CFE2C1C868F00500595 /* NetworkError.swift */; };
 		BE2333332C0E334600D80BE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333312C0E334600D80BE9 /* Constants.swift */; };
 		BE2333382C0E33A600D80BE9 /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333342C0E33A600D80BE9 /* Customer.swift */; };
 		BE2333392C0E33A600D80BE9 /* DraftOrders.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE2333352C0E33A600D80BE9 /* DraftOrders.swift */; };
@@ -167,6 +171,10 @@
 		BE1D0CEF2C1C6B7600500595 /* NetworkServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceTests.swift; sourceTree = "<group>"; };
 		BE1D0CF12C1C6B8600500595 /* NetworkServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceMock.swift; sourceTree = "<group>"; };
 		BE1D0CF32C1C6B9100500595 /* NetworkServiceMockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceMockTests.swift; sourceTree = "<group>"; };
+		BE1D0CF72C1C77EA00500595 /* CurrencyServiceMockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyServiceMockTests.swift; sourceTree = "<group>"; };
+		BE1D0CFA2C1C7B5300500595 /* CurrencyServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyServiceMock.swift; sourceTree = "<group>"; };
+		BE1D0CFC2C1C7B5E00500595 /* CurrencyServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyServiceTests.swift; sourceTree = "<group>"; };
+		BE1D0CFE2C1C868F00500595 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		BE2333312C0E334600D80BE9 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		BE2333342C0E33A600D80BE9 /* Customer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
 		BE2333352C0E33A600D80BE9 /* DraftOrders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DraftOrders.swift; sourceTree = "<group>"; };
@@ -544,8 +552,10 @@
 		BE1D0CED2C1C6B6100500595 /* NetworkServiceTests */ = {
 			isa = PBXGroup;
 			children = (
+				BE1D0CF62C1C77D600500595 /* CurrencyServiceTests */,
 				BE1D0CEE2C1C6B6900500595 /* Mock */,
 				BE1D0CEF2C1C6B7600500595 /* NetworkServiceTests.swift */,
+				BE1D0CFE2C1C868F00500595 /* NetworkError.swift */,
 			);
 			path = NetworkServiceTests;
 			sourceTree = "<group>";
@@ -555,6 +565,24 @@
 			children = (
 				BE1D0CF12C1C6B8600500595 /* NetworkServiceMock.swift */,
 				BE1D0CF32C1C6B9100500595 /* NetworkServiceMockTests.swift */,
+			);
+			path = Mock;
+			sourceTree = "<group>";
+		};
+		BE1D0CF62C1C77D600500595 /* CurrencyServiceTests */ = {
+			isa = PBXGroup;
+			children = (
+				BE1D0CF92C1C7B3F00500595 /* Mock */,
+				BE1D0CFC2C1C7B5E00500595 /* CurrencyServiceTests.swift */,
+			);
+			path = CurrencyServiceTests;
+			sourceTree = "<group>";
+		};
+		BE1D0CF92C1C7B3F00500595 /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				BE1D0CF72C1C77EA00500595 /* CurrencyServiceMockTests.swift */,
+				BE1D0CFA2C1C7B5300500595 /* CurrencyServiceMock.swift */,
 			);
 			path = Mock;
 			sourceTree = "<group>";
@@ -1208,8 +1236,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE1D0CF42C1C6B9100500595 /* NetworkServiceMockTests.swift in Sources */,
+				BE1D0CFF2C1C868F00500595 /* NetworkError.swift in Sources */,
+				BE1D0CF82C1C77EA00500595 /* CurrencyServiceMockTests.swift in Sources */,
+				BE1D0CFB2C1C7B5300500595 /* CurrencyServiceMock.swift in Sources */,
 				BE1D0CF02C1C6B7600500595 /* NetworkServiceTests.swift in Sources */,
 				BE8610312BFF5003001AB5A6 /* ShopifyAppTests.swift in Sources */,
+				BE1D0CFD2C1C7B5E00500595 /* CurrencyServiceTests.swift in Sources */,
 				BE1D0CF22C1C6B8600500595 /* NetworkServiceMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

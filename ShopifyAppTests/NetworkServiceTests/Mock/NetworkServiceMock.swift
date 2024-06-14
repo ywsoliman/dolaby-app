@@ -8,10 +8,6 @@
 import Foundation
 @testable import ShopifyApp
 
-enum NetworkError: Error {
-    case genericError
-}
-
 struct NetworkServiceMock {
     
     var shouldFail: Bool = false

@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 protocol CurrencyServiceProtocol {
-    func fetchCurrencies()
+    func fetchCurrencies(completion: @escaping (Result<CurrencyResponse, Error>) -> Void)
 }
 
 struct CurrencyService: CurrencyServiceProtocol {
@@ -18,20 +18,17 @@ struct CurrencyService: CurrencyServiceProtocol {
     
     private init() {}
     
-    func fetchCurrencies() {
+    func fetchCurrencies(completion: @escaping (Result<CurrencyResponse, Error>) -> Void) {
         
         let url = "https://v6.exchangerate-api.com/v6/\(CURRENCY_KEY)/latest/USD"
         AF.request(url).responseDecodable(of: CurrencyResponse.self) { response in
             
             switch response.result {
             case .success(let response):
-                CurrencyManager.currencies = response.conversionRates
-                CurrencyManager.currency = UserDefaults.standard.value(forKey: "currency") as? String ?? "USD"
-                CurrencyManager.value = response.conversionRates[CurrencyManager.currency] ?? 1.0
-                print("CurrencyManager currency:\(CurrencyManager.currency)")
-                print("CurrencyManager value:\(CurrencyManager.value)")
+                completion(.success(response))
             case .failure(let error):
                 print("Currency error: \(error)")
+                completion(.failure(error))
             }
             
         }
