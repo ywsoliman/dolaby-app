@@ -324,6 +324,63 @@
             </objects>
             <point key="canvasLocation" x="1788.5496183206105" y="-6.3380281690140849"/>
         </scene>
+        <!--Search Screen View Controller-->
+        <scene sceneID="3vm-zW-Se0">
+            <objects>
+                <viewController storyboardIdentifier="SearchScreenViewController" id="7PM-Ef-BsO" customClass="SearchScreenViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ex2-q3-v4w">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uCM-FK-s3c">
+                                <rect key="frame" x="16" y="125" width="361" height="727"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Ev0-C0-lHe">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="searchCell" id="9ay-X1-VDf" customClass="CategoriesCollectionViewCell" customModule="ShopifyApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="Y6x-0b-aFf">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <searchBar contentMode="redraw" placeholder=" Search for items" translatesAutoresizingMaskIntoConstraints="NO" id="CCi-wl-RQt">
+                                <rect key="frame" x="16" y="59" width="361" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="7PM-Ef-BsO" id="KK3-np-L93"/>
+                                </connections>
+                            </searchBar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="70c-WV-Z6y"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="uCM-FK-s3c" secondAttribute="trailing" constant="16" id="87M-xN-j65"/>
+                            <constraint firstAttribute="bottom" secondItem="uCM-FK-s3c" secondAttribute="bottom" id="GYc-QE-cj6"/>
+                            <constraint firstItem="uCM-FK-s3c" firstAttribute="leading" secondItem="70c-WV-Z6y" secondAttribute="leading" constant="16" id="S3P-lb-RGn"/>
+                            <constraint firstItem="CCi-wl-RQt" firstAttribute="top" secondItem="70c-WV-Z6y" secondAttribute="top" id="Y2U-9Z-0ME"/>
+                            <constraint firstItem="70c-WV-Z6y" firstAttribute="trailing" secondItem="CCi-wl-RQt" secondAttribute="trailing" constant="16" id="Ybe-kA-QS7"/>
+                            <constraint firstItem="CCi-wl-RQt" firstAttribute="leading" secondItem="70c-WV-Z6y" secondAttribute="leading" constant="16" id="fnk-4h-Tre"/>
+                            <constraint firstItem="uCM-FK-s3c" firstAttribute="top" secondItem="CCi-wl-RQt" secondAttribute="bottom" constant="10" id="o7J-25-Y3Q"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="uCM-FK-s3c" id="dF2-nW-QQa"/>
+                        <outlet property="searchBar" destination="CCi-wl-RQt" id="SDr-IN-hIt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hVT-eQ-wUQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-60.305343511450381" y="791.54929577464793"/>
+        </scene>
         <!--Onboarding View Controller-->
         <scene sceneID="JNl-Ll-xCO">
             <objects>

@@ -82,7 +82,7 @@ extension CategoriesViewController:UICollectionViewDelegate{
          guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
              return
          }
-       
+        productDetailsViewController.productID = categoriesViewModel?.getProducts()[indexPath.item].id
          navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
 }

@@ -55,12 +55,13 @@ class BrandProductsViewController: UIViewController {
 extension BrandProductsViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
-        
-         guard let productDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "productDetailsScreen") as? ProductDetailsViewController else {
-             return
-         }
-       
-         navigationController?.pushViewController(productDetailsViewController, animated: true)
+        let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
+        let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+        guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
+            return
+        }
+        productDetailsViewController.productID = brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].id
+        navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
 }
 extension BrandProductsViewController:UICollectionViewDataSource{
