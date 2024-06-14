@@ -144,38 +144,48 @@
                                     <action selector="categorySegmentControlValueChanged:" destination="NXV-2H-Ixm" eventType="valueChanged" id="mzJ-Xj-lsr"/>
                                 </connections>
                             </segmentedControl>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ox2-16-GXp">
-                                <rect key="frame" x="16" y="185" width="361" height="584"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Wi5-4r-Iqd">
-                                    <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="categoriesCell" id="jck-kI-yaj" customClass="CategoriesCollectionViewCell" customModule="ShopifyApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kcv-oR-09m">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </collectionViewCellContentView>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZMg-Ly-bel">
-                                <rect key="frame" x="70.666666666666671" y="146" width="209.66666666666663" height="32"/>
-                                <segments>
-                                    <segment title="All"/>
-                                    <segment title="" image="tshirt.fill" catalog="system"/>
-                                    <segment title="" image="handbag.fill" catalog="system"/>
-                                    <segment title="" image="shoe.2.fill" catalog="system"/>
-                                </segments>
-                                <connections>
-                                    <action selector="typeSegmentControlValueChanged:" destination="NXV-2H-Ixm" eventType="valueChanged" id="qDE-fe-bHp"/>
-                                </connections>
-                            </segmentedControl>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="UO1-rn-YJW">
+                                <rect key="frame" x="0.0" y="146" width="393" height="623"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZMg-Ly-bel">
+                                        <rect key="frame" x="91.666666666666671" y="0.0" width="209.66666666666663" height="32"/>
+                                        <segments>
+                                            <segment title="All"/>
+                                            <segment title="" image="tshirt.fill" catalog="system"/>
+                                            <segment title="" image="handbag.fill" catalog="system"/>
+                                            <segment title="" image="shoe.2.fill" catalog="system"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="typeSegmentControlValueChanged:" destination="NXV-2H-Ixm" eventType="valueChanged" id="qDE-fe-bHp"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ox2-16-GXp">
+                                        <rect key="frame" x="16" y="39" width="361" height="584"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Wi5-4r-Iqd">
+                                            <size key="itemSize" width="128" height="128"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells>
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="categoriesCell" id="jck-kI-yaj" customClass="CategoriesCollectionViewCell" customModule="ShopifyApp" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="kcv-oR-09m">
+                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </collectionViewCellContentView>
+                                            </collectionViewCell>
+                                        </cells>
+                                    </collectionView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="ox2-16-GXp" secondAttribute="bottom" id="0vq-SY-P05"/>
+                                    <constraint firstAttribute="trailing" secondItem="ox2-16-GXp" secondAttribute="trailing" constant="16" id="6SE-XE-gXM"/>
+                                    <constraint firstItem="ox2-16-GXp" firstAttribute="leading" secondItem="UO1-rn-YJW" secondAttribute="leading" constant="16" id="U7H-jk-KOS"/>
+                                </constraints>
+                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mbB-XH-Cya">
                                 <rect key="frame" x="339" y="107" width="50" height="35"/>
                                 <constraints>
@@ -186,22 +196,23 @@
                                 <buttonConfiguration key="configuration" style="plain" image="line.3.horizontal.decrease.circle.fill" catalog="system">
                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="subFilterBtn:" destination="NXV-2H-Ixm" eventType="touchUpInside" id="nku-ZE-RcW"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="EHy-I3-C8J"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ZMg-Ly-bel" firstAttribute="top" secondItem="DYD-oq-Twb" secondAttribute="bottom" constant="8" id="0oK-ZM-FB6"/>
-                            <constraint firstItem="EHy-I3-C8J" firstAttribute="bottom" secondItem="ox2-16-GXp" secondAttribute="bottom" id="Ap6-NP-xYX"/>
+                            <constraint firstItem="UO1-rn-YJW" firstAttribute="top" secondItem="DYD-oq-Twb" secondAttribute="bottom" constant="8" id="1dJ-fT-9NB"/>
+                            <constraint firstItem="EHy-I3-C8J" firstAttribute="trailing" secondItem="UO1-rn-YJW" secondAttribute="trailing" id="A3w-QG-Y44"/>
                             <constraint firstItem="mbB-XH-Cya" firstAttribute="top" secondItem="DYD-oq-Twb" secondAttribute="top" id="Fc2-9H-n07"/>
-                            <constraint firstItem="ox2-16-GXp" firstAttribute="top" secondItem="ZMg-Ly-bel" secondAttribute="bottom" constant="8" id="Fp6-mW-7qV"/>
                             <constraint firstItem="EHy-I3-C8J" firstAttribute="trailing" secondItem="mbB-XH-Cya" secondAttribute="trailing" constant="4" id="Nqj-aF-FpT"/>
                             <constraint firstItem="DYD-oq-Twb" firstAttribute="leading" secondItem="EHy-I3-C8J" secondAttribute="leading" constant="16" id="Qvd-WT-gcl"/>
-                            <constraint firstItem="ox2-16-GXp" firstAttribute="trailing" secondItem="EHy-I3-C8J" secondAttribute="trailing" constant="-16" id="RGT-l7-Jj1"/>
                             <constraint firstItem="mbB-XH-Cya" firstAttribute="leading" secondItem="DYD-oq-Twb" secondAttribute="trailing" constant="4" id="ZTX-HP-R7I"/>
                             <constraint firstItem="DYD-oq-Twb" firstAttribute="top" secondItem="EHy-I3-C8J" secondAttribute="top" constant="4" id="ZlK-uZ-nE4"/>
-                            <constraint firstItem="ZMg-Ly-bel" firstAttribute="centerX" secondItem="DYD-oq-Twb" secondAttribute="centerX" id="a2p-8w-8l9"/>
-                            <constraint firstItem="ox2-16-GXp" firstAttribute="leading" secondItem="DYD-oq-Twb" secondAttribute="leading" id="dmu-3w-ClS"/>
+                            <constraint firstItem="UO1-rn-YJW" firstAttribute="leading" secondItem="6Nb-fL-Dfd" secondAttribute="leading" id="wXq-F3-4g0"/>
+                            <constraint firstItem="UO1-rn-YJW" firstAttribute="bottom" secondItem="EHy-I3-C8J" secondAttribute="bottom" id="znV-hN-yAc"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Categories" image="square.grid.2x2.fill" catalog="system" id="sea-yX-VvF"/>
@@ -371,6 +382,12 @@
                             </collectionView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6tx-8J-Yef">
                                 <rect key="frame" x="103" y="135" width="286" height="31"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRaduis">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="sliderValueChanged:" destination="8TL-5O-eC4" eventType="valueChanged" id="sS3-Kb-oRD"/>
                                 </connections>
@@ -381,7 +398,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <searchBar contentMode="redraw" placeholder="Search..." translatesAutoresizingMaskIntoConstraints="NO" id="NdV-Wt-JBm">
+                            <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search..." translatesAutoresizingMaskIntoConstraints="NO" id="NdV-Wt-JBm">
                                 <rect key="frame" x="0.0" y="63" width="393" height="56"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>

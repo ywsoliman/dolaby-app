@@ -12,6 +12,11 @@ class CategoriesViewController: UIViewController {
     @IBOutlet weak var categoriesCollectionView: UICollectionView!
     @IBOutlet weak var categoryFilterSegment: UISegmentedControl!
     @IBOutlet weak var typeSegmentControl: UISegmentedControl!
+    @IBAction func subFilterBtn(_ sender: Any) {
+        UIView.animate(withDuration: 0.4) {
+                self.typeSegmentControl.isHidden.toggle()                
+            }
+    }
     let indicator = UIActivityIndicatorView(style: .large)
     var categoriesViewModel:CategoriesViewModelProtocol?
     override func viewDidLoad() {
@@ -34,6 +39,7 @@ class CategoriesViewController: UIViewController {
         view.addSubview(indicator)
         indicator.center = self.view.center
         indicator.startAnimating()
+        self.typeSegmentControl.isHidden=true
         NotificationCenter.default.addObserver(self, selector: #selector(productsFilteredNotification(_:)), name: .productsFilteredNotification, object: nil)
     }
     @IBAction func categorySegmentControlValueChanged(_ sender: Any) {
