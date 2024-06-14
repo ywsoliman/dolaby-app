@@ -29,20 +29,31 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
     var bindLocationToViewController: (() -> ()) = {}
     var bindAddressToViewController: (() -> ()) = {}
     var bindInvalidCountryToViewController: (() -> ()) = {}
+    var bindAddressExistsToViewController: (() -> ()) = {}
     
     init(service: NetworkService) {
         self.service = service
     }
     
-    func addAddress(_ address: AddedAddress) {
+    func addAddress(_ newAddress: AddedAddress) {
+        
+        guard let user = CurrentUser.user else { return }
+        
+        for address in user.addresses {
+            if address.address1 == newAddress.address1 &&
+                address.city == newAddress.city &&
+                address.country == newAddress.country {
+                bindAddressExistsToViewController()
+            }
+        }
         
         let addressParams: [String: Any] = ["address": [
-                "address1": address.address1,
-                "city": address.city,
-                "country": address.country
+                "address1": newAddress.address1,
+                "city": newAddress.city,
+                "country": newAddress.country
             ]]
         
-        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses.json", method: .post, parameters: addressParams) { (result: Result<CustomerAddress, APIError>) in
+        service.makeRequest(endPoint: "/customers/\(user.id)/addresses.json", method: .post, parameters: addressParams) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
             case .success(_):
