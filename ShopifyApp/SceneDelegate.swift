@@ -72,8 +72,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func checkCoreDataForUserData() -> Bool {
         do{
-            _ = try LocalDataSource.shared.retrieveFromKeychain()
+            let data = try LocalDataSource.shared.retrieveCustomerId()
             print("Found data logged in before")
+            print("Found data logged in before\(data)")
            return true
         }catch{
             print("there is no data")
