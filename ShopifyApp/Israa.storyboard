@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EMh-CT-ZVW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EMh-CT-ZVW">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -70,7 +69,7 @@
                                 </cells>
                             </collectionView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="ezx-mA-rFG">
-                                <rect key="frame" x="0.0" y="103" width="393" height="175"/>
+                                <rect key="frame" x="-1" y="103" width="393" height="175"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="6Ia-gT-dGj"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="JDj-9U-umf"/>
@@ -148,7 +147,7 @@
                                 <rect key="frame" x="0.0" y="146" width="393" height="623"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZMg-Ly-bel">
-                                        <rect key="frame" x="91.666666666666671" y="0.0" width="209.66666666666663" height="32"/>
+                                        <rect key="frame" x="106.33333333333333" y="0.0" width="180.33333333333337" height="32"/>
                                         <segments>
                                             <segment title="All"/>
                                             <segment title="" image="tshirt.fill" catalog="system"/>
@@ -514,6 +513,9 @@
                     <navigationItem key="navigationItem" id="tcP-c1-apQ">
                         <barButtonItem key="leftBarButtonItem" image="magnifyingglass" catalog="system" id="ohj-WP-8ET">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="onSearchBtnPressed:" destination="VaA-xP-xmt" id="nAm-QY-9xl"/>
+                            </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
                             <barButtonItem image="heart.fill" catalog="system" id="vul-1S-HJN">
@@ -534,7 +536,7 @@
                         <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <outlet property="searchBtn" destination="ohj-WP-8ET" id="txt-w0-I8J"/>
+                        <outlet property="searchBtn" destination="ohj-WP-8ET" id="dyT-Yo-ud7"/>
                         <segue destination="1W5-Rq-fRn" kind="relationship" relationship="viewControllers" id="otq-6g-UmP"/>
                         <segue destination="NXV-2H-Ixm" kind="relationship" relationship="viewControllers" id="q3o-rM-7HC"/>
                         <segue destination="jTr-at-lzu" kind="relationship" relationship="viewControllers" id="nPx-HF-l8E"/>
@@ -646,7 +648,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="yan-bO-v69"/>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="xXx-v5-nQA">
-                                <rect key="frame" x="0.0" y="311.66666666666669" width="393" height="25.666666666666686"/>
+                                <rect key="frame" x="0.0" y="311.33333333333331" width="393" height="26"/>
                             </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="uzQ-9V-N4D"/>
