@@ -14,7 +14,15 @@ class MainTabBarViewController: UITabBarController ,UITabBarControllerDelegate{
         super.viewDidLoad()
         self.delegate=self
     }
-
+   
+    @IBAction func onSearchBtnPressed(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+        guard let searchViewController = storyboard.instantiateViewController(withIdentifier: "SearchScreenViewController") as? SearchScreenViewController else {
+            return
+        }
+        navigationController?.pushViewController(searchViewController, animated: true)
+    }
+    
     @IBAction func cartBarBtn(_ sender: UIBarButtonItem) {
         
         let paymentStoryboard = UIStoryboard(name: "PaymentStoryboard", bundle: nil)
