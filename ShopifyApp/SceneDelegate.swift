@@ -28,8 +28,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
                 let window = UIWindow(windowScene: windowScene)
             if userAlreadyLoggedIn {
-               // window.rootViewController = homeViewController
-                window.rootViewController = onboardingViewController
+                window.rootViewController = homeViewController
+                //window.rootViewController = onboardingViewController
             }else{
                 window.rootViewController = onboardingViewController
             }

@@ -30,7 +30,7 @@ class ProductInfoViewController: UIViewController {
     
     @IBOutlet weak var quantityControlBtn: UIStepper!
     @IBOutlet weak var pageControl: UIPageControl!
-    
+    var productID:Int!
     var currentPageIndex = 0 {
         didSet{
             pageControl.currentPage = currentPageIndex
@@ -42,14 +42,9 @@ class ProductInfoViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         quantityControlBtn.minimumValue = 1
-       // viewModel.getProduct(productID: 9365476245804)
-      //  viewModel.getProduct(productID: 9365476278572)
-       // viewModel.getProduct(productID: 9365475983660)
-        viewModel.getProduct(productID: 9365474771244)
+        viewModel.getProduct(productID: productID)
         viewModel.bindToViewController = {
             [weak self] productInfo in
-//            self?.collectionView.reloadData()
-//            self?.pageControl.numberOfPages = productInfo.images.count
            self?.updateViewWithProductInfo(productInfo)
         }
         sizesSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
