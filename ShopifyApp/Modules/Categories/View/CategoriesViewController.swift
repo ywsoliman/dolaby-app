@@ -78,8 +78,8 @@ class CategoriesViewController: UIViewController {
 extension CategoriesViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
-        
-         guard let productDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "productDetailsScreen") as? ProductDetailsViewController else {
+        let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+         guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
              return
          }
        

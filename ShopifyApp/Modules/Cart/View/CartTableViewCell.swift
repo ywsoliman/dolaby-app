@@ -45,9 +45,11 @@ class CartTableViewCell: UITableViewCell {
     }
     
     func configure(lineItem: LineItem) {
+        
+        let price = Double(lineItem.price)! * CurrencyManager.value
+        priceLabel.text = "\(price.priceFormatter()) \(CurrencyManager.currency)"
         titleLabel.text = lineItem.title
         descLabel.text = lineItem.variantTitle
-        priceLabel.text = lineItem.price
         quantityLabel.text = String(lineItem.quantity)
         
         NetworkService.shared.makeRequest(endPoint: "/products/\(lineItem.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in

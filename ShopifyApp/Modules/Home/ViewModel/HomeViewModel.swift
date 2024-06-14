@@ -15,12 +15,16 @@ protocol HomeViewModelProtocol{
 }
 class HomeViewModel:HomeViewModelProtocol{
     
-    let service: NetworkService
+    private let service: NetworkService
+    private let currencyService: CurrencyServiceProtocol
+
     var bindBrandsToViewController:()->Void={}
     var brands:[Brand]?=nil
     
-    init(service: NetworkService) {
+    init(service: NetworkService, currencyService: CurrencyServiceProtocol) {
         self.service = service
+        self.currencyService = currencyService
+        getConversionRates()
     }
 
     func fetchBrands(){
@@ -56,6 +60,10 @@ class HomeViewModel:HomeViewModelProtocol{
             
         }
         
+    }
+    
+    func getConversionRates() {
+        currencyService.fetchCurrencies()
     }
     
 }

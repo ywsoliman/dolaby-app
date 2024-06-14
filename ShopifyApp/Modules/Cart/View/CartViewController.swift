@@ -15,6 +15,8 @@ class CartViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var priceLabel: UILabel!
     
+    private var totalPrice: Double!
+    
     private var cartViewModel: CartViewModel!
     
     override func viewDidLoad() {
@@ -33,10 +35,11 @@ class CartViewController: UIViewController {
     }
     
     func setTotalPrice() {
-        let total = cartViewModel.cart?.lineItems.reduce(0.0) { (result, item) -> Double in
+        totalPrice = cartViewModel.cart?.lineItems.reduce(0.0) { (result, item) -> Double in
             return result + (Double(item.price)! * Double(item.quantity))
         }
-        priceLabel.text = String(total ?? 0.0)
+        totalPrice *= CurrencyManager.value
+        priceLabel.text = "\(totalPrice.priceFormatter()) \(CurrencyManager.currency)"
     }
     
 }
@@ -110,7 +113,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         if segue.identifier == "checkoutSegue" {
             guard let cart = cartViewModel.cart else { return }
             let destVC = segue.destination as? CheckoutViewController
-            destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, subtotal: priceLabel.text!)
+            destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, subtotal: totalPrice)
         }
         
     }

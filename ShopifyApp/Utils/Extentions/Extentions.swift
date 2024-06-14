@@ -15,3 +15,9 @@ extension UIView{
         }
     }
 }
+
+extension Double {
+    func priceFormatter() -> String {
+        return String(format: "%.2f", self)
+    }
+}

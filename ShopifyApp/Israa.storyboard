@@ -229,7 +229,7 @@
         <!--Me-->
         <scene sceneID="gcr-ew-ZaK">
             <objects>
-                <viewController id="jTr-at-lzu" sceneMemberID="viewController">
+                <viewController id="jTr-at-lzu" customClass="MeViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lg8-Jo-760">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -255,6 +255,9 @@
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="gearshape.fill" catalog="system"/>
+                                <connections>
+                                    <action selector="settingsBtn:" destination="jTr-at-lzu" eventType="touchUpInside" id="ALw-zX-x2M"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wish list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ViX-Al-xkm">
                                 <rect key="frame" x="8" y="324.33333333333331" width="78" height="24"/>
@@ -361,7 +364,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hDV-CE-Asz">
-                                <rect key="frame" x="6" y="173" width="381" height="645"/>
+                                <rect key="frame" x="6" y="165" width="381" height="653"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gc6-B7-RJS">
                                     <size key="itemSize" width="128" height="128"/>
@@ -381,7 +384,7 @@
                                 </cells>
                             </collectionView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6tx-8J-Yef">
-                                <rect key="frame" x="103" y="135" width="286" height="31"/>
+                                <rect key="frame" x="103" y="127" width="286" height="31"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRaduis">
@@ -393,7 +396,7 @@
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300 LE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILd-GC-Q7W">
-                                <rect key="frame" x="8" y="135" width="65" height="30"/>
+                                <rect key="frame" x="8" y="127" width="65" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -419,7 +422,7 @@
                             <constraint firstItem="hDV-CE-Asz" firstAttribute="leading" secondItem="g9K-7C-Xr4" secondAttribute="leading" constant="6" id="LOx-uE-jbM"/>
                             <constraint firstItem="6tx-8J-Yef" firstAttribute="bottom" secondItem="ILd-GC-Q7W" secondAttribute="bottom" id="Tz0-K1-wQi"/>
                             <constraint firstItem="g9K-7C-Xr4" firstAttribute="bottom" secondItem="hDV-CE-Asz" secondAttribute="bottom" id="aDw-rH-kDD"/>
-                            <constraint firstItem="ILd-GC-Q7W" firstAttribute="top" secondItem="NdV-Wt-JBm" secondAttribute="bottom" constant="16" id="ipK-Tu-oB2"/>
+                            <constraint firstItem="ILd-GC-Q7W" firstAttribute="top" secondItem="NdV-Wt-JBm" secondAttribute="bottom" constant="8" id="ipK-Tu-oB2"/>
                             <constraint firstItem="hDV-CE-Asz" firstAttribute="top" secondItem="6tx-8J-Yef" secondAttribute="bottom" constant="8" id="nJc-FR-oBr"/>
                             <constraint firstItem="ILd-GC-Q7W" firstAttribute="leading" secondItem="NdV-Wt-JBm" secondAttribute="leading" constant="8" id="t1V-yb-yap"/>
                         </constraints>

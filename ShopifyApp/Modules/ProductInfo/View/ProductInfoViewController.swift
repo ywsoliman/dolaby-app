@@ -9,11 +9,26 @@ import UIKit
 
 class ProductInfoViewController: UIViewController {
     
+    @IBOutlet weak var addToCartBtn: UIButton!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var productName: UILabel!
     
+    @IBOutlet weak var productBrand: UILabel!
+    
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var sizesSegment: UISegmentedControl!
+        
+    @IBOutlet weak var bodyViewContainer: UIView!
+    
+    @IBOutlet weak var productQuantity: UILabel!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var quantityStatus: UILabel!
+    @IBOutlet weak var colorSegment: UISegmentedControl!
     
+    @IBOutlet weak var quantityControlBtn: UIStepper!
     @IBOutlet weak var pageControl: UIPageControl!
     
     var currentPageIndex = 0 {
@@ -26,17 +41,77 @@ class ProductInfoViewController: UIViewController {
         super.viewDidLoad()
         collectionView.delegate = self
         collectionView.dataSource = self
-        viewModel.getProduct(productID: 9365476245804)
+        quantityControlBtn.minimumValue = 1
+       // viewModel.getProduct(productID: 9365476245804)
+      //  viewModel.getProduct(productID: 9365476278572)
+       // viewModel.getProduct(productID: 9365475983660)
+        viewModel.getProduct(productID: 9365474771244)
         viewModel.bindToViewController = {
             [weak self] productInfo in
-            self?.collectionView.reloadData()
-            self?.pageControl.numberOfPages =  productInfo.images.count
+//            self?.collectionView.reloadData()
+//            self?.pageControl.numberOfPages = productInfo.images.count
+           self?.updateViewWithProductInfo(productInfo)
         }
-       
+        sizesSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
+        colorSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
+
+      applyCornerRadius()
         // Do any additional setup after loading the view.
     }
+    private func applyCornerRadius() {
+           let path = UIBezierPath(roundedRect: bodyViewContainer.bounds,
+                                   byRoundingCorners: [.topLeft, .topRight],
+                                   cornerRadii: CGSize(width: 20, height: 20))
+           let mask = CAShapeLayer()
+           mask.path = path.cgPath
+           bodyViewContainer.layer.mask = mask
+       }
+    private func updateViewWithProductInfo(_ productInfo: Product) {
+            productName.text = productInfo.title
+            productBrand.text = productInfo.vendor
+            descriptionLabel.text = productInfo.bodyHTML
+       
+            sizesSegment.removeAllSegments()
+            colorSegment.removeAllSegments()
+            let sizes = productInfo.getSizeOptions()
+            let colors = productInfo.getColorOptions()
+            for (index, size) in sizes.enumerated() {
+                sizesSegment.insertSegment(withTitle: size, at: index, animated: false)
+            }
+            if !sizes.isEmpty {
+                sizesSegment.selectedSegmentIndex = 0
+            }
+            for (index, color) in colors.enumerated() {
+                colorSegment.insertSegment(withTitle: color, at: index, animated: false)
+            }
+            if !colors.isEmpty {
+                colorSegment.selectedSegmentIndex = 0
+            }
+            updateQuantityLabel()
+        priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+            collectionView.reloadData()
+            pageControl.numberOfPages = productInfo.images.count
+        }
+    @IBAction func addToCartPressed(_ sender: Any) {
+       let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        print("Variant id \(variantId)")
+    }
     
-
+    @IBAction func quantityControlPressed(_ sender: UIStepper) {
+        productQuantity.text = "\(Int(sender.value))"
+        updateQuantityLabel()
+    }
+    @objc func segmentValueChanged(_ sender: UISegmentedControl) {
+        updateQuantityLabel()
+     }
+    func updateQuantityLabel(){
+        let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        if Int(quantityControlBtn.value) > quantityInVentory {
+            quantityStatus.text = "No Enough Items"
+        }else{
+            quantityStatus.text = ""
+        }
+    }
     /*
     // MARK: - Navigation
 

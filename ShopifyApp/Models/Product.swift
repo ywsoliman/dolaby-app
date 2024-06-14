@@ -117,3 +117,20 @@ struct ProductImages: Codable {
 struct ProductResponse :Codable{
     let product:Product
 }
+extension Product {
+    func getSizeOptions() -> [String] {
+        return options.first { $0.name.lowercased() == "size" }?.values ?? []
+    }
+    func getColorOptions()->[String]{
+        return options.first { $0.name.lowercased() == "color" }?.values ?? []
+    }
+    func getVariantID(option1:String,option2:String)->Int{
+        return variants.first { $0.option1.lowercased() == option1.lowercased() && $0.option2.lowercased() == option2.lowercased()}?.id ?? 0
+    }
+    func getVariantQuantity(option1:String,option2:String)->Int{
+        return variants.first { $0.option1.lowercased() == option1.lowercased() && $0.option2.lowercased() == option2.lowercased()}?.inventoryQuantity ?? 0
+    }
+    func getVariantPrice(option1:String,option2:String)->String{
+        return variants.first { $0.option1.lowercased() == option1.lowercased() && $0.option2.lowercased() == option2.lowercased()}?.price ?? "0.0$"
+    }
+}

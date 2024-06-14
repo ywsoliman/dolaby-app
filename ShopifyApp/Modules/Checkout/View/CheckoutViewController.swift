@@ -74,7 +74,7 @@ class CheckoutViewController: UIViewController {
         request.supportedNetworks = [.visa, .masterCard, .amex]
         request.merchantCapabilities = .capability3DS
         request.countryCode = "US"
-        request.currencyCode = "USD"
+        request.currencyCode = CurrencyManager.currency
         request.paymentSummaryItems = createItemsSummary()
         
         return request
@@ -152,12 +152,38 @@ class CheckoutViewController: UIViewController {
     }
     
     func setPriceSetction(_ order: DraftOrder) {
-        subtotalLabel.text = checkoutViewModel.subtotalPrice
-        totalLabel.text = order.totalPrice
+        
+        let currency = CurrencyManager.currency
+        let subtotalPrice = checkoutViewModel.subtotalPrice
+        
+        subtotalLabel.text = "\(subtotalPrice.priceFormatter()) \(currency)"
+        
         if let discount = order.appliedDiscount {
-            let type = (discount.valueType == "fixed_amount") ? order.currency : "%"
+            
+            let type: String
+            
+            if discount.valueType == "fixed_amount" {
+                
+                type = currency
+                var totalPrice = subtotalPrice - Double(discount.value)!
+                if totalPrice < 0 { totalPrice = 0 }
+                totalLabel.text = "\(totalPrice.priceFormatter()) \(currency)"
+                
+            } else {
+                
+                type = "%"
+                let percentage = Double(discount.value)! / 100
+                let totalPrice = subtotalPrice - (subtotalPrice * percentage)
+                totalLabel.text = "\(totalPrice.priceFormatter()) \(currency)"
+                
+            }
+            
             discountLabel.text = "\(discount.value)\(type)"
+            
+        } else {
+            totalLabel.text = subtotalLabel.text
         }
+        
     }
     
     func navigateToHome() {
