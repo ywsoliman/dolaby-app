@@ -871,6 +871,7 @@
 				BE8610282BFF5003001AB5A6 /* Sources */,
 				BE8610292BFF5003001AB5A6 /* Frameworks */,
 				BE86102A2BFF5003001AB5A6 /* Resources */,
+				53A0837BDD08B718613D6AE8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1001,6 +1002,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShopifyApp/Pods-ShopifyApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		53A0837BDD08B718613D6AE8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ShopifyAppTests/Pods-ShopifyAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ShopifyAppTests/Pods-ShopifyAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShopifyAppTests/Pods-ShopifyAppTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		9EF940B3F46CF3BB06997B4A /* [CP] Check Pods Manifest.lock */ = {
