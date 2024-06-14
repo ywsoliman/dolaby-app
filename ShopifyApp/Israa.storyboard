@@ -514,6 +514,7 @@
                         <color key="selectedImageTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <outlet property="searchBtn" destination="ohj-WP-8ET" id="txt-w0-I8J"/>
                         <segue destination="1W5-Rq-fRn" kind="relationship" relationship="viewControllers" id="otq-6g-UmP"/>
                         <segue destination="NXV-2H-Ixm" kind="relationship" relationship="viewControllers" id="q3o-rM-7HC"/>
                         <segue destination="jTr-at-lzu" kind="relationship" relationship="viewControllers" id="nPx-HF-l8E"/>
