@@ -378,6 +378,9 @@
                             </collectionView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6tx-8J-Yef">
                                 <rect key="frame" x="103" y="99" width="286" height="31"/>
+                                <connections>
+                                    <action selector="sliderValueChanged:" destination="8TL-5O-eC4" eventType="valueChanged" id="sS3-Kb-oRD"/>
+                                </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price range" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gPg-P7-gU3">
                                 <rect key="frame" x="8" y="59" width="385" height="24"/>
@@ -412,6 +415,8 @@
                     </view>
                     <connections>
                         <outlet property="brandProductsCollectionView" destination="hDV-CE-Asz" id="PMD-P0-f86"/>
+                        <outlet property="priceForFilter" destination="ILd-GC-Q7W" id="BrO-hv-1UB"/>
+                        <outlet property="priceSlider" destination="6tx-8J-Yef" id="Ak5-hP-Gd1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ab7-Rf-KLG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

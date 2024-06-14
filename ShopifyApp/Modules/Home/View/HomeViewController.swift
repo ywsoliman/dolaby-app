@@ -125,11 +125,14 @@ extension HomeViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
         
-        guard let productDetailsViewController = storyboard?.instantiateViewController(withIdentifier: "brandProductsScreen") as? BrandProductsViewController else {
+        guard let brandProductsViewController = storyboard?.instantiateViewController(withIdentifier: "brandProductsScreen") as? BrandProductsViewController else {
             return
         }
         
-        navigationController?.pushViewController(productDetailsViewController, animated: true)
+        let brandProductsViewModel=BrandProductsViewModel(networkService: NetworkService.shared)
+        brandProductsViewModel.brandId=homeViewModel?.getBrands()[indexPath.item].id ?? 475723497772
+        brandProductsViewController.brandProductsViewModel=brandProductsViewModel
+         navigationController?.pushViewController(brandProductsViewController, animated: true)
     }
 }
 extension HomeViewController:UICollectionViewDataSource{
