@@ -7,14 +7,14 @@
 
 import UIKit
 
-class MainTabBarViewController: UITabBarController {
-
+class MainTabBarViewController: UITabBarController ,UITabBarControllerDelegate{
+    @IBOutlet weak var searchBtn: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.delegate=self
     }
-    
+
     @IBAction func cartBarBtn(_ sender: UIBarButtonItem) {
         
         let paymentStoryboard = UIStoryboard(name: "PaymentStoryboard", bundle: nil)
@@ -24,5 +24,12 @@ class MainTabBarViewController: UITabBarController {
         }
         
     }
-    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+            switch self.selectedIndex {
+            case 0:
+                self.searchBtn.isHidden = false
+            default:
+                self.searchBtn.isHidden = true
+            }
+        }
 }

@@ -14,10 +14,6 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var categoryName: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
-        categoryImage.clipsToBounds=true
-        categoryImage.layer.cornerRadius=20
-        categoryImage.layer.borderColor = UIColor.darkGray.cgColor
-        categoryImage.layer.borderWidth=0.5
     }
 
 }
