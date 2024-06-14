@@ -15,6 +15,20 @@ class MeViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    
+    @IBAction func onLogout(_ sender: Any) {
+       _ = LocalDataSource.shared.deleteFromKeychain()
+        let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+         guard let onBoardingVC = storyboard.instantiateViewController(withIdentifier: "onboardingVC") as? OnboardingViewController else {
+             return
+         }
+        onBoardingVC.modalPresentationStyle = .fullScreen
+        self.present(onBoardingVC, animated: true)
+        self.navigationController?.viewControllers = []
+
+    }
+    
+    
     @IBAction func settingsBtn(_ sender: UIButton) {
         
         let settingsStoryboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)

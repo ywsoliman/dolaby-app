@@ -55,7 +55,6 @@ class LoginViewController: UIViewController {
                     homeViewController.modalTransitionStyle = .flipHorizontal
                     self?.present(homeViewController, animated: true)
                     self?.navigationController?.viewControllers = []
-
                 } 
             }
             .store(in: &cancellables)
