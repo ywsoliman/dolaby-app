@@ -20,7 +20,7 @@
 		039CA1492C18957E00095FEE /* ProductInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039CA1482C18957E00095FEE /* ProductInfoViewModel.swift */; };
 		039E85B12C1ACB180020F32C /* ProductInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039E85B02C1ACB180020F32C /* ProductInfoViewController.swift */; };
 		039E85B42C1AD3FE0020F32C /* ProductInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039E85B32C1AD3FE0020F32C /* ProductInfoCollectionViewCell.swift */; };
-		03E5B5462C17EA0E0052FE09 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E5B5452C17EA0E0052FE09 /* CoreDataManager.swift */; };
+		03E5B5462C17EA0E0052FE09 /* LocalDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E5B5452C17EA0E0052FE09 /* LocalDataSource.swift */; };
 		03E5B5482C17EA700052FE09 /* CustomerCoreDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E5B5472C17EA700052FE09 /* CustomerCoreDataModel.swift */; };
 		03F1101A2C13222500C3452D /* Samuel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03F110192C13222500C3452D /* Samuel.storyboard */; };
 		03F110202C13225C00C3452D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F1101F2C13225C00C3452D /* LoginViewController.swift */; };
@@ -29,6 +29,7 @@
 		03FDDA142C1C52BB00A8BB88 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 03FDDA132C1C52BB00A8BB88 /* FirebaseAuth */; };
 		03FDDA162C1C52BB00A8BB88 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 03FDDA152C1C52BB00A8BB88 /* FirebaseFirestore */; };
 		03FDDA182C1C52BB00A8BB88 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 03FDDA172C1C52BB00A8BB88 /* FirebaseFirestoreSwift */; };
+		03FDDA1A2C1C7DB500A8BB88 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FDDA192C1C7DB500A8BB88 /* CurrentUser.swift */; };
 		3C0120DA4CC45BE481E4796C /* Pods_ShopifyApp_ShopifyAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 088C76444BEEC05367A7019C /* Pods_ShopifyApp_ShopifyAppUITests.framework */; };
 		78513D7DBBFEA67BE7CC2E68 /* Pods_ShopifyAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3528FF3D6A1B558416D19C0 /* Pods_ShopifyAppTests.framework */; };
 		87D644AE2F695EF6E9828A31 /* Pods_ShopifyApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 313F7B147D1A5113BEEDE597 /* Pods_ShopifyApp.framework */; };
@@ -128,10 +129,11 @@
 		039CA1482C18957E00095FEE /* ProductInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoViewModel.swift; sourceTree = "<group>"; };
 		039E85B02C1ACB180020F32C /* ProductInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoViewController.swift; sourceTree = "<group>"; };
 		039E85B32C1AD3FE0020F32C /* ProductInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductInfoCollectionViewCell.swift; sourceTree = "<group>"; };
-		03E5B5452C17EA0E0052FE09 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		03E5B5452C17EA0E0052FE09 /* LocalDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalDataSource.swift; sourceTree = "<group>"; };
 		03E5B5472C17EA700052FE09 /* CustomerCoreDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerCoreDataModel.swift; sourceTree = "<group>"; };
 		03F110192C13222500C3452D /* Samuel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Samuel.storyboard; sourceTree = "<group>"; };
 		03F1101F2C13225C00C3452D /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		03FDDA192C1C7DB500A8BB88 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
 		088C76444BEEC05367A7019C /* Pods_ShopifyApp_ShopifyAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopifyApp_ShopifyAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C90F1B2FB321A2B984BBFF6 /* Pods-ShopifyApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyApp.release.xcconfig"; path = "Target Support Files/Pods-ShopifyApp/Pods-ShopifyApp.release.xcconfig"; sourceTree = "<group>"; };
 		313F7B147D1A5113BEEDE597 /* Pods_ShopifyApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopifyApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -350,7 +352,7 @@
 		03E5B5442C17E8F40052FE09 /* LocalService */ = {
 			isa = PBXGroup;
 			children = (
-				03E5B5452C17EA0E0052FE09 /* CoreDataManager.swift */,
+				03E5B5452C17EA0E0052FE09 /* LocalDataSource.swift */,
 			);
 			path = LocalService;
 			sourceTree = "<group>";
@@ -564,6 +566,7 @@
 				9F62A2192C1BADB50021A593 /* ProductsResponse.swift */,
 				9F62A21B2C1BB9DD0021A593 /* BrandProductsResponse.swift */,
 				BE8207B32C17788E00C5FD9B /* Currency.swift */,
+				03FDDA192C1C7DB500A8BB88 /* CurrentUser.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1124,6 +1127,7 @@
 				BEF6A5132C0084FE00221795 /* CartTableViewCell.swift in Sources */,
 				BE8610212BFF5001001AB5A6 /* ShopifyApp.xcdatamodeld in Sources */,
 				9FB4B17A2C1784C8006F347F /* OnboardingViewModel.swift in Sources */,
+				03FDDA1A2C1C7DB500A8BB88 /* CurrentUser.swift in Sources */,
 				BE6D83A82C19B97B00E58CEF /* MeViewController.swift in Sources */,
 				9F9792632C0930F500653FFC /* HomeViewController.swift in Sources */,
 				9FB67A652C0F5E3800C59B5B /* OrdersViewController.swift in Sources */,
@@ -1146,7 +1150,7 @@
 				03F110202C13225C00C3452D /* LoginViewController.swift in Sources */,
 				BE8207B22C1776FD00C5FD9B /* CurrencyService.swift in Sources */,
 				BE8207AF2C17764D00C5FD9B /* CurrencyManager.swift in Sources */,
-				03E5B5462C17EA0E0052FE09 /* CoreDataManager.swift in Sources */,
+				03E5B5462C17EA0E0052FE09 /* LocalDataSource.swift in Sources */,
 				039792822C136D51005104C5 /* CustomerData.swift in Sources */,
 				BE8610212BFF5001001AB5A6 /* ShopifyApp.xcdatamodeld in Sources */,
 				BE84EBB52C0B3542000CBCF0 /* CheckoutViewController.swift in Sources */,

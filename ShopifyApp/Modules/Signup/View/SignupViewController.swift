@@ -97,8 +97,8 @@ class SignupViewController: UIViewController {
                     showAlert(message: "Passwords do not match.")
                     return
                 }
-         customer = CustomerData(id:nil, firstName:firstNameTextField.text ?? "",lastName: lastNameTextField.text ?? "" ,phone:phoneTextField.text ?? "",email: emailTextField.text ?? "", password:passwordTextField.text ?? ""  )
-        //viewModel.signup(customer: customer)
+         customer = CustomerData(id:nil,userId: "", firstName:firstNameTextField.text ?? "",lastName: lastNameTextField.text ?? "" ,phone:phoneTextField.text ?? "",email: emailTextField.text ?? "", password:passwordTextField.text ?? ""  )
+      //  viewModel.signup(customer: customer!)
         viewModel.createShopifyCustomer(customer: customer!)
     }
     

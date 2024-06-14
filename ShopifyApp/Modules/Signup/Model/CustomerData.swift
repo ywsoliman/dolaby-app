@@ -8,14 +8,16 @@
 import Foundation
 class CustomerData:Codable{
     var id:Int?
+    var userID:String?
     let email:String
     let firstName:String
     let lastName:String
     let phone:String
     let password:String?
     
-    init(id:Int?,firstName: String, lastName: String, phone: String,email: String, password: String) {
+    init(id:Int?,userId:String?,firstName: String, lastName: String, phone: String,email: String, password: String) {
         self.id = id
+        self.userID = userId
         self.email = email
         self.firstName = firstName
         self.lastName = lastName

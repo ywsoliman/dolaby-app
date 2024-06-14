@@ -21,8 +21,9 @@ struct Customer: Codable {
     let tags: String
     let lastOrderName: String?
     let currency, phone: String
-    let completedOrders: [DraftOrder]
-    let defaultAddress: Address
+    let completedOrders: [DraftOrder]?
+    let defaultAddress: Address?
+    let addresses: [Address]
 
     enum CodingKeys: String, CodingKey {
         case id, email
@@ -41,6 +42,7 @@ struct Customer: Codable {
         case currency, phone
         case completedOrders = "tax_exemptions"
         case defaultAddress = "default_address"
+        case addresses
     }
 }
 
@@ -54,4 +56,7 @@ struct CustomerAddress: Codable {
     enum CodingKeys: String, CodingKey {
         case customerAddress = "customer_address"
     }
+}
+struct CustomerResponse:Codable{
+    let customer:Customer
 }
