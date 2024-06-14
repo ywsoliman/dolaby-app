@@ -12,9 +12,9 @@ protocol HomeViewModelProtocol{
     var bindBrandsToViewController:()->Void { get set }
     func fetchBrands()->Void
     func getDiscountCodes(completion: @escaping () -> ())
+    func loadUser()
 }
 class HomeViewModel:HomeViewModelProtocol{
-    
     private let service: NetworkService
     private let currencyService: CurrencyServiceProtocol
 
@@ -38,7 +38,30 @@ class HomeViewModel:HomeViewModelProtocol{
             }
         }
     }
+    func loadUser() {
+        do{
+            let customerId = try LocalDataSource.shared.retrieveCustomerId()
+            getCustomer(customerId: customerId)
+        }catch{
+            print("Error \(error)")
+        }
+       
+    }
     
+    func getCustomer(customerId:Int){
+        print("Customer id for alamorire = \(customerId)")
+        service.makeRequest(
+            endPoint: "/customers/\(customerId).json",
+            method: .get
+        ) { (result: Result<CustomerResponse, APIError>) in
+            switch result {
+            case .success(let customerResponse):
+                CurrentUser.user = customerResponse.customer
+            case .failure(let error):
+                print("Error in getting the user data \(error.localizedDescription)")
+            }
+        }
+    }
     func getBrands()->[Brand]{
         return brands ?? []
     }

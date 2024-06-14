@@ -69,7 +69,7 @@
                                 </cells>
                             </collectionView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" id="ezx-mA-rFG">
-                                <rect key="frame" x="-1" y="103" width="393" height="175"/>
+                                <rect key="frame" x="-3" y="103" width="395" height="175"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <viewLayoutGuide key="contentLayoutGuide" id="6Ia-gT-dGj"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="JDj-9U-umf"/>
@@ -317,7 +317,13 @@
                                 </constraints>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Log out"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Log out">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="onLogout:" destination="jTr-at-lzu" eventType="touchUpInside" id="9zJ-Fl-tbO"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fSA-P8-5T1"/>

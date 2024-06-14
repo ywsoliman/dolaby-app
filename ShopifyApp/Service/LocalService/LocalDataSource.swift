@@ -33,7 +33,7 @@ class LocalDataSource {
         let data = Data(bytes: &int, count: MemoryLayout<Int>.size)
         return self.saveToKeychain(service:service , account:account ,data: data)
     }
-    func retrieveFromKeychain(service: String =  "com.yourapp.user", account: String = "userID")throws -> Data {
+   private func retrieveFromKeychain(service: String =  "com.yourapp.user", account: String = "userID")throws -> Data {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: service,

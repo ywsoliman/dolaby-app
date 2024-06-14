@@ -24,6 +24,7 @@ class HomeViewController: UIViewController {
         brandsCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         indicator.startAnimating()
         homeViewModel = HomeViewModel(service: NetworkService.shared, currencyService: CurrencyService.shared)
+        homeViewModel?.loadUser()
         homeViewModel?.fetchBrands()
         homeViewModel?.bindBrandsToViewController={[weak self] in
             DispatchQueue.main.async {
