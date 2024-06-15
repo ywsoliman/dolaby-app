@@ -29,7 +29,6 @@ struct DraftOrder: Codable {
     let shippingLine: String?
     let orderID: Int?
     let appliedDiscount: AppliedDiscount?
-    let taxLines: [String]
     let tags: String
     let noteAttributes: [String]
     let totalPrice, subtotalPrice: String
@@ -49,7 +48,6 @@ struct DraftOrder: Codable {
         case appliedDiscount = "applied_discount"
         case orderID = "order_id"
         case shippingLine = "shipping_line"
-        case taxLines = "tax_lines"
         case tags
         case noteAttributes = "note_attributes"
         case totalPrice = "total_price"

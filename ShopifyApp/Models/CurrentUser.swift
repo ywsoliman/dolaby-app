@@ -6,6 +6,11 @@
 //
 
 import Foundation
+
 class CurrentUser {
-    static var user:Customer?
+    
+    static var user: Customer?
+    
+    private init() {}
+    
 }

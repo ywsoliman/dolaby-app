@@ -40,7 +40,16 @@ class AddAddressTableViewController: UITableViewController {
             self?.setAddressDataFromLocation()
         }
         addAddressViewModel.bindInvalidCountryToViewController = { [weak self] in
-            self?.showInvalidCountryAlert()
+            self?.showAlertWithOKButton(
+                title: "Invalid country",
+                message: "Please enter a valid country."
+            )
+        }
+        addAddressViewModel.bindAddressExistsToViewController = { [weak self] in
+            self?.showAlertWithOKButton(
+                title: "Address already exists",
+                message: "Please enter a different address that doesn't exist."
+            )
         }
         
     }
@@ -88,8 +97,8 @@ class AddAddressTableViewController: UITableViewController {
         }
     }
     
-    private func showInvalidCountryAlert() {
-        let alert = UIAlertController(title: "Invalid Country", message: "Please enter a valid country", preferredStyle: .alert)
+    private func showAlertWithOKButton(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let cancel = UIAlertAction(title: "OK", style: .cancel)
         alert.addAction(cancel)
         present(alert, animated: true)
