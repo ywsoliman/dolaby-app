@@ -9,6 +9,7 @@ import UIKit
 
 class ProductInfoViewController: UIViewController {
     
+    @IBOutlet weak var addToFavBtn: UIButton!
     @IBOutlet weak var addToCartBtn: UIButton!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var productName: UILabel!
@@ -41,6 +42,9 @@ class ProductInfoViewController: UIViewController {
     private let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
     override func viewDidLoad() {
         super.viewDidLoad()
+        addToCartBtn.isEnabled = false
+        addToFavBtn.isEnabled = false
+        quantityControlBtn.isEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self
         quantityControlBtn.minimumValue = 1
@@ -69,6 +73,9 @@ class ProductInfoViewController: UIViewController {
     }
     private func updateViewWithProductInfo(_ productInfo: Product) {
             product = productInfo
+            addToCartBtn.isEnabled = true
+            addToFavBtn.isEnabled = true
+            quantityControlBtn.isEnabled = true
             productName.text = productInfo.title
             productBrand.text = productInfo.vendor
             descriptionLabel.text = productInfo.bodyHTML
@@ -109,8 +116,12 @@ class ProductInfoViewController: UIViewController {
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
         if Int(quantityControlBtn.value) > quantityInVentory {
             quantityStatus.text = "No Enough Items"
+            addToCartBtn.isEnabled = false
+            quantityControlBtn.isEnabled = false
         }else{
             quantityStatus.text = ""
+            addToCartBtn.isEnabled = true
+            quantityControlBtn.isEnabled = true
         }
     }
     /*

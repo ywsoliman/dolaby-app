@@ -767,6 +767,7 @@
                     </view>
                     <connections>
                         <outlet property="addToCartBtn" destination="d4h-ZX-teJ" id="gzw-EH-zUn"/>
+                        <outlet property="addToFavBtn" destination="6ob-Nd-kKN" id="J07-1O-Gid"/>
                         <outlet property="bodyViewContainer" destination="aYl-bK-LWL" id="Es2-Wh-NdI"/>
                         <outlet property="collectionView" destination="1AK-66-2HS" id="s3U-j9-7XF"/>
                         <outlet property="colorSegment" destination="apR-6o-bCe" id="xd9-tf-xGQ"/>

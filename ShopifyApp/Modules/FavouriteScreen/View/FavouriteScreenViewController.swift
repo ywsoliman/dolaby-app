@@ -78,7 +78,9 @@ extension FavouriteScreenViewController:UICollectionViewDataSource , UICollectio
         let titleComponents = viewModel.favouriteItems[indexPath.item].itemName.split(separator: " | ")
         let categoryName = String(titleComponents.last ?? "")
         cell.categoryName.text = categoryName
-        cell.categoryPrice.text=""
+        let heartImage = UIImage(systemName: "heart.fill")
+        cell.favBtn.setImage(heartImage, for: .normal)
+        cell.categoryPrice.text="      "
         cell.clipsToBounds=true
         cell.layer.cornerRadius=20
         cell.layer.borderColor = UIColor.darkGray.cgColor
