@@ -31,8 +31,8 @@ class AddressesViewModel {
     }
     
     func getAddresses() {
-        
-        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses.json", method: .get) { (result: Result<CustomerAddresses, APIError>) in
+                
+        service.makeRequest(endPoint: "/customers/\(CurrentUser.user!.id)/addresses.json", method: .get) { (result: Result<CustomerAddresses, APIError>) in
             
             switch result {
             case .success(let addresses):
@@ -50,7 +50,7 @@ class AddressesViewModel {
         
         guard let id = address.id else { return }
         
-        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses/\(id).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
+        service.makeRequest(endPoint: "/customers/\(CurrentUser.user!.id)/addresses/\(id).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
             
             switch result {
             case .success:
@@ -76,7 +76,7 @@ class AddressesViewModel {
     
     func setDefault(addressID: Int) {
         
-        service.makeRequest(endPoint: "/customers/\(MY_CUSTOMER)/addresses/\(addressID)/default.json", method: .put) { (result: Result<CustomerAddress, APIError>) in
+        service.makeRequest(endPoint: "/customers/\(CurrentUser.user!.id)/addresses/\(addressID)/default.json", method: .put) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
             case .success(let address):

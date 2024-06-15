@@ -23,24 +23,25 @@ class CartViewModel {
     }
     
     func getCart() {
-        service.makeRequest(endPoint: "/draft_orders/\(CART_ID).json", method: .get) { (result: Result<DraftOrderResponse, APIError>) in
-            
+        service.getCart { (result: Result<DraftOrderResponse, APIError>) in
             switch result {
-            case .success(let draftOrder):
-                self.cart = draftOrder.draftOrder
+            case .success(let response):
+                self.cart = response.draftOrder
             case .failure(let error):
-                print("Error DraftOrder: \(error)")
+                print("Getting Cart Error: \(error)")
             }
-            
         }
     }
     
     func deleteCart() {
         
-        service.makeRequest(endPoint: "/draft_orders/\(CART_ID).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
+        guard let cartId = CurrentUser.user?.cartID else { return }
+        
+        service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
             
             switch result {
             case .success:
+                CurrentUser.user!.cartID = nil
                 self.cart = nil
             case .failure(let error):
                 print("Error DraftOrder: \(error)")

@@ -61,4 +61,15 @@ struct NetworkService: NetworkServiceProtocol {
         
     }
     
+    func getCart(completion: @escaping (Result<DraftOrderResponse, APIError>) -> Void) {
+        
+        guard let cartId = CurrentUser.user?.cartID else { return }
+        makeRequest(
+            endPoint: "/draft_orders/\(cartId).json",
+            method: .get,
+            completion: completion
+        )
+        
+    }
+    
 }

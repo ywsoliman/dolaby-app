@@ -18,7 +18,7 @@ class ProductInfoViewController: UIViewController {
     
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var sizesSegment: UISegmentedControl!
-        
+    
     @IBOutlet weak var bodyViewContainer: UIView!
     
     @IBOutlet weak var productQuantity: UILabel!
@@ -55,22 +55,22 @@ class ProductInfoViewController: UIViewController {
         viewModel.getProduct(productID: productID)
         viewModel.bindToViewController = {
             [weak self] productInfo in
-           self?.updateViewWithProductInfo(productInfo)
+            self?.updateViewWithProductInfo(productInfo)
         }
         sizesSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
         colorSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
-
-      applyCornerRadius()
+        
+        applyCornerRadius()
         // Do any additional setup after loading the view.
     }
     private func applyCornerRadius() {
-           let path = UIBezierPath(roundedRect: bodyViewContainer.bounds,
-                                   byRoundingCorners: [.topLeft, .topRight],
-                                   cornerRadii: CGSize(width: 20, height: 20))
-           let mask = CAShapeLayer()
-           mask.path = path.cgPath
-           bodyViewContainer.layer.mask = mask
-       }
+        let path = UIBezierPath(roundedRect: bodyViewContainer.bounds,
+                                byRoundingCorners: [.topLeft, .topRight],
+                                cornerRadii: CGSize(width: 20, height: 20))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        bodyViewContainer.layer.mask = mask
+    }
     
     @IBAction func addToFavPressed(_ sender: Any) {
         !isCurrentItemFav() ? favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")) : favViewModel.deleteFavouriteItem(itemId: product.id)
@@ -87,6 +87,7 @@ class ProductInfoViewController: UIViewController {
            return  currentFavImageName == "heart.fill"
     }
     private func updateViewWithProductInfo(_ productInfo: Product) {
+
             product = productInfo
             addToCartBtn.isEnabled = true
             addToFavBtn.isEnabled = true
@@ -115,9 +116,19 @@ class ProductInfoViewController: UIViewController {
         priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
             collectionView.reloadData()
             pageControl.numberOfPages = productInfo.images.count
-        }
+
+    }
     @IBAction func addToCartPressed(_ sender: Any) {
-       let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        
+        let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        
+        print(Int(productQuantity.text ?? "1")!)
+        
+        viewModel.addProductToCart(
+            id: variantId,
+            quantity: Int(productQuantity.text ?? "1")!
+        )
+        
         print("Variant id \(variantId)")
     }
     
@@ -127,7 +138,7 @@ class ProductInfoViewController: UIViewController {
     }
     @objc func segmentValueChanged(_ sender: UISegmentedControl) {
         updateQuantityLabel()
-     }
+    }
     func updateQuantityLabel(){
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
         quantityControlBtn.maximumValue = Double(quantityInVentory + 1)
@@ -140,16 +151,7 @@ class ProductInfoViewController: UIViewController {
             addToCartBtn.isEnabled = true
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
 extension ProductInfoViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
