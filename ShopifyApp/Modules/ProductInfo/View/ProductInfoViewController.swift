@@ -9,6 +9,7 @@ import UIKit
 
 class ProductInfoViewController: UIViewController {
     
+    @IBOutlet weak var addToFavBtn: UIButton!
     @IBOutlet weak var addToCartBtn: UIButton!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var productName: UILabel!
@@ -31,14 +32,19 @@ class ProductInfoViewController: UIViewController {
     @IBOutlet weak var quantityControlBtn: UIStepper!
     @IBOutlet weak var pageControl: UIPageControl!
     var productID:Int!
+    var product:Product!
     var currentPageIndex = 0 {
         didSet{
             pageControl.currentPage = currentPageIndex
         }
     }
     private let viewModel:ProductInfoViewModel = ProductInfoViewModel(networkService: NetworkService.shared)
+    private let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
     override func viewDidLoad() {
         super.viewDidLoad()
+        addToCartBtn.isEnabled = false
+        addToFavBtn.isEnabled = false
+        quantityControlBtn.isEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self
         quantityControlBtn.minimumValue = 1
@@ -61,11 +67,18 @@ class ProductInfoViewController: UIViewController {
            mask.path = path.cgPath
            bodyViewContainer.layer.mask = mask
        }
+    
+    @IBAction func addToFavPressed(_ sender: Any) {
+        favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+    }
     private func updateViewWithProductInfo(_ productInfo: Product) {
+            product = productInfo
+            addToCartBtn.isEnabled = true
+            addToFavBtn.isEnabled = true
+            quantityControlBtn.isEnabled = true
             productName.text = productInfo.title
             productBrand.text = productInfo.vendor
             descriptionLabel.text = productInfo.bodyHTML
-       
             sizesSegment.removeAllSegments()
             colorSegment.removeAllSegments()
             let sizes = productInfo.getSizeOptions()
@@ -103,8 +116,12 @@ class ProductInfoViewController: UIViewController {
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
         if Int(quantityControlBtn.value) > quantityInVentory {
             quantityStatus.text = "No Enough Items"
+            addToCartBtn.isEnabled = false
+            quantityControlBtn.isEnabled = false
         }else{
             quantityStatus.text = ""
+            addToCartBtn.isEnabled = true
+            quantityControlBtn.isEnabled = true
         }
     }
     /*

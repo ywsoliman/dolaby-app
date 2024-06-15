@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -41,6 +40,9 @@
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system"/>
+                        <connections>
+                            <action selector="onFavBtnPressed:" destination="gTV-IL-0wX" eventType="touchUpInside" id="BC5-xN-i0V"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
@@ -65,6 +67,7 @@
                 <outlet property="categoryImage" destination="SSZ-EC-WGn" id="YN5-rN-8MW"/>
                 <outlet property="categoryName" destination="C3r-k9-uOj" id="TH4-DK-cUZ"/>
                 <outlet property="categoryPrice" destination="jdz-at-T4R" id="e6N-7m-hXY"/>
+                <outlet property="favBtn" destination="IyW-Ci-bXv" id="daZ-la-cSS"/>
             </connections>
             <point key="canvasLocation" x="271.75572519083971" y="59.507042253521128"/>
         </collectionViewCell>
