@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EMh-CT-ZVW">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EMh-CT-ZVW">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -147,7 +148,7 @@
                                 <rect key="frame" x="0.0" y="146" width="393" height="623"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZMg-Ly-bel">
-                                        <rect key="frame" x="106.33333333333333" y="0.0" width="180.33333333333337" height="32"/>
+                                        <rect key="frame" x="91.666666666666671" y="0.0" width="209.66666666666663" height="32"/>
                                         <segments>
                                             <segment title="All"/>
                                             <segment title="" image="tshirt.fill" catalog="system"/>
@@ -451,14 +452,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="0tY-ua-9mU">
-                                <rect key="frame" x="0.0" y="133" width="389" height="685"/>
+                                <rect key="frame" x="4" y="133" width="385" height="685"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ordersCell" id="CJz-Qz-MEg">
-                                        <rect key="frame" x="0.0" y="50" width="389" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="50" width="385" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CJz-Qz-MEg" id="ptu-ft-mj7">
-                                            <rect key="frame" x="0.0" y="0.0" width="389" height="43.666667938232422"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="385" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -477,7 +478,7 @@
                             <constraint firstItem="Oia-NJ-XBC" firstAttribute="bottom" secondItem="0tY-ua-9mU" secondAttribute="bottom" id="AB4-r9-Tv2"/>
                             <constraint firstItem="Oia-NJ-XBC" firstAttribute="trailing" secondItem="RLa-H4-Ci0" secondAttribute="trailing" id="BDk-ex-P3W"/>
                             <constraint firstItem="RLa-H4-Ci0" firstAttribute="leading" secondItem="Oia-NJ-XBC" secondAttribute="leading" id="JKu-qM-Fv4"/>
-                            <constraint firstItem="0tY-ua-9mU" firstAttribute="leading" secondItem="Oia-NJ-XBC" secondAttribute="leading" id="VGY-PX-rNY"/>
+                            <constraint firstItem="0tY-ua-9mU" firstAttribute="leading" secondItem="Oia-NJ-XBC" secondAttribute="leading" constant="4" id="VGY-PX-rNY"/>
                             <constraint firstItem="0tY-ua-9mU" firstAttribute="top" secondItem="RLa-H4-Ci0" secondAttribute="bottom" constant="6" id="bSZ-JV-1ag"/>
                             <constraint firstItem="RLa-H4-Ci0" firstAttribute="centerX" secondItem="wWG-LD-1gd" secondAttribute="centerX" id="k6b-Ts-VBo"/>
                             <constraint firstItem="Oia-NJ-XBC" firstAttribute="trailing" secondItem="0tY-ua-9mU" secondAttribute="trailing" constant="4" id="rmB-He-BOU"/>
@@ -654,7 +655,7 @@
                                 <viewLayoutGuide key="frameLayoutGuide" id="yan-bO-v69"/>
                             </scrollView>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="xXx-v5-nQA">
-                                <rect key="frame" x="0.0" y="311.33333333333331" width="393" height="26"/>
+                                <rect key="frame" x="0.0" y="311.66666666666669" width="393" height="25.666666666666686"/>
                             </pageControl>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="uzQ-9V-N4D"/>
@@ -708,7 +709,7 @@
         <image name="square.grid.2x2.fill" catalog="system" width="128" height="114"/>
         <image name="tshirt.fill" catalog="system" width="128" height="98"/>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

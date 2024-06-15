@@ -61,21 +61,41 @@ class CheckoutViewModel {
         }
         
     }
-    
+
     func completeOrder(completion: @escaping () -> ()) {
-        
-        service.makeRequest(endPoint: "/draft_orders/\(CART_ID)/complete.json", method: .put) { (result: Result<DraftOrderResponse, APIError>) in
-            
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
+        let formattedDate = formatter.string(from: date)
+        let parameters: [String: Any] = [
+            "order": [
+                "created_at": formattedDate,
+                "currency": CurrencyManager.currency,
+                "email": CurrentUser.user?.email ?? "israaassem20@gmail.com",
+                "total_price": draftOrder.totalPrice,
+                "customer":
+                    ["id":
+                        CurrentUser.user?.id
+                    ],
+                "line_items": draftOrder.lineItems.map { item in
+                           [
+                               "title": item.title,
+                               "price": item.price,
+                               "quantity": item.quantity,
+                               "variant_title": item.variantTitle
+                           ]
+                       }
+            ]
+        ]
+        service.makeRequest(endPoint: "/orders.json", method: .post,parameters: parameters) { (result: Result<OrderResponse, APIError>) in
             switch result {
             case .success(_):
-                print("Compeleted Order Successfully!")
+                print("Order is posted Successfully!")
                 completion()
             case .failure(let error):
-                print("Error in completing an order: \(error)")
+                print("Error in posting an order: \(error)")
             }
-            
         }
-        
     }
     
 }
