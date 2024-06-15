@@ -1,32 +1,27 @@
 //
-//  SearchScreenViewController.swift
+//  FavouriteScreenViewController.swift
 //  ShopifyApp
 //
-//  Created by Samuel Adel on 14/06/2024.
+//  Created by Samuel Adel on 15/06/2024.
 //
 
 import UIKit
-import Combine
-class SearchScreenViewController: UIViewController {
+
+class FavouriteScreenViewController: UIViewController {
+    
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var searchBar: UISearchBar!
-    private let viewModel:SearchScreenViewModel = SearchScreenViewModel(networkService: NetworkService.shared)
+    private var viewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
     let indicator = UIActivityIndicatorView(style: .large)
-    var cancellables = Set<AnyCancellable>()
-    @Published var searchText: String = ""
-    private let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.dataSource = self
         collectionView.delegate = self
-        searchBar.delegate = self
         collectionView.keyboardDismissMode = .onDrag
         collectionView.collectionViewLayout = UICollectionViewFlowLayout()
         let cellNib=UINib(nibName: "CategoriesCollectionViewCell", bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: "categoriesCell")
         indicator.startAnimating()
-        viewModel.fetchProducts()
-        viewModel.bindProductsToViewController={[weak self] in
+        viewModel.bindToViewController = { [weak self] in
             DispatchQueue.main.async {
                 self?.indicator.stopAnimating()
                 self?.collectionView.reloadData()
@@ -35,41 +30,37 @@ class SearchScreenViewController: UIViewController {
         view.addSubview(indicator)
         indicator.center = self.view.center
         indicator.startAnimating()
-        $searchText.debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-                    .sink { [weak self] debouncedSearchText in
-                        print(debouncedSearchText)
-                        self?.viewModel.filterBySearchText(text:debouncedSearchText)
-                    }
-                    .store(in: &cancellables)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-                tapGesture.cancelsTouchesInView = false
-                view.addGestureRecognizer(tapGesture)
+        viewModel.fetchFavouriteItems()
+        // Do any additional setup after loading the view.
     }
-    @objc private func dismissKeyboard() {
-            view.endEditing(true)
-        }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destination.
+        // Pass the selected object to the new view controller.
+    }
+    */
 
 }
-extension SearchScreenViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.searchText = searchText
-    }
-}
 
-extension SearchScreenViewController:UICollectionViewDataSource , UICollectionViewDelegate{
+extension FavouriteScreenViewController:UICollectionViewDataSource , UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
          guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
              return
          }
-        productDetailsViewController.productID = viewModel.filteredProducts[indexPath.item].id
+        productDetailsViewController.productID = viewModel.favouriteItems[indexPath.item].id
          navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let isEmpty =  viewModel.filteredProducts.count == 0
+        let isEmpty =  viewModel.favouriteItems.count == 0
         collectionView.backgroundView = isEmpty ? getBackgroundView() : nil
-        return viewModel.filteredProducts.count
+        return viewModel.favouriteItems.count
     }
     func getBackgroundView() -> UIView {
            let backgroundView = UIView(frame: collectionView.bounds)
@@ -82,17 +73,17 @@ extension SearchScreenViewController:UICollectionViewDataSource , UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
-        let titleComponents = viewModel.filteredProducts[indexPath.item].title.split(separator: " | ")
+        cell.delegate = self
+        cell.cellIndex = indexPath.item 
+        let titleComponents = viewModel.favouriteItems[indexPath.item].itemName.split(separator: " | ")
         let categoryName = String(titleComponents.last ?? "")
         cell.categoryName.text = categoryName
-        cell.delegate = self
-        cell.cellIndex = indexPath.item
-        cell.categoryPrice.text="\( (viewModel.filteredProducts[indexPath.item].variants[0].price) ) LE"
+        cell.categoryPrice.text=""
         cell.clipsToBounds=true
         cell.layer.cornerRadius=20
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.borderWidth=0.7
-        let url=URL(string: viewModel.filteredProducts[indexPath.item].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")
+        let url=URL(string: viewModel.favouriteItems[indexPath.item].imageURL)
         guard let imageUrl=url else{
             print("Error loading image: ",APIError.invalidURL)
             return cell
@@ -101,7 +92,7 @@ extension SearchScreenViewController:UICollectionViewDataSource , UICollectionVi
         return cell
     }
 }
-extension SearchScreenViewController:UICollectionViewDelegateFlowLayout{
+extension FavouriteScreenViewController:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width=self.view.frame.width*0.44
         let height=width*1.2
@@ -113,11 +104,13 @@ extension SearchScreenViewController:UICollectionViewDelegateFlowLayout{
     }
    
 }
-extension SearchScreenViewController:FavItemDelegate{
+
+extension FavouriteScreenViewController:FavItemDelegate{
     func didPressFavoriteButton(itemIndex: Int) {
-        print(viewModel.filteredProducts[itemIndex].title)
-        favViewModel.addToFav(favItem: FavoriteItem(id: viewModel.filteredProducts[itemIndex].id, itemName: viewModel.filteredProducts[itemIndex].title, imageURL: viewModel.filteredProducts[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+        print("Item index = \(itemIndex)")
+        viewModel.deleteFavouriteItem(itemId: viewModel.favouriteItems[itemIndex].id)
     }
     
 }
-
+    
+    

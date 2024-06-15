@@ -561,6 +561,9 @@
                                                 <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system" title="">
                                                     <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </buttonConfiguration>
+                                                <connections>
+                                                    <action selector="addToFavPressed:" destination="HqS-Pz-dhn" eventType="touchUpInside" id="qbI-bY-b4p"/>
+                                                </connections>
                                             </button>
                                             <pageControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fUx-Vf-K9g">
                                                 <rect key="frame" x="90" y="258" width="213" height="26"/>
@@ -782,6 +785,60 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2AK-By-fyv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1817.5572519083969" y="744.36619718309862"/>
+        </scene>
+        <!--Favourite Screen View Controller-->
+        <scene sceneID="ojk-jo-DVY">
+            <objects>
+                <viewController storyboardIdentifier="FavouriteScreenViewController" id="1m6-gj-wXI" customClass="FavouriteScreenViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Qqg-QW-och">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="fi8-mw-UQX">
+                                <rect key="frame" x="16" y="108" width="361" height="726"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="EUz-fd-I7U">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="favCell" id="4Uh-eR-Npq" customClass="CategoriesCollectionViewCell" customModule="ShopifyApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="5PO-Ob-IkI">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Favorite items" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BP8-tG-GGq">
+                                <rect key="frame" x="16" y="71" width="158" height="29"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="40M-5m-ijX"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="fi8-mw-UQX" firstAttribute="top" secondItem="BP8-tG-GGq" secondAttribute="bottom" constant="8" symbolic="YES" id="4HZ-fz-j51"/>
+                            <constraint firstItem="fi8-mw-UQX" firstAttribute="bottom" secondItem="40M-5m-ijX" secondAttribute="bottom" constant="16" id="JtW-aw-RpL"/>
+                            <constraint firstItem="BP8-tG-GGq" firstAttribute="top" secondItem="40M-5m-ijX" secondAttribute="top" constant="12" id="Noa-ta-xvT"/>
+                            <constraint firstItem="fi8-mw-UQX" firstAttribute="leading" secondItem="40M-5m-ijX" secondAttribute="leading" constant="16" id="a7e-3W-lle"/>
+                            <constraint firstItem="BP8-tG-GGq" firstAttribute="leading" secondItem="40M-5m-ijX" secondAttribute="leading" constant="16" id="e76-xd-lCm"/>
+                            <constraint firstItem="40M-5m-ijX" firstAttribute="trailing" secondItem="fi8-mw-UQX" secondAttribute="trailing" constant="16" id="m9J-JE-bn3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="fi8-mw-UQX" id="1Cn-JT-B8J"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xZd-u0-O3H" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2655.7251908396947" y="736.61971830985919"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="InF-Ro-nMs">
