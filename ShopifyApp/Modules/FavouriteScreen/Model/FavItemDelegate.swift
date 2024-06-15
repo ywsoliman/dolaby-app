@@ -7,5 +7,6 @@
 
 import Foundation
 protocol FavItemDelegate{
-    func didPressFavoriteButton(itemIndex:Int)
+    func saveFavItem(itemIndex:Int)
+    func deleteFavItem(itemIndex:Int)
 }

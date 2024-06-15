@@ -19,8 +19,10 @@ class CategoriesViewController: UIViewController {
     }
     let indicator = UIActivityIndicatorView(style: .large)
     var categoriesViewModel:CategoriesViewModelProtocol?
+    private var favViewModel:FavouriteViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        favViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
         categoriesCollectionView.dataSource=self
         categoriesCollectionView.delegate=self
         categoriesCollectionView.keyboardDismissMode = .onDrag
@@ -41,6 +43,10 @@ class CategoriesViewController: UIViewController {
         indicator.startAnimating()
         self.typeSegmentControl.isHidden=true
         NotificationCenter.default.addObserver(self, selector: #selector(productsFilteredNotification(_:)), name: .productsFilteredNotification, object: nil)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        favViewModel.updateFavItems()
+        categoriesCollectionView.reloadData()
     }
     @IBAction func categorySegmentControlValueChanged(_ sender: Any) {
         switch (sender as AnyObject).selectedSegmentIndex {
@@ -103,6 +109,9 @@ extension CategoriesViewController:UICollectionViewDataSource{
        }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
+        cell.delegate = self
+        cell.cellIndex = indexPath.item
+        cell.updateFavBtnImage(isFav: favViewModel.isFavoriteItem(withId: categoriesViewModel?.getProducts()[indexPath.item].id ?? 0))
         let titleComponents = categoriesViewModel?.getProducts()[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents?.last ?? "")
         cell.categoryName.text = categoryName
@@ -133,3 +142,13 @@ extension CategoriesViewController:UICollectionViewDelegateFlowLayout{
    
 }
 
+extension CategoriesViewController:FavItemDelegate{
+    func deleteFavItem(itemIndex: Int) {
+        favViewModel.deleteFavouriteItem(itemId: categoriesViewModel?.getProducts()[itemIndex].id ?? 0)
+    }
+    
+    func saveFavItem(itemIndex: Int) {
+        favViewModel.addToFav(favItem: FavoriteItem(id: categoriesViewModel?.getProducts()[itemIndex].id ?? 0, itemName: categoriesViewModel?.getProducts()[itemIndex].title ?? " | ", imageURL: categoriesViewModel?.getProducts()[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+    }
+    
+}

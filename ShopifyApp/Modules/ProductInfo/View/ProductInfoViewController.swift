@@ -38,8 +38,11 @@ class ProductInfoViewController: UIViewController {
             pageControl.currentPage = currentPageIndex
         }
     }
+    private var currentFavImageName: String?
     private let viewModel:ProductInfoViewModel = ProductInfoViewModel(networkService: NetworkService.shared)
     private let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
+    private  var isFavItem:Bool!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         addToCartBtn.isEnabled = false
@@ -48,6 +51,7 @@ class ProductInfoViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         quantityControlBtn.minimumValue = 1
+       isFavItem =  favViewModel.isFavoriteItem(withId: productID)
         viewModel.getProduct(productID: productID)
         viewModel.bindToViewController = {
             [weak self] productInfo in
@@ -69,36 +73,50 @@ class ProductInfoViewController: UIViewController {
     }
     
     @IBAction func addToFavPressed(_ sender: Any) {
-        favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+        !isCurrentItemFav() ? favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")) : favViewModel.deleteFavouriteItem(itemId: product.id)
+        updateFavBtnImage(isFav:  !isCurrentItemFav())
+    }
+    func updateFavBtnImage(isFav:Bool){
+        print(isFav)
+        let imageName = isFav ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        addToFavBtn.setImage(image, for: .normal)
+        currentFavImageName = imageName
+    }
+    func isCurrentItemFav() -> Bool {
+           return  currentFavImageName == "heart.fill"
     }
     private func updateViewWithProductInfo(_ productInfo: Product) {
-        product = productInfo
-        addToCartBtn.isEnabled = true
-        addToFavBtn.isEnabled = true
-        quantityControlBtn.isEnabled = true
-        productName.text = productInfo.title
-        productBrand.text = productInfo.vendor
-        descriptionLabel.text = productInfo.bodyHTML
-        sizesSegment.removeAllSegments()
-        colorSegment.removeAllSegments()
-        let sizes = productInfo.getSizeOptions()
-        let colors = productInfo.getColorOptions()
-        for (index, size) in sizes.enumerated() {
-            sizesSegment.insertSegment(withTitle: size, at: index, animated: false)
-        }
-        if !sizes.isEmpty {
-            sizesSegment.selectedSegmentIndex = 0
-        }
-        for (index, color) in colors.enumerated() {
-            colorSegment.insertSegment(withTitle: color, at: index, animated: false)
-        }
-        if !colors.isEmpty {
-            colorSegment.selectedSegmentIndex = 0
-        }
-        updateQuantityLabel()
+
+            product = productInfo
+            addToCartBtn.isEnabled = true
+            addToFavBtn.isEnabled = true
+            quantityControlBtn.isEnabled = true
+            productName.text = productInfo.title
+            productBrand.text = productInfo.vendor
+            descriptionLabel.text = productInfo.bodyHTML
+            updateFavBtnImage(isFav: isFavItem)
+            sizesSegment.removeAllSegments()
+            colorSegment.removeAllSegments()
+            let sizes = productInfo.getSizeOptions()
+            let colors = productInfo.getColorOptions()
+            for (index, size) in sizes.enumerated() {
+                sizesSegment.insertSegment(withTitle: size, at: index, animated: false)
+            }
+            if !sizes.isEmpty {
+                sizesSegment.selectedSegmentIndex = 0
+            }
+            for (index, color) in colors.enumerated() {
+                colorSegment.insertSegment(withTitle: color, at: index, animated: false)
+            }
+            if !colors.isEmpty {
+                colorSegment.selectedSegmentIndex = 0
+            }
+            updateQuantityLabel()
         priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
-        collectionView.reloadData()
-        pageControl.numberOfPages = productInfo.images.count
+            collectionView.reloadData()
+            pageControl.numberOfPages = productInfo.images.count
+
     }
     @IBAction func addToCartPressed(_ sender: Any) {
         
@@ -123,14 +141,14 @@ class ProductInfoViewController: UIViewController {
     }
     func updateQuantityLabel(){
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        quantityControlBtn.maximumValue = Double(quantityInVentory + 1)
         if Int(quantityControlBtn.value) > quantityInVentory {
             quantityStatus.text = "No Enough Items"
             addToCartBtn.isEnabled = false
-            quantityControlBtn.isEnabled = false
+            print(quantityControlBtn.value)
         }else{
             quantityStatus.text = ""
             addToCartBtn.isEnabled = true
-            quantityControlBtn.isEnabled = true
         }
     }
     

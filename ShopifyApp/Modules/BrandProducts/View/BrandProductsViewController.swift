@@ -14,9 +14,10 @@ class BrandProductsViewController: UIViewController {
     @IBOutlet weak var priceSlider: UISlider!
     let indicator = UIActivityIndicatorView(style: .large)
     var brandProductsViewModel:BrandProductsViewModelProtocol?
+    private var favViewModel:FavouriteViewModel!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        favViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
         brandProductsCollectionView.dataSource=self
         brandProductsCollectionView.delegate=self
         brandProductsCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
@@ -49,7 +50,10 @@ class BrandProductsViewController: UIViewController {
         brandProductsCollectionView.reloadData()
         
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        favViewModel.updateFavItems()
+        brandProductsCollectionView.reloadData()
+    }
 
 }
 extension BrandProductsViewController:UICollectionViewDelegate{
@@ -73,8 +77,10 @@ extension BrandProductsViewController:UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
+        cell.delegate = self
+        cell.cellIndex = indexPath.item
         cell.categoryPrice.text="\((brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].variants[0].price) ?? "0.0") LE"
-
+        cell.updateFavBtnImage(isFav: favViewModel.isFavoriteItem(withId: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].id ?? 0))
         let titleComponents = brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents?.last ?? "")
         cell.categoryName.text = categoryName
@@ -103,5 +109,19 @@ extension BrandProductsViewController:UICollectionViewDelegateFlowLayout{
     }
    
 
+}
+
+extension BrandProductsViewController:FavItemDelegate{
+    func deleteFavItem(itemIndex: Int) {
+        let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
+        let id = brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].id
+        favViewModel.deleteFavouriteItem(itemId: id ?? 0)
+    }
+    
+    func saveFavItem(itemIndex: Int) {
+        let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
+        favViewModel.addToFav(favItem: FavoriteItem(id: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].id ?? 0, itemName: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].title ?? " | ", imageURL: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+    }
+    
 }
 
