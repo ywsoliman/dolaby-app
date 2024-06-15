@@ -23,6 +23,13 @@ class MainTabBarViewController: UITabBarController ,UITabBarControllerDelegate{
         navigationController?.pushViewController(searchViewController, animated: true)
     }
     
+    @IBAction func onFavPressed(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+        guard let favViewController = storyboard.instantiateViewController(withIdentifier: "FavouriteScreenViewController") as? FavouriteScreenViewController else {
+            return
+        }
+        navigationController?.pushViewController(favViewController, animated: true)
+    }
     @IBAction func cartBarBtn(_ sender: UIBarButtonItem) {
         
         let paymentStoryboard = UIStoryboard(name: "PaymentStoryboard", bundle: nil)

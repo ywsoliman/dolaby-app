@@ -9,12 +9,13 @@ import Foundation
 final class SearchScreenViewModel{
     let networkService:NetworkService
     @Published  var isLoading:Bool = false
-    init(networkService: NetworkService) {
-        self.networkService = networkService
-    }
     var bindProductsToViewController:()->Void={}
     var allProducts:[CategoriesProduct] = []
     var filteredProducts: [CategoriesProduct] = []
+    
+    init(networkService: NetworkService) {
+        self.networkService = networkService
+    }
     func fetchProducts(){
         networkService.makeRequest(endPoint: "/products.json", method: .get) {[weak self] (result: Result<ProductsResponse, APIError>) in
             switch result {
