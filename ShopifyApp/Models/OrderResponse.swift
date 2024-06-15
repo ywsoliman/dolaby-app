@@ -6,3 +6,14 @@
 //
 
 import Foundation
+struct OrderResponse: Codable {
+  let order: OrderDetails?
+}
+struct OrderDetails: Codable {
+  let created_at: String?
+  let currency: String?
+  let email: String?
+  let total_price: String?
+  let customer: Customer?
+  let line_items: [LineItem]?
+}
