@@ -10,10 +10,11 @@ import UIKit
 class FavouriteScreenViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
-    private var viewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
+    private var viewModel:FavouriteViewModel!
     let indicator = UIActivityIndicatorView(style: .large)
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.keyboardDismissMode = .onDrag
@@ -33,17 +34,10 @@ class FavouriteScreenViewController: UIViewController {
         viewModel.fetchFavouriteItems()
         // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.updateFavItems()
+        collectionView.reloadData()
     }
-    */
 
 }
 
@@ -78,8 +72,7 @@ extension FavouriteScreenViewController:UICollectionViewDataSource , UICollectio
         let titleComponents = viewModel.favouriteItems[indexPath.item].itemName.split(separator: " | ")
         let categoryName = String(titleComponents.last ?? "")
         cell.categoryName.text = categoryName
-        let heartImage = UIImage(systemName: "heart.fill")
-        cell.favBtn.setImage(heartImage, for: .normal)
+        cell.updateFavBtnImage(isFav: true)
         cell.categoryPrice.text="      "
         cell.clipsToBounds=true
         cell.layer.cornerRadius=20
@@ -108,8 +101,13 @@ extension FavouriteScreenViewController:UICollectionViewDelegateFlowLayout{
 }
 
 extension FavouriteScreenViewController:FavItemDelegate{
-    func didPressFavoriteButton(itemIndex: Int) {
-        print("Item index = \(itemIndex)")
+    func deleteFavItem(itemIndex: Int) {
+        print(" deletening Item index = \(itemIndex)")
+        viewModel.deleteFavouriteItem(itemId: viewModel.favouriteItems[itemIndex].id)
+    }
+    
+    func saveFavItem(itemIndex: Int) {
+        print("deletening Item index 2 = \(itemIndex)")
         viewModel.deleteFavouriteItem(itemId: viewModel.favouriteItems[itemIndex].id)
     }
     
