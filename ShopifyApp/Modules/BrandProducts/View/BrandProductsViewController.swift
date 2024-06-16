@@ -8,7 +8,8 @@
 import UIKit
 
 class BrandProductsViewController: UIViewController {
-
+    @IBOutlet weak var priceFilterStack: UIStackView!
+    
     @IBOutlet weak var brandProductsCollectionView: UICollectionView!
     @IBOutlet weak var priceForFilter: UILabel!
     @IBOutlet weak var priceSlider: UISlider!
@@ -35,15 +36,21 @@ class BrandProductsViewController: UIViewController {
         view.addSubview(indicator)
         indicator.center = self.view.center
         indicator.startAnimating()
-        priceSlider.maximumValue=3000
+        priceSlider.maximumValue=500
         priceSlider.minimumValue=1
         priceSlider.value=priceSlider.maximumValue
         priceForFilter.text=String(priceSlider.value)+" LE"
         if brandProductsViewModel==nil{
             print("brandProductsViewModel==nil")
         }
+        priceFilterStack.isHidden=true
     }
     
+    @IBAction func filterBtn(_ sender: Any) {
+        UIView.animate(withDuration: 0.4) {[weak self] in
+            self?.priceFilterStack.isHidden.toggle()
+        }
+    }
     @IBAction func sliderValueChanged(_ sender: Any) {
         let formattedValue = String(format: "%.2f", (sender as! UISlider).value)
         priceForFilter.text = "\(formattedValue) LE"
