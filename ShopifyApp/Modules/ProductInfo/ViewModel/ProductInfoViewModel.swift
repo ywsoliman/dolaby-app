@@ -55,10 +55,11 @@ final class ProductInfoViewModel{
      
         var modifiedCart = cart
         modifiedCart.lineItems.append(LineItem(id: 0, variantID: id, productID: 0, title: "", variantTitle: "", sku: "", vendor: "", quantity: quantity, appliedDiscount: nil, name: "", properties: [], custom: false, price: ""))
-                
-        let cartDict = modifiedCart.toUpdateRequestDictionary()
+            
+        guard let cartDict = modifiedCart.toDictionary() else { return }
+        let cartBody = ["draft_order": cartDict]
         
-        networkService.makeRequest(endPoint: "/draft_orders/\(modifiedCart.id).json", method: .put, parameters: cartDict) { (result: Result<DraftOrderResponse, APIError>) in
+        networkService.makeRequest(endPoint: "/draft_orders/\(modifiedCart.id).json", method: .put, parameters: cartBody) { (result: Result<DraftOrderResponse, APIError>) in
                 
             switch result {
             case .success:
@@ -93,29 +94,10 @@ final class ProductInfoViewModel{
             switch result {
             case .success(let response):
                 CurrentUser.user!.cartID = String(response.draftOrder.id)
-                self.updateCustomer(withId: CurrentUser.user!.id)
+                updateCustomer(willCreateDraft: true)
                 print("Created a draft order with one item successfully!")
             case .failure(let error):
                 print("Failed to creat a draft order with one item: \(error)")
-            }
-            
-        }
-        
-    }
-    
-    func updateCustomer(withId id: Int) {
-        
-        guard let customerDict = CurrentUser.user?.toDictionary() else { return }
-        
-        let customerResponse = ["customer": customerDict]
-        
-        networkService.makeRequest(endPoint: "/customers/\(id).json", method: .put, parameters: customerResponse) { (result: Result<CustomerResponse, APIError>) in
-            
-            switch result {
-            case .success:
-                print("Customer updated successfully!")
-            case .failure(let error):
-                print("Failed to update customer: \(error)")
             }
             
         }

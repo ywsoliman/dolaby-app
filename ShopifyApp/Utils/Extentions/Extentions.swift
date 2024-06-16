@@ -31,22 +31,15 @@ extension UISearchBar {
     }
 }
 
-extension DraftOrder {
-    
-    func toUpdateRequestDictionary() -> [String: Any] {
-        let lineItemsArray = self.lineItems.map { lineItem -> [String: Any] in
-            return [
-                "variant_id": lineItem.variantID,
-                "quantity": lineItem.quantity
-            ]
+extension Encodable {
+    func toDictionary() -> [String: Any]? {
+        do {
+            let data = try JSONEncoder().encode(self)
+            let jsonObject = try JSONSerialization.jsonObject(with: data)
+            return jsonObject as? [String: Any]
+        } catch {
+            print("Error converting object to dictionary: \(error)")
+            return nil
         }
-        
-        let draftOrderDictionary: [String: Any] = [
-            "id": self.id,
-            "line_items": lineItemsArray
-        ]
-        
-        return ["draft_order": draftOrderDictionary]
     }
-    
 }

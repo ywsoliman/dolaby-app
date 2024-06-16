@@ -61,3 +61,27 @@ struct CustomerAddress: Codable {
 struct CustomerResponse:Codable{
     let customer:Customer
 }
+
+func updateCustomer(willCreateDraft: Bool) {
+    
+    guard let customer = CurrentUser.user else { return }
+    let cartId: Any = willCreateDraft ? customer.cartID as Any : NSNull()
+    let customerDict: [String: Any] = ["customer":
+        [
+            "id": customer.id,
+            "note": cartId
+        ]
+    ]
+    
+    NetworkService.shared.makeRequest(endPoint: "/customers/\(customer.id).json", method: .put, parameters: customerDict) { (result: Result<CustomerResponse, APIError>) in
+        
+        switch result {
+        case .success:
+            print("Customer updated successfully!")
+        case .failure(let error):
+            print("Failed to update customer: \(error)")
+        }
+        
+    }
+    
+}
