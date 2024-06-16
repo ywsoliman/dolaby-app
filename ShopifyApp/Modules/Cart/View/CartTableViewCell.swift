@@ -8,6 +8,11 @@
 import UIKit
 import Kingfisher
 
+protocol CartTableViewCellDelegate {
+    func cartCellIncrementBtn(_ cell: CartTableViewCell)
+    func cartCellDecrementBtn(_ cell: CartTableViewCell)
+}
+
 class CartTableViewCell: UITableViewCell {
     
     static let identifier = "CartTableViewCell"
@@ -15,12 +20,18 @@ class CartTableViewCell: UITableViewCell {
     static func nib() -> UINib {
         UINib(nibName: "CartTableViewCell", bundle: nil)
     }
-    @IBOutlet var quantityBtns: [UIButton]!
+    
+    var delegate: CartTableViewCellDelegate?
+    
+    var itemQuantity: Int!
+    
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var decrementBtn: UIButton!
+    @IBOutlet weak var incrementBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,24 +44,26 @@ class CartTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     @IBAction func incrementBtn(_ sender: UIButton) {
-        guard let quantity = Int(quantityLabel.text!) else { return }
-        quantityLabel.text = String(quantity + 1)
+        delegate?.cartCellIncrementBtn(self)
     }
     
     @IBAction func decrementBtn(_ sender: UIButton) {
-        guard let quantity = Int(quantityLabel.text!) else { return }
-        if quantity > 1 {
-            quantityLabel.text = String(quantity - 1)
-        }
+        delegate?.cartCellDecrementBtn(self)
+    }
+    
+    func updateButtonState(maxQuantity: Int) {
+        incrementBtn.isEnabled = itemQuantity < maxQuantity
+        decrementBtn.isEnabled = itemQuantity > 1
     }
     
     func configure(lineItem: LineItem) {
         
+        itemQuantity = lineItem.quantity
         let price = Double(lineItem.price)! * CurrencyManager.value
         priceLabel.text = "\(price.priceFormatter()) \(CurrencyManager.currency)"
         titleLabel.text = lineItem.title
         descLabel.text = lineItem.variantTitle
-        quantityLabel.text = String(lineItem.quantity)
+        quantityLabel.text = String(itemQuantity)
         
         NetworkService.shared.makeRequest(endPoint: "/products/\(lineItem.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in
             

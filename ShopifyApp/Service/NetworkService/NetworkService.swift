@@ -28,24 +28,29 @@ struct NetworkService: NetworkServiceProtocol {
         headers: HTTPHeaders = ["X-Shopify-Access-Token": APIKey],
         completion: @escaping (Result<T, APIError>) -> Void
     ) {
-        
+
         let urlWithEndPoint = BASE_URL + endPoint
         guard let url = URL(string: urlWithEndPoint) else {
             completion(.failure(.invalidURL))
             return
         }
-        
-        AF.request(url, method: method, parameters: parameters, headers: headers)
+
+        var encoding: ParameterEncoding = URLEncoding.default
+        if method == .post || method == .put {
+            encoding = JSONEncoding.default
+        }
+
+        AF.request(url, method: method, parameters: parameters, encoding: encoding, headers: headers)
             .validate()
             .responseData { response in
-                
+
                 switch response.result {
                 case .success(let data):
-                    
+
                     do {
                         #if DEBUG
                         if let jsonString = String(data: data, encoding: .utf8) {
-                                                    print("Returned JSON: \(jsonString)")
+                            print("Returned JSON: \(jsonString)")
                         }
                         #endif
                         let decodedResponse = try JSONDecoder().decode(T.self, from: data)
@@ -55,10 +60,10 @@ struct NetworkService: NetworkServiceProtocol {
                     }
                 case .failure(let error):
                     completion(.failure(.requestFailed(error)))
-                    
+
                 }
             }
-        
+
     }
     
     func getCart(completion: @escaping (Result<DraftOrderResponse, APIError>) -> Void) {

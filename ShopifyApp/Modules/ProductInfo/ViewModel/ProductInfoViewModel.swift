@@ -40,7 +40,7 @@ final class ProductInfoViewModel{
 
     }
     
-    private func addProductToCart(cartId: Int, productId: Int, quantity: Int) {
+    private func addProductToCart(cartId: String, productId: Int, quantity: Int) {
         networkService.getCart { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             switch result {
             case .success(let response):
@@ -52,14 +52,11 @@ final class ProductInfoViewModel{
     }
     
     private func updateCart(cart: DraftOrder, id: Int, quantity: Int) {
-     
-        var modifiedCart = cart
-        modifiedCart.lineItems.append(LineItem(id: 0, variantID: id, productID: 0, title: "", variantTitle: "", sku: "", vendor: "", quantity: quantity, appliedDiscount: nil, name: "", properties: [], custom: false, price: ""))
         
-        let cartDict = modifiedCart.toUpdateRequestDictionary()
+        var updatedCart = updateCartLineItems(cart, id: id, quantity: quantity)
         
-        networkService.makeRequest(endPoint: "/draft_orders/\(modifiedCart.id).json", method: .put, parameters: cartDict) { (result: Result<DraftOrderResponse, APIError>) in
-                
+        networkService.makeRequest(endPoint: "/draft_orders/\(cart.id).json", method: .put, parameters: updatedCart) { (result: Result<DraftOrderResponse, APIError>) in
+            
             switch result {
             case .success:
                 print("Added product to cart successfully")
@@ -67,9 +64,34 @@ final class ProductInfoViewModel{
                 print("Failed to add product to cart: \(error)")
             }
             
+            
         }
+    }
+    
+
+    func updateCartLineItems(_ cart: DraftOrder, id: Int, quantity: Int) -> [String: Any] {
+        
+        var lineItemsArray = cart.lineItems.map { lineItem -> [String: Any] in
+            return [
+                "variant_id": lineItem.variantID,
+                "quantity": lineItem.quantity
+            ]
+        }
+            
+        lineItemsArray.append([
+            "variant_id": id,
+            "quantity": quantity
+        ])
+        
+        let draftOrderDictionary: [String: Any] = [
+            "id": cart.id,
+            "line_items": lineItemsArray
+        ]
+        
+        return ["draft_order": draftOrderDictionary]
         
     }
+    
     
     private func createCartWithProduct(id: Int, quantity: Int) {
         print("User ID: \(CurrentUser.user!.id)")
@@ -92,7 +114,8 @@ final class ProductInfoViewModel{
             
             switch result {
             case .success(let response):
-                CurrentUser.user!.cartID = response.draftOrder.id
+                CurrentUser.user!.cartID = String(response.draftOrder.id)
+                updateCustomer(willCreateDraft: true)
                 print("Created a draft order with one item successfully!")
             case .failure(let error):
                 print("Failed to creat a draft order with one item: \(error)")
