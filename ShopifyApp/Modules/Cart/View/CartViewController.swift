@@ -35,7 +35,10 @@ class CartViewController: UIViewController {
     }
     
     func setTotalPrice() {
-        totalPrice = cartViewModel.cart?.lineItems.reduce(0.0) { (result, item) -> Double in
+        
+        guard let cart = cartViewModel.cart else { return }
+        
+        totalPrice = cart.lineItems.reduce(0.0) { (result, item) -> Double in
             return result + (Double(item.price)! * Double(item.quantity))
         }
         totalPrice *= CurrencyManager.value
