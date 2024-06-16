@@ -44,6 +44,15 @@ extension OrdersViewController:UITableViewDataSource{
         let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
         cell.orderPrice.text=ordersViewModel?.getOrders()[indexPath.row].currentTotalPrice
         cell.orderDate.text=ordersViewModel?.getOrders()[indexPath.row].createdAt
+//        cell.layer.cornerRadius=15
+//        cell.layer.borderWidth=0.5
+//        cell.layer.masksToBounds=true
+//        cell.layer.borderColor=UIColor.gray.cgColor
+        cell.layer.shadowRadius=5
+        cell.layer.masksToBounds=false
+        cell.layer.shadowColor=UIColor.black.cgColor
+        cell.layer.shadowOffset=CGSize(width: 1, height: 1)
+        cell.layer.shadowOpacity = 0.3
         return cell
     }
     

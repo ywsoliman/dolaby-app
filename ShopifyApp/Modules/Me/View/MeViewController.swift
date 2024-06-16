@@ -29,6 +29,11 @@ class MeViewController: UIViewController {
         view.addSubview(indicator)
         indicator.center = self.view.center
         indicator.startAnimating()
+        ordersTable.layer.shadowRadius=5
+        ordersTable.layer.masksToBounds=false
+        ordersTable.layer.shadowColor=UIColor.gray.cgColor
+        ordersTable.layer.shadowOffset=CGSize(width: 0, height: 0)
+        ordersTable.layer.shadowOpacity = 0.3
     }
 
     override func viewWillAppear(_ animated: Bool) {
