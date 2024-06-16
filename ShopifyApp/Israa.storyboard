@@ -359,7 +359,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="hDV-CE-Asz">
-                                <rect key="frame" x="6" y="165" width="381" height="653"/>
+                                <rect key="frame" x="6" y="168" width="381" height="650"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="gc6-B7-RJS">
                                     <size key="itemSize" width="128" height="128"/>
@@ -379,7 +379,7 @@
                                 </cells>
                             </collectionView>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="6tx-8J-Yef">
-                                <rect key="frame" x="103" y="127" width="286" height="31"/>
+                                <rect key="frame" x="103" y="130" width="286" height="31"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRaduis">
@@ -391,35 +391,48 @@
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="300 LE" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ILd-GC-Q7W">
-                                <rect key="frame" x="8" y="127" width="65" height="30"/>
+                                <rect key="frame" x="8" y="130" width="65" height="30"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Search..." translatesAutoresizingMaskIntoConstraints="NO" id="NdV-Wt-JBm">
-                                <rect key="frame" x="0.0" y="63" width="393" height="56"/>
+                                <rect key="frame" x="0.0" y="63" width="339" height="59"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="8TL-5O-eC4" id="QD1-GA-hEt"/>
                                 </connections>
                             </searchBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tSy-TZ-eoN">
+                                <rect key="frame" x="339" y="75" width="50" height="35"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="93Q-TZ-BD5"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="line.3.horizontal.decrease.circle.fill" catalog="system">
+                                    <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="g9K-7C-Xr4"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="tSy-TZ-eoN" firstAttribute="top" secondItem="g9K-7C-Xr4" secondAttribute="top" constant="16" id="0G2-FY-oLZ"/>
                             <constraint firstItem="NdV-Wt-JBm" firstAttribute="leading" secondItem="g9K-7C-Xr4" secondAttribute="leading" id="0tz-8D-cAQ"/>
                             <constraint firstItem="g9K-7C-Xr4" firstAttribute="trailing" secondItem="6tx-8J-Yef" secondAttribute="trailing" constant="6" id="1LO-EX-ebK"/>
                             <constraint firstItem="6tx-8J-Yef" firstAttribute="leading" secondItem="ILd-GC-Q7W" secondAttribute="trailing" constant="32" id="2Yi-Zl-Wte"/>
                             <constraint firstItem="g9K-7C-Xr4" firstAttribute="trailing" secondItem="hDV-CE-Asz" secondAttribute="trailing" constant="6" id="2ac-I7-tYa"/>
                             <constraint firstItem="6tx-8J-Yef" firstAttribute="top" secondItem="ILd-GC-Q7W" secondAttribute="top" id="ECO-Qy-SyC"/>
-                            <constraint firstItem="NdV-Wt-JBm" firstAttribute="trailing" secondItem="g9K-7C-Xr4" secondAttribute="trailing" id="FGb-yx-XiX"/>
+                            <constraint firstItem="g9K-7C-Xr4" firstAttribute="trailing" secondItem="tSy-TZ-eoN" secondAttribute="trailing" constant="4" id="GDM-Y2-hmg"/>
                             <constraint firstItem="NdV-Wt-JBm" firstAttribute="top" secondItem="g9K-7C-Xr4" secondAttribute="top" constant="4" id="HqP-Sl-7hA"/>
                             <constraint firstItem="hDV-CE-Asz" firstAttribute="leading" secondItem="g9K-7C-Xr4" secondAttribute="leading" constant="6" id="LOx-uE-jbM"/>
                             <constraint firstItem="6tx-8J-Yef" firstAttribute="bottom" secondItem="ILd-GC-Q7W" secondAttribute="bottom" id="Tz0-K1-wQi"/>
+                            <constraint firstItem="tSy-TZ-eoN" firstAttribute="leading" secondItem="NdV-Wt-JBm" secondAttribute="trailing" id="Vws-mS-W9G"/>
                             <constraint firstItem="g9K-7C-Xr4" firstAttribute="bottom" secondItem="hDV-CE-Asz" secondAttribute="bottom" id="aDw-rH-kDD"/>
                             <constraint firstItem="ILd-GC-Q7W" firstAttribute="top" secondItem="NdV-Wt-JBm" secondAttribute="bottom" constant="8" id="ipK-Tu-oB2"/>
                             <constraint firstItem="hDV-CE-Asz" firstAttribute="top" secondItem="6tx-8J-Yef" secondAttribute="bottom" constant="8" id="nJc-FR-oBr"/>
                             <constraint firstItem="ILd-GC-Q7W" firstAttribute="leading" secondItem="NdV-Wt-JBm" secondAttribute="leading" constant="8" id="t1V-yb-yap"/>
+                            <constraint firstItem="tSy-TZ-eoN" firstAttribute="centerY" secondItem="NdV-Wt-JBm" secondAttribute="centerY" id="yOo-pj-Cf1"/>
                         </constraints>
                     </view>
                     <connections>
@@ -430,7 +443,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ab7-Rf-KLG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4514" y="1554"/>
+            <point key="canvasLocation" x="4513.740458015267" y="1553.5211267605634"/>
         </scene>
         <!--Orders View Controller-->
         <scene sceneID="W9G-yp-P4V">
@@ -701,13 +714,13 @@
         <image name="square.grid.2x2.fill" catalog="system" width="128" height="114"/>
         <image name="tshirt.fill" catalog="system" width="128" height="98"/>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray5Color">
-            <color red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
