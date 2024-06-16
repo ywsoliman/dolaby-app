@@ -9,13 +9,36 @@ import UIKit
 
 class MeViewController: UIViewController {
 
+    @IBOutlet weak var ordersTable: UITableView!
+    var ordersViewModel: OrdersViewModelProtocol?
+    let indicator = UIActivityIndicatorView(style: .large)
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        let cellNib=UINib(nibName: "OrdersTableViewCell", bundle: nil)
+        ordersTable.dataSource=self
+        ordersTable.register(cellNib, forCellReuseIdentifier: "ordersCell")
+        indicator.startAnimating()
+        ordersViewModel = OrdersViewModel(service: NetworkService.shared)
+        ordersViewModel?.fetchOrders()
+        ordersViewModel?.bindOrdersToViewController={[weak self] in
+            DispatchQueue.main.async {
+                self?.indicator.stopAnimating()
+                self?.ordersTable.reloadData()
+            }
+        }
+        view.addSubview(indicator)
+        indicator.center = self.view.center
+        indicator.startAnimating()
+        ordersTable.layer.shadowRadius=5
+        ordersTable.layer.masksToBounds=false
+        ordersTable.layer.shadowColor=UIColor.gray.cgColor
+        ordersTable.layer.shadowOffset=CGSize(width: 0, height: 0)
+        ordersTable.layer.shadowOpacity = 0.3
     }
 
-    
+    override func viewWillAppear(_ animated: Bool) {
+        ordersTable.reloadData()
+    }
     @IBAction func onLogout(_ sender: Any) {
        _ = LocalDataSource.shared.deleteFromKeychain()
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
@@ -38,4 +61,18 @@ class MeViewController: UIViewController {
         }
         
     }
+}
+extension MeViewController:UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
+        cell.orderPrice.text=ordersViewModel?.getOrders().first?.currentTotalPrice
+        cell.orderDate.text=ordersViewModel?.getOrders().first?.createdAt
+        return cell
+    }
+    
+    
 }
