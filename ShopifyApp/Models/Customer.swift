@@ -15,7 +15,7 @@ struct Customer: Codable {
     let ordersCount: Int
     let state, totalSpent: String
     let lastOrderID: Int?
-    var cartID: Int?
+    var cartID: String?
     let verifiedEmail: Bool
     let multipassIdentifier: String?
     let taxExempt: Bool
