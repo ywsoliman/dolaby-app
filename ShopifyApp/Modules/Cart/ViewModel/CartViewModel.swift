@@ -16,6 +16,7 @@ class CartViewModel {
             bindCartToViewController()
         }
     }
+    var productsVariants: [Variant] = []
     
     init(service: NetworkService) {
         self.service = service
@@ -27,10 +28,34 @@ class CartViewModel {
             switch result {
             case .success(let response):
                 self.cart = response.draftOrder
+                self.getProductVariants()
             case .failure(let error):
                 print("Getting Cart Error: \(error)")
             }
         }
+    }
+    
+    func getProductVariants() {
+        
+        for item in cart!.lineItems {
+            fetchProductVariant(withId: item.variantID)
+        }
+        print("Products Variants: \(productsVariants)")
+    }
+    
+    func fetchProductVariant(withId id: Int) {
+        
+        service.makeRequest(endPoint: "/variants/\(id).json", method: .get) { (result: Result<VariantResponse, APIError>) in
+            
+            switch result {
+            case .success(let response):
+                self.productsVariants.append(response.variant)
+            case .failure(let error):
+                print("Error in fetching product variant: \(error)")
+            }
+            
+        }
+        
     }
     
     func deleteCart() {
@@ -41,8 +66,9 @@ class CartViewModel {
             
             switch result {
             case .success:
-                CurrentUser.user!.cartID = nil
                 self.cart = nil
+                CurrentUser.user!.cartID = nil
+                updateCustomer(willCreateDraft: false)
             case .failure(let error):
                 print("Error DraftOrder: \(error)")
             }
@@ -59,11 +85,10 @@ class CartViewModel {
             cart.lineItems.remove(at: index)
         }
         
-        let cartParams = createUpdateDraftOrderRequestDictionary(from: cart)
+        guard let cartDict = cart.toDictionary() else { return }
+        let cartBody = ["draft_order": cartDict]
         
-        print("Cart Params: \(cartParams)")
-
-        service.makeRequest(endPoint: "/draft_orders/\(cart.id).json", method: .put, parameters: cartParams) { (result: Result<DraftOrderResponse, APIError>) in
+        service.makeRequest(endPoint: "/draft_orders/\(cart.id).json", method: .put, parameters: cartBody) { (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
             case .success(let response):
@@ -77,21 +102,4 @@ class CartViewModel {
         }
         
     }
-    
-    func createUpdateDraftOrderRequestDictionary(from draftOrder: DraftOrder) -> [String: Any] {
-        let lineItemsArray = draftOrder.lineItems.map { lineItem -> [String: Any] in
-            return [
-                "variant_id": lineItem.variantID,
-                "quantity": lineItem.quantity
-            ]
-        }
-        
-        let draftOrderDictionary: [String: Any] = [
-            "id": draftOrder.id,
-            "line_items": lineItemsArray
-        ]
-        
-        return ["draft_order": draftOrderDictionary]
-    }
-    
 }

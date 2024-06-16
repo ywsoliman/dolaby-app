@@ -83,6 +83,10 @@ struct Option: Codable {
     }
 }
 
+struct VariantResponse: Codable {
+    let variant: Variant
+}
+
 // MARK: - Variant
 struct Variant: Codable {
     let id, productID: Int
