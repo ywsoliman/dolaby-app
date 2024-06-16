@@ -206,8 +206,8 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.identifier, for: indexPath) as! CartTableViewCell
         
-        cell.quantityBtns[0].isHidden = true
-        cell.quantityBtns[1].isHidden = true
+        cell.incrementBtn.isHidden = true
+        cell.decrementBtn.isHidden = true
         cell.configure(lineItem: checkoutViewModel.draftOrder.lineItems[indexPath.row])
         
         return cell

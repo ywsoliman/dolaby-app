@@ -102,4 +102,24 @@ class CartViewModel {
         }
         
     }
+    
+    func updateCart() {
+        
+        guard let cart = cart,
+              let cartDict = cart.toDictionary() else { return }
+        
+        let cartBody = ["draft_order": cartDict]
+        
+        service.makeRequest(endPoint: "/draft_orders/\(cart.id).json", method: .put, parameters: cartBody) { (result: Result<DraftOrderResponse, APIError>) in
+            
+            switch result {
+            case .success:
+                print("Updated cart succesufully")
+            case .failure(let error):
+                print("Updating draft error: \(error)")
+            }
+            
+        }
+        
+    }
 }

@@ -58,7 +58,7 @@ struct AppliedDiscount: Codable {
 struct LineItem: Codable {
     let id, variantID, productID: Int
     let title, variantTitle, sku, vendor: String
-    let quantity: Int
+    var quantity: Int
     let appliedDiscount: AppliedDiscount?
     let name: String
     let price: String
