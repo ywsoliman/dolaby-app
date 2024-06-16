@@ -14,13 +14,26 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var categoryImage: UIImageView!
     @IBOutlet weak var categoryName: UILabel!
+    var cellIndex:Int!
+    var delegate:FavItemDelegate?
+    private var currentFavImageName: String?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-    var cellIndex:Int!
-    var delegate:FavItemDelegate?
+
+
     @IBAction func onFavBtnPressed(_ sender: Any) {
-        print(cellIndex)
-        delegate?.didPressFavoriteButton(itemIndex: cellIndex)
+        !isCurrentItemFav() ? delegate?.saveFavItem(itemIndex: cellIndex) : delegate?.deleteFavItem(itemIndex: cellIndex)
+        updateFavBtnImage(isFav: !isCurrentItemFav())
     }
+    func updateFavBtnImage(isFav:Bool){
+        let imageName = isFav ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        favBtn.setImage(image, for: .normal)
+        currentFavImageName = imageName
+    }
+    func isCurrentItemFav() -> Bool {
+           return  currentFavImageName == "heart.fill"
+       }
 }

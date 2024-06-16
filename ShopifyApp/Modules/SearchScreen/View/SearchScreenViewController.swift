@@ -25,6 +25,7 @@ class SearchScreenViewController: UIViewController {
         let cellNib=UINib(nibName: "CategoriesCollectionViewCell", bundle: nil)
         collectionView.register(cellNib, forCellWithReuseIdentifier: "categoriesCell")
         indicator.startAnimating()
+        favViewModel.fetchFavouriteItems()
         viewModel.fetchProducts()
         viewModel.bindProductsToViewController={[weak self] in
             DispatchQueue.main.async {
@@ -45,10 +46,15 @@ class SearchScreenViewController: UIViewController {
                 tapGesture.cancelsTouchesInView = false
                 view.addGestureRecognizer(tapGesture)
     }
-    @objc private func dismissKeyboard() {
+    
+@objc private func dismissKeyboard() {
             view.endEditing(true)
-        }
-
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        favViewModel.updateFavItems()
+        collectionView.reloadData()
+        print("View Will appear and reload")
+    }
 }
 extension SearchScreenViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -64,7 +70,7 @@ extension SearchScreenViewController:UICollectionViewDataSource , UICollectionVi
              return
          }
         productDetailsViewController.productID = viewModel.filteredProducts[indexPath.item].id
-         navigationController?.pushViewController(productDetailsViewController, animated: true)
+        navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let isEmpty =  viewModel.filteredProducts.count == 0
@@ -82,11 +88,12 @@ extension SearchScreenViewController:UICollectionViewDataSource , UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
+        cell.delegate = self
+        cell.cellIndex = indexPath.item
+        cell.updateFavBtnImage(isFav: favViewModel.isFavoriteItem(withId: viewModel.filteredProducts[indexPath.item].id))
         let titleComponents = viewModel.filteredProducts[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents.last ?? "")
         cell.categoryName.text = categoryName
-        cell.delegate = self
-        cell.cellIndex = indexPath.item
         cell.categoryPrice.text="\( (viewModel.filteredProducts[indexPath.item].variants[0].price) ) LE"
         cell.clipsToBounds=true
         cell.layer.cornerRadius=20
@@ -114,8 +121,11 @@ extension SearchScreenViewController:UICollectionViewDelegateFlowLayout{
    
 }
 extension SearchScreenViewController:FavItemDelegate{
-    func didPressFavoriteButton(itemIndex: Int) {
-        print(viewModel.filteredProducts[itemIndex].title)
+    func deleteFavItem(itemIndex: Int) {
+        favViewModel.deleteFavouriteItem(itemId: viewModel.filteredProducts[itemIndex].id)
+    }
+    
+    func saveFavItem(itemIndex: Int) {
         favViewModel.addToFav(favItem: FavoriteItem(id: viewModel.filteredProducts[itemIndex].id, itemName: viewModel.filteredProducts[itemIndex].title, imageURL: viewModel.filteredProducts[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
     }
     
