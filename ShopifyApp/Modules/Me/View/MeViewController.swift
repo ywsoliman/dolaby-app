@@ -31,7 +31,9 @@ class MeViewController: UIViewController {
         indicator.startAnimating()
     }
 
-    
+    override func viewWillAppear(_ animated: Bool) {
+        ordersTable.reloadData()
+    }
     @IBAction func onLogout(_ sender: Any) {
        _ = LocalDataSource.shared.deleteFromKeychain()
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
