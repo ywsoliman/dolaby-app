@@ -37,19 +37,28 @@ class CartViewModel {
     
     func getProductVariants() {
         
+        let dispatchGroup = DispatchGroup()
         for item in cart!.lineItems {
-            fetchProductVariant(withId: item.variantID)
+            dispatchGroup.enter()
+            fetchProductVariant(withId: item.variantID) {
+                dispatchGroup.leave()
+            }
         }
-        print("Products Variants: \(productsVariants)")
+        
+        dispatchGroup.notify(queue: .main) {
+            self.bindCartToViewController()
+        }
+        
     }
     
-    func fetchProductVariant(withId id: Int) {
+    func fetchProductVariant(withId id: Int, completion: @escaping () -> ()) {
         
         service.makeRequest(endPoint: "/variants/\(id).json", method: .get) { (result: Result<VariantResponse, APIError>) in
             
             switch result {
             case .success(let response):
                 self.productsVariants.append(response.variant)
+                completion()
             case .failure(let error):
                 print("Error in fetching product variant: \(error)")
             }

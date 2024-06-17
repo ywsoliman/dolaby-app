@@ -28,8 +28,8 @@ class CartViewController: UIViewController {
         
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
-            self?.setTotalPrice()
             self?.tableView.reloadData()
+            self?.setTotalPrice()
         }
         
     }
