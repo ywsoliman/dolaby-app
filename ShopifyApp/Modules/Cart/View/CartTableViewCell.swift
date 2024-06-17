@@ -60,7 +60,7 @@ class CartTableViewCell: UITableViewCell {
         
         itemQuantity = lineItem.quantity
         let price = Double(lineItem.price)! * CurrencyManager.value
-        priceLabel.text = "\(price.priceFormatter()) \(CurrencyManager.currency)"
+        priceLabel.text = price.priceFormatter()
         titleLabel.text = lineItem.title
         descLabel.text = lineItem.variantTitle
         quantityLabel.text = String(itemQuantity)
