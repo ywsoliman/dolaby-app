@@ -128,12 +128,13 @@ final class ProductInfoViewModel{
             ]
         ]
         
-        networkService.makeRequest(endPoint: "/draft_orders.json", method: .post, parameters: draftOrder) { (result: Result<DraftOrderResponse, APIError>) in
+        networkService.makeRequest(endPoint: "/draft_orders.json", method: .post, parameters: draftOrder) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
             case .success(let response):
                 CurrentUser.user!.cartID = String(response.draftOrder.id)
                 updateCustomer()
+                self?.bindAlertToViewController(false)
                 print("Created a draft order with one item successfully!")
             case .failure(let error):
                 print("Failed to creat a draft order with one item: \(error)")
