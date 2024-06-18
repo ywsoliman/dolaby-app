@@ -42,7 +42,7 @@ extension OrdersViewController:UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
-        cell.orderPrice.text=ordersViewModel?.getOrders()[indexPath.row].currentTotalPrice
+        cell.orderPrice.text=Double((ordersViewModel?.getOrders()[indexPath.row].currentTotalPrice) ?? "0.0")?.priceFormatter()
         if let createdAtString = ordersViewModel?.getOrders()[indexPath.row].createdAt {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

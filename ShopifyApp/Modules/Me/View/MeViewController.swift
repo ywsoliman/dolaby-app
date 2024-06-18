@@ -33,10 +33,12 @@ class MeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         ordersViewModel?.fetchOrders()
         indicator.startAnimating()
+        ordersTable.isHidden=true
         ordersViewModel?.bindOrdersToViewController={[weak self] in
             DispatchQueue.main.async {
                 self?.indicator.stopAnimating()
                 self?.ordersTable.reloadData()
+                self?.ordersTable.isHidden=false
             }
         }
         view.addSubview(indicator)
@@ -68,12 +70,17 @@ class MeViewController: UIViewController {
 }
 extension MeViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        if ordersViewModel?.getOrdersCount()==0{
+          return 0
+        }else{
+            return 1
+        }
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
-        cell.orderPrice.text=ordersViewModel?.getOrders().first?.currentTotalPrice
+        cell.orderPrice.text = Double((ordersViewModel?.getOrders().first?.currentTotalPrice) ?? "0.0")?.priceFormatter()
         if let createdAtString = ordersViewModel?.getOrders().first?.createdAt {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
