@@ -6,11 +6,14 @@
 //
 
 import Foundation
-
+enum UserType{
+    case authenticated
+   case anonymous
+}
 class CurrentUser {
     
     static var user: Customer?
-    
+    static var type: UserType = UserType.anonymous
     private init() {}
     
 }

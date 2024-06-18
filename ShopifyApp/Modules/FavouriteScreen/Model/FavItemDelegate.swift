@@ -9,4 +9,5 @@ import Foundation
 protocol FavItemDelegate{
     func saveFavItem(itemIndex:Int)
     func deleteFavItem(itemIndex:Int)
+    func notAuthenticated()
 }

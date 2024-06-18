@@ -126,6 +126,16 @@ class LoginViewController: UIViewController {
             sender.configuration = config
         }
 
+    @IBAction func anonymousLogin(_ sender: Any) {
+        CurrentUser.type = UserType.anonymous
+        let storyboard2 = UIStoryboard(name: "Israa", bundle: nil)
+        let homeViewController =
+                storyboard2.instantiateViewController(identifier: "HomeViewController") as! UINavigationController
+        homeViewController.modalPresentationStyle = .fullScreen
+        homeViewController.modalTransitionStyle = .flipHorizontal
+        self.present(homeViewController, animated: true)
+        self.navigationController?.viewControllers = []
+    }
     /*
     // MARK: - Navigation
 

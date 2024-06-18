@@ -44,7 +44,7 @@ final class LoginViewModel{
 
     func saveUsersData() throws{
         _ = localDatabase.saveCustomerId(customerID: customerID!)
-        let data = try localDatabase.retrieveCustomerId()
+        _ = try localDatabase.retrieveCustomerId()
     }
     func getCustomer(){
         print("Customer id for alamorire = \(customerID!)")
@@ -57,6 +57,7 @@ final class LoginViewModel{
                 self.successful = true
                 self.isLoading = false
                 CurrentUser.user = customerResponse.customer
+                CurrentUser.type = UserType.authenticated
             case .failure(let error):
                 self.successful = false
                 self.isLoading = false

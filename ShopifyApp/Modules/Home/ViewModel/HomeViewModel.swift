@@ -47,7 +47,7 @@ class HomeViewModel:HomeViewModelProtocol{
         }
        
     }
-    
+
     func getCustomer(customerId:Int){
         print("Customer id for alamorire = \(customerId)")
         service.makeRequest(
@@ -57,6 +57,7 @@ class HomeViewModel:HomeViewModelProtocol{
             switch result {
             case .success(let customerResponse):
                 CurrentUser.user = customerResponse.customer
+                CurrentUser.type = UserType.authenticated
             case .failure(let error):
                 print("Error in getting the user data \(error.localizedDescription)")
             }
