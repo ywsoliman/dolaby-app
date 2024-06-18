@@ -119,6 +119,19 @@ extension BrandProductsViewController:UICollectionViewDelegateFlowLayout{
 }
 
 extension BrandProductsViewController:FavItemDelegate{
+    func notAuthenticated() {
+        showAlert(message: "You need to login first.") {
+            let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+            guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
+                        return
+                    }
+                loginVC.modalPresentationStyle = .fullScreen
+                loginVC.modalTransitionStyle = .flipHorizontal
+                self.present(loginVC, animated: true)
+                self.navigationController?.viewControllers = []
+                    }
+    }
+    
     func deleteFavItem(itemIndex: Int) {
         let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
         let id = brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].id
@@ -129,6 +142,16 @@ extension BrandProductsViewController:FavItemDelegate{
         let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
         favViewModel.addToFav(favItem: FavoriteItem(id: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].id ?? 0, itemName: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].title ?? " | ", imageURL: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
     }
+    func showAlert(message: String, okHandler: @escaping () -> Void) {
+            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                okHandler()
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+                present(alert, animated: true, completion: nil)
+        }
     
 }
 

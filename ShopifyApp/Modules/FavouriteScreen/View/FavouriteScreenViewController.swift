@@ -101,16 +101,50 @@ extension FavouriteScreenViewController:UICollectionViewDelegateFlowLayout{
 }
 
 extension FavouriteScreenViewController:FavItemDelegate{
+    func notAuthenticated() {
+        showAlert(message: "You need to login first.") {
+            let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+            guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
+                        return
+                    }
+                loginVC.modalPresentationStyle = .fullScreen
+                loginVC.modalTransitionStyle = .flipHorizontal
+                self.present(loginVC, animated: true)
+                self.navigationController?.viewControllers = []
+                    }
+    }
+    
     func deleteFavItem(itemIndex: Int) {
         print(" deletening Item index = \(itemIndex)")
-        viewModel.deleteFavouriteItem(itemId: viewModel.favouriteItems[itemIndex].id)
+        showAlert(message: "Are you sure you want to remove this item from your favorites?"){ [weak self] in
+            self?.viewModel.deleteFavouriteItem(itemId:  self?.viewModel.favouriteItems[itemIndex].id ?? 0)
+            self?.collectionView.reloadData()
+        }
     }
     
     func saveFavItem(itemIndex: Int) {
         print("deletening Item index 2 = \(itemIndex)")
-        viewModel.deleteFavouriteItem(itemId: viewModel.favouriteItems[itemIndex].id)
+        showAlert(message: "Are you sure you want to remove this item from your favorites?"){ [weak self] in
+            self?.viewModel.deleteFavouriteItem(itemId:  self?.viewModel.favouriteItems[itemIndex].id ?? 0)
+            self?.collectionView.reloadData()
+        }
+        
     }
     
 }
-    
+extension FavouriteScreenViewController{
+    func showAlert(message: String, okHandler: @escaping () -> Void) {
+            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                okHandler()
+            }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel){[weak self] _ in
+            self?.collectionView.reloadData()
+        }
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+                present(alert, animated: true, completion: nil)
+        }
+}
     

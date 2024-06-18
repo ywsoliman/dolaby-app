@@ -24,8 +24,7 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
 
 
     @IBAction func onFavBtnPressed(_ sender: Any) {
-        !isCurrentItemFav() ? delegate?.saveFavItem(itemIndex: cellIndex) : delegate?.deleteFavItem(itemIndex: cellIndex)
-        updateFavBtnImage(isFav: !isCurrentItemFav())
+        checkUserAndProceedForFavorites()
     }
     func updateFavBtnImage(isFav:Bool){
         let imageName = isFav ? "heart.fill" : "heart"
@@ -36,4 +35,17 @@ class CategoriesCollectionViewCell: UICollectionViewCell {
     func isCurrentItemFav() -> Bool {
            return  currentFavImageName == "heart.fill"
        }
+}
+extension CategoriesCollectionViewCell {
+    func checkUserAndProceedForFavorites() {
+        let isAuthenticated = CurrentUser.type == UserType.authenticated
+        if isAuthenticated {
+            !isCurrentItemFav() ? delegate?.saveFavItem(itemIndex: cellIndex) : delegate?.deleteFavItem(itemIndex: cellIndex)
+            updateFavBtnImage(isFav: !isCurrentItemFav())
+        } else {
+            print("Not authenticated")
+            delegate?.notAuthenticated()
+        }
+    }
+
 }

@@ -110,9 +110,37 @@ class ProductInfoViewController: UIViewController {
     }
     
     @IBAction func addToFavPressed(_ sender: Any) {
-        !isCurrentItemFav() ? favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")) : favViewModel.deleteFavouriteItem(itemId: product.id)
-        updateFavBtnImage(isFav:  !isCurrentItemFav())
+        isAuthenticatedUser()
     }
+    func isAuthenticatedUser(){
+        let authenticated = CurrentUser.type == UserType.authenticated
+        if authenticated{
+            !isCurrentItemFav() ? favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")) : favViewModel.deleteFavouriteItem(itemId: product.id)
+            updateFavBtnImage(isFav:  !isCurrentItemFav())
+        }else{
+            showAlert(message: "You need to login first.") {
+                let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+                guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
+                            return
+                        }
+                    loginVC.modalPresentationStyle = .fullScreen
+                    loginVC.modalTransitionStyle = .flipHorizontal
+                    self.present(loginVC, animated: true)
+                    self.navigationController?.viewControllers = []
+                        }
+        }
+    }
+    func showAlert(message: String, okHandler: @escaping () -> Void) {
+            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                okHandler()
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+                present(alert, animated: true, completion: nil)
+        }
     func updateFavBtnImage(isFav:Bool){
         print(isFav)
         let imageName = isFav ? "heart.fill" : "heart"
