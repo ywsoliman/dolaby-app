@@ -62,7 +62,7 @@ class CheckoutViewModel {
         
     }
 
-    func completeOrder(completion: @escaping () -> ()) {
+    func postOrder(completion: @escaping () -> ()) {
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
@@ -87,15 +87,26 @@ class CheckoutViewModel {
                        }
             ]
         ]
-        service.makeRequest(endPoint: "/orders.json", method: .post,parameters: parameters) { (result: Result<OrderResponse, APIError>) in
+        service.makeRequest(endPoint: "/orders.json", method: .post,parameters: parameters) {[weak self] (result: Result<OrderResponse, APIError>) in
             switch result {
             case .success(_):
                 print("Order is posted Successfully!")
                 completion()
+                self?.deleteDraftOrder()
             case .failure(let error):
                 print("Error in posting an order: \(error)")
             }
         }
     }
-    
+    func deleteDraftOrder(){
+        service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id).json", method: .delete) {[weak self] (result: Result<DetleteDraftOrderResponse, APIError>) in
+            switch result {
+            case .success(_):
+                print("Draft order is deleted Successfully!")
+                self?.deleteDraftOrder()
+            case .failure(let error):
+                print("Error in deleting draft order: \(error)")
+            }
+        }
+    }
 }

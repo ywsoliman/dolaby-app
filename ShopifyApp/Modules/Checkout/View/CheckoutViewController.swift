@@ -49,7 +49,7 @@ class CheckoutViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
-            self.checkoutViewModel.completeOrder() { [weak self] in
+            self.checkoutViewModel.postOrder() { [weak self] in
                 self?.navigateToHome()
             }
         }
@@ -232,7 +232,7 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
 extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-        checkoutViewModel.completeOrder()  { [weak self] in
+        checkoutViewModel.postOrder()  { [weak self] in
             self?.navigateToHome()
         }
         controller.dismiss(animated: true)
