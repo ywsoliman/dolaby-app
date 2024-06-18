@@ -21,16 +21,6 @@ class MeViewController: UIViewController {
         ordersTable.register(cellNib, forCellReuseIdentifier: "ordersCell")
         indicator.startAnimating()
         ordersViewModel = OrdersViewModel(service: NetworkService.shared)
-        ordersViewModel?.fetchOrders()
-        ordersViewModel?.bindOrdersToViewController={[weak self] in
-            DispatchQueue.main.async {
-                self?.indicator.stopAnimating()
-                self?.ordersTable.reloadData()
-            }
-        }
-        view.addSubview(indicator)
-        indicator.center = self.view.center
-        indicator.startAnimating()
         ordersTable.layer.shadowRadius=5
         ordersTable.layer.masksToBounds=false
         ordersTable.layer.shadowColor=UIColor.gray.cgColor
@@ -40,7 +30,16 @@ class MeViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        ordersTable.reloadData()
+        ordersViewModel?.fetchOrders()
+        indicator.startAnimating()
+        ordersViewModel?.bindOrdersToViewController={[weak self] in
+            DispatchQueue.main.async {
+                self?.indicator.stopAnimating()
+                self?.ordersTable.reloadData()
+            }
+        }
+        view.addSubview(indicator)
+        indicator.center = self.view.center
     }
     @IBAction func onLogout(_ sender: Any) {
        _ = LocalDataSource.shared.deleteFromKeychain()
