@@ -70,7 +70,20 @@ extension MeViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
         cell.orderPrice.text=ordersViewModel?.getOrders().first?.currentTotalPrice
-        cell.orderDate.text=ordersViewModel?.getOrders().first?.createdAt
+        if let createdAtString = ordersViewModel?.getOrders().first?.createdAt {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            if let date = formatter.date(from: createdAtString) {
+                formatter.dateFormat = "yyyy-MM-dd' 'HH:mm"
+                let formattedDate = formatter.string(from: date)
+                cell.orderDate.text = formattedDate
+            } else {
+                cell.orderDate.text=ordersViewModel?.getOrders().first?.createdAt
+                print("Error: Unable to convert date from string")
+            }
+        } else {
+            print("Error: createdAt string is nil")
+        }
         return cell
     }
     
