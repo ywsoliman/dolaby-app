@@ -14,15 +14,17 @@ struct Customer: Codable {
     let firstName, lastName: String
     let ordersCount: Int
     let state, totalSpent: String
-    let lastOrderID, cart: Int?
+    let lastOrderID: Int?
+    var cartID: String?
     let verifiedEmail: Bool
     let multipassIdentifier: String?
     let taxExempt: Bool
     let tags: String
     let lastOrderName: String?
     let currency, phone: String
-    let completedOrders: [DraftOrder]
-    let defaultAddress: Address
+    let completedOrders: [DraftOrder]?
+    let defaultAddress: Address?
+    var addresses: [Address]?
 
     enum CodingKeys: String, CodingKey {
         case id, email
@@ -32,7 +34,7 @@ struct Customer: Codable {
         case state
         case totalSpent = "total_spent"
         case lastOrderID = "last_order_id"
-        case cart = "note"
+        case cartID = "note"
         case verifiedEmail = "verified_email"
         case multipassIdentifier = "multipass_identifier"
         case taxExempt = "tax_exempt"
@@ -41,6 +43,7 @@ struct Customer: Codable {
         case currency, phone
         case completedOrders = "tax_exemptions"
         case defaultAddress = "default_address"
+        case addresses
     }
 }
 
@@ -54,4 +57,31 @@ struct CustomerAddress: Codable {
     enum CodingKeys: String, CodingKey {
         case customerAddress = "customer_address"
     }
+}
+struct CustomerResponse:Codable{
+    let customer:Customer
+}
+
+func updateCustomer() {
+    
+    guard let customer = CurrentUser.user else { return }
+    let cartId: Any = customer.cartID ?? NSNull()
+    let customerDict: [String: Any] = ["customer":
+        [
+            "id": customer.id,
+            "note": cartId
+        ]
+    ]
+    
+    NetworkService.shared.makeRequest(endPoint: "/customers/\(customer.id).json", method: .put, parameters: customerDict) { (result: Result<CustomerResponse, APIError>) in
+        
+        switch result {
+        case .success:
+            print("Customer updated successfully!")
+        case .failure(let error):
+            print("Failed to update customer: \(error)")
+        }
+        
+    }
+    
 }

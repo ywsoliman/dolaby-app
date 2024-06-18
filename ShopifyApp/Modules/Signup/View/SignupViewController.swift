@@ -52,7 +52,7 @@ class SignupViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] isSuccessful in
                 if isSuccessful {
-                    self?.navigationController?.popViewController(animated: true)
+                    self?.showAlertWithAction()
                 }
             }
             .store(in: &cancellables)
@@ -97,8 +97,8 @@ class SignupViewController: UIViewController {
                     showAlert(message: "Passwords do not match.")
                     return
                 }
-         customer = CustomerData(id:nil, firstName:firstNameTextField.text ?? "",lastName: lastNameTextField.text ?? "" ,phone:phoneTextField.text ?? "",email: emailTextField.text ?? "", password:passwordTextField.text ?? ""  )
-        //viewModel.signup(customer: customer)
+         customer = CustomerData(id:nil,userId: "", firstName:firstNameTextField.text ?? "",lastName: lastNameTextField.text ?? "" ,phone:phoneTextField.text ?? "",email: emailTextField.text ?? "", password:passwordTextField.text ?? ""  )
+      //  viewModel.signup(customer: customer!)
         viewModel.createShopifyCustomer(customer: customer!)
     }
     
@@ -129,7 +129,14 @@ class SignupViewController: UIViewController {
            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
            present(alert, animated: true, completion: nil)
        }
-    
+    func showAlertWithAction() {
+          let alert = UIAlertController(title: "Verification", message: "We have sent you a verification email!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                  self?.navigationController?.popViewController(animated: true)
+          }
+          alert.addAction(okAction)
+        present(alert, animated: true, completion: nil)
+      }
     private func setupPasswordField(_ textField: UITextField) {
             textField.isSecureTextEntry = true
             let button = UIButton(type: .custom)

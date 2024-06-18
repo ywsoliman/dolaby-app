@@ -49,7 +49,7 @@ class CheckoutViewController: UIViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
-            self.checkoutViewModel.completeOrder() { [weak self] in
+            self.checkoutViewModel.postOrder() { [weak self] in
                 self?.navigateToHome()
             }
         }
@@ -156,7 +156,7 @@ class CheckoutViewController: UIViewController {
         let currency = CurrencyManager.currency
         let subtotalPrice = checkoutViewModel.subtotalPrice
         
-        subtotalLabel.text = "\(subtotalPrice.priceFormatter()) \(currency)"
+        subtotalLabel.text = subtotalPrice.priceFormatter()
         
         if let discount = order.appliedDiscount {
             
@@ -167,14 +167,14 @@ class CheckoutViewController: UIViewController {
                 type = currency
                 var totalPrice = subtotalPrice - Double(discount.value)!
                 if totalPrice < 0 { totalPrice = 0 }
-                totalLabel.text = "\(totalPrice.priceFormatter()) \(currency)"
+                totalLabel.text = totalPrice.priceFormatter()
                 
             } else {
                 
                 type = "%"
                 let percentage = Double(discount.value)! / 100
                 let totalPrice = subtotalPrice - (subtotalPrice * percentage)
-                totalLabel.text = "\(totalPrice.priceFormatter()) \(currency)"
+                totalLabel.text = totalPrice.priceFormatter()
                 
             }
             
@@ -206,8 +206,8 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.identifier, for: indexPath) as! CartTableViewCell
         
-        cell.quantityBtns[0].isHidden = true
-        cell.quantityBtns[1].isHidden = true
+        cell.incrementBtn.isHidden = true
+        cell.decrementBtn.isHidden = true
         cell.configure(lineItem: checkoutViewModel.draftOrder.lineItems[indexPath.row])
         
         return cell
@@ -232,7 +232,7 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
 extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-        checkoutViewModel.completeOrder()  { [weak self] in
+        checkoutViewModel.postOrder()  { [weak self] in
             self?.navigateToHome()
         }
         controller.dismiss(animated: true)

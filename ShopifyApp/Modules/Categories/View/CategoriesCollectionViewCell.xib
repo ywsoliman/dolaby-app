@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="268" height="251"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="shoes" translatesAutoresizingMaskIntoConstraints="NO" id="SSZ-EC-WGn">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="loadingPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="SSZ-EC-WGn">
                         <rect key="frame" x="0.0" y="0.0" width="268" height="204.33333333333334"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdz-at-T4R">
@@ -40,6 +40,9 @@
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="plain" image="heart" catalog="system"/>
+                        <connections>
+                            <action selector="onFavBtnPressed:" destination="gTV-IL-0wX" eventType="touchUpInside" id="BC5-xN-i0V"/>
+                        </connections>
                     </button>
                 </subviews>
             </view>
@@ -64,12 +67,13 @@
                 <outlet property="categoryImage" destination="SSZ-EC-WGn" id="YN5-rN-8MW"/>
                 <outlet property="categoryName" destination="C3r-k9-uOj" id="TH4-DK-cUZ"/>
                 <outlet property="categoryPrice" destination="jdz-at-T4R" id="e6N-7m-hXY"/>
+                <outlet property="favBtn" destination="IyW-Ci-bXv" id="daZ-la-cSS"/>
             </connections>
             <point key="canvasLocation" x="271.75572519083971" y="59.507042253521128"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="heart" catalog="system" width="32" height="32"/>
-        <image name="shoes" width="1024" height="683"/>
+        <image name="heart" catalog="system" width="128" height="107"/>
+        <image name="loadingPlaceholder" width="1024" height="1024"/>
     </resources>
 </document>

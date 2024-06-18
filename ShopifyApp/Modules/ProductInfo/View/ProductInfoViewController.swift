@@ -9,6 +9,7 @@ import UIKit
 
 class ProductInfoViewController: UIViewController {
     
+    @IBOutlet weak var addToFavBtn: UIButton!
     @IBOutlet weak var addToCartBtn: UIButton!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var productName: UILabel!
@@ -17,7 +18,7 @@ class ProductInfoViewController: UIViewController {
     
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var sizesSegment: UISegmentedControl!
-        
+    
     @IBOutlet weak var bodyViewContainer: UIView!
     
     @IBOutlet weak var productQuantity: UILabel!
@@ -30,70 +31,174 @@ class ProductInfoViewController: UIViewController {
     
     @IBOutlet weak var quantityControlBtn: UIStepper!
     @IBOutlet weak var pageControl: UIPageControl!
-    
+    var productID:Int!
+    var product:Product!
     var currentPageIndex = 0 {
         didSet{
             pageControl.currentPage = currentPageIndex
         }
     }
+    private var currentFavImageName: String?
     private let viewModel:ProductInfoViewModel = ProductInfoViewModel(networkService: NetworkService.shared)
+    private let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
+    private  var isFavItem:Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        addToCartBtn.isEnabled = false
+        addToFavBtn.isEnabled = false
+        quantityControlBtn.isEnabled = false
         collectionView.delegate = self
         collectionView.dataSource = self
         quantityControlBtn.minimumValue = 1
-       // viewModel.getProduct(productID: 9365476245804)
-      //  viewModel.getProduct(productID: 9365476278572)
-       // viewModel.getProduct(productID: 9365475983660)
-        viewModel.getProduct(productID: 9365474771244)
+        isFavItem = favViewModel.isFavoriteItem(withId: productID)
+        viewModel.getProduct(productID: productID)
         viewModel.bindToViewController = {
             [weak self] productInfo in
-//            self?.collectionView.reloadData()
-//            self?.pageControl.numberOfPages = productInfo.images.count
-           self?.updateViewWithProductInfo(productInfo)
+            self?.updateViewWithProductInfo(productInfo)
+        }
+        viewModel.bindAlertToViewController = { [weak self] doesExist in
+            let message: String
+            if doesExist {
+                message = "Item is already in cart."
+            } else {
+                message = "Added item to cart successfully!"
+            }
+            self?.productAlert(message: message)
         }
         sizesSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
         colorSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
-
-      applyCornerRadius()
+        
+        applyCornerRadius()
         // Do any additional setup after loading the view.
     }
-    private func applyCornerRadius() {
-           let path = UIBezierPath(roundedRect: bodyViewContainer.bounds,
-                                   byRoundingCorners: [.topLeft, .topRight],
-                                   cornerRadii: CGSize(width: 20, height: 20))
-           let mask = CAShapeLayer()
-           mask.path = path.cgPath
-           bodyViewContainer.layer.mask = mask
-       }
-    private func updateViewWithProductInfo(_ productInfo: Product) {
-            productName.text = productInfo.title
-            productBrand.text = productInfo.vendor
-            descriptionLabel.text = productInfo.bodyHTML
-       
-            sizesSegment.removeAllSegments()
-            colorSegment.removeAllSegments()
-            let sizes = productInfo.getSizeOptions()
-            let colors = productInfo.getColorOptions()
-            for (index, size) in sizes.enumerated() {
-                sizesSegment.insertSegment(withTitle: size, at: index, animated: false)
-            }
-            if !sizes.isEmpty {
-                sizesSegment.selectedSegmentIndex = 0
-            }
-            for (index, color) in colors.enumerated() {
-                colorSegment.insertSegment(withTitle: color, at: index, animated: false)
-            }
-            if !colors.isEmpty {
-                colorSegment.selectedSegmentIndex = 0
-            }
-            updateQuantityLabel()
-        priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
-            collectionView.reloadData()
-            pageControl.numberOfPages = productInfo.images.count
+    
+    private func productAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alert.dismiss(animated: true)
         }
+    }
+    
+    func addAddressAlert() {
+        let alert = UIAlertController(title: "No addresses found", message: "Please provide at least one address to add products to cart", preferredStyle: .alert)
+        let addAction = UIAlertAction(title: "Add", style: .default) {_ in
+            self.navigateToAddAddress()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+    
+    private func navigateToAddAddress() {
+        let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
+        guard let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController else {
+            return
+        }
+        navigationController?.pushViewController(destVC, animated: true)
+    }
+    
+    private func applyCornerRadius() {
+        let path = UIBezierPath(roundedRect: bodyViewContainer.bounds,
+                                byRoundingCorners: [.topLeft, .topRight],
+                                cornerRadii: CGSize(width: 20, height: 20))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        bodyViewContainer.layer.mask = mask
+    }
+    
+    @IBAction func addToFavPressed(_ sender: Any) {
+        isAuthenticatedUser()
+    }
+    func isAuthenticatedUser(){
+        let authenticated = CurrentUser.type == UserType.authenticated
+        if authenticated{
+            !isCurrentItemFav() ? favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")) : favViewModel.deleteFavouriteItem(itemId: product.id)
+            updateFavBtnImage(isFav:  !isCurrentItemFav())
+        }else{
+            showAlert(message: "You need to login first.") {
+                let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+                guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
+                            return
+                        }
+                    loginVC.modalPresentationStyle = .fullScreen
+                    loginVC.modalTransitionStyle = .flipHorizontal
+                    self.present(loginVC, animated: true)
+                    self.navigationController?.viewControllers = []
+                        }
+        }
+    }
+    func showAlert(message: String, okHandler: @escaping () -> Void) {
+            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+                okHandler()
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+                present(alert, animated: true, completion: nil)
+        }
+    func updateFavBtnImage(isFav:Bool){
+        print(isFav)
+        let imageName = isFav ? "heart.fill" : "heart"
+        let image = UIImage(systemName: imageName)
+        addToFavBtn.setImage(image, for: .normal)
+        currentFavImageName = imageName
+    }
+    func isCurrentItemFav() -> Bool {
+        return  currentFavImageName == "heart.fill"
+    }
+    private func updateViewWithProductInfo(_ productInfo: Product) {
+        
+        product = productInfo
+        addToCartBtn.isEnabled = true
+        addToFavBtn.isEnabled = true
+        quantityControlBtn.isEnabled = true
+        productName.text = productInfo.title
+        productBrand.text = productInfo.vendor
+        descriptionLabel.text = productInfo.bodyHTML
+        updateFavBtnImage(isFav: isFavItem)
+        sizesSegment.removeAllSegments()
+        colorSegment.removeAllSegments()
+        let sizes = productInfo.getSizeOptions()
+        let colors = productInfo.getColorOptions()
+        for (index, size) in sizes.enumerated() {
+            sizesSegment.insertSegment(withTitle: size, at: index, animated: false)
+        }
+        if !sizes.isEmpty {
+            sizesSegment.selectedSegmentIndex = 0
+        }
+        for (index, color) in colors.enumerated() {
+            colorSegment.insertSegment(withTitle: color, at: index, animated: false)
+        }
+        if !colors.isEmpty {
+            colorSegment.selectedSegmentIndex = 0
+        }
+        updateQuantityLabel()
+        priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        collectionView.reloadData()
+        pageControl.numberOfPages = productInfo.images.count
+        
+    }
     @IBAction func addToCartPressed(_ sender: Any) {
-       let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        
+        if CurrentUser.user?.addresses?.count == 0 {
+            addAddressAlert()
+            return
+        }
+        
+        let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        
+        print(Int(productQuantity.text ?? "1")!)
+        
+        viewModel.addVariantToCart(
+            id: variantId,
+            quantity: Int(productQuantity.text ?? "1")!
+        )
+        
         print("Variant id \(variantId)")
     }
     
@@ -103,25 +208,20 @@ class ProductInfoViewController: UIViewController {
     }
     @objc func segmentValueChanged(_ sender: UISegmentedControl) {
         updateQuantityLabel()
-     }
+    }
     func updateQuantityLabel(){
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        quantityControlBtn.maximumValue = Double(quantityInVentory + 1)
         if Int(quantityControlBtn.value) > quantityInVentory {
             quantityStatus.text = "No Enough Items"
+            addToCartBtn.isEnabled = false
+            print(quantityControlBtn.value)
         }else{
             quantityStatus.text = ""
+            addToCartBtn.isEnabled = true
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+    
 }
 extension ProductInfoViewController : UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

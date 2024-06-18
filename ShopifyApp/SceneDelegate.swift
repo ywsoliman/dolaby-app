@@ -29,6 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let window = UIWindow(windowScene: windowScene)
             if userAlreadyLoggedIn {
                 window.rootViewController = homeViewController
+                //window.rootViewController = onboardingViewController
             }else{
                 window.rootViewController = onboardingViewController
             }
@@ -71,8 +72,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func checkCoreDataForUserData() -> Bool {
         do{
-            _ = try CoreDataManager.shared.getCustomerData()
+            let data = try LocalDataSource.shared.retrieveCustomerId()
             print("Found data logged in before")
+            print("Found data logged in before\(data)")
            return true
         }catch{
             print("there is no data")

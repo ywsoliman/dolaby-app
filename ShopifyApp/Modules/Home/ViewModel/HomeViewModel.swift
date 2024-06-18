@@ -12,9 +12,9 @@ protocol HomeViewModelProtocol{
     var bindBrandsToViewController:()->Void { get set }
     func fetchBrands()->Void
     func getDiscountCodes(completion: @escaping () -> ())
+    func loadUser()
 }
 class HomeViewModel:HomeViewModelProtocol{
-    
     private let service: NetworkService
     private let currencyService: CurrencyServiceProtocol
 
@@ -26,21 +26,43 @@ class HomeViewModel:HomeViewModelProtocol{
         self.currencyService = currencyService
         getConversionRates()
     }
-    
+
     func fetchBrands(){
-//        let url = URL(string: "https://d4ac16c358057de2fb38bf18d04b7259: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@mad44-sv-ios3.myshopify.com/admin/api/2024-04/smart_collections.json")!
-//
-//        networkService.fetchData(url: url) { [weak self](result:Result<BrandsResponse,Error>) in
-//            switch result{
-//            case .failure(let error):
-//                print("Error: ",error.localizedDescription)
-//            case .success(let data):
-//                self?.brands=data.brands
-//                self?.bindBrandsToViewController()
-//            }
-//        }
+        service.makeRequest(endPoint: "/smart_collections.json", method: .get) {[weak self] (result: Result<BrandsResponse, APIError>) in
+            switch result {
+            case .success(let response):
+                self?.brands=response.brands
+                self?.bindBrandsToViewController()
+            case .failure(let error):
+                print("Error in retrieving brands: \(error)")
+            }
+        }
     }
-    
+    func loadUser() {
+        do{
+            let customerId = try LocalDataSource.shared.retrieveCustomerId()
+            getCustomer(customerId: customerId)
+        }catch{
+            print("Error \(error)")
+        }
+       
+    }
+
+    func getCustomer(customerId:Int){
+        print("Customer id for alamorire = \(customerId)")
+        service.makeRequest(
+            endPoint: "/customers/\(customerId).json",
+            method: .get
+        ) { (result: Result<CustomerResponse, APIError>) in
+            switch result {
+            case .success(let customerResponse):
+                CurrentUser.user = customerResponse.customer
+                CurrentUser.type = UserType.authenticated
+            case .failure(let error):
+                print("Error in getting the user data \(error.localizedDescription)")
+            }
+        }
+    }
     func getBrands()->[Brand]{
         return brands ?? []
     }

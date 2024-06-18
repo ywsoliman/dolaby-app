@@ -8,6 +8,10 @@
 import UIKit
 import Kingfisher
 
+protocol CartTableViewCellDelegate {
+    func updateItemQuantity(_ cell: CartTableViewCell, operation: QuantityUpdateOperation)
+}
+
 class CartTableViewCell: UITableViewCell {
     
     static let identifier = "CartTableViewCell"
@@ -15,12 +19,18 @@ class CartTableViewCell: UITableViewCell {
     static func nib() -> UINib {
         UINib(nibName: "CartTableViewCell", bundle: nil)
     }
-    @IBOutlet var quantityBtns: [UIButton]!
+    
+    var delegate: CartTableViewCellDelegate?
+    
+    var itemQuantity: Int!
+    
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var quantityLabel: UILabel!
+    @IBOutlet weak var decrementBtn: UIButton!
+    @IBOutlet weak var incrementBtn: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,24 +43,26 @@ class CartTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     @IBAction func incrementBtn(_ sender: UIButton) {
-        guard let quantity = Int(quantityLabel.text!) else { return }
-        quantityLabel.text = String(quantity + 1)
+        delegate?.updateItemQuantity(self, operation: .increment)
     }
     
     @IBAction func decrementBtn(_ sender: UIButton) {
-        guard let quantity = Int(quantityLabel.text!) else { return }
-        if quantity > 1 {
-            quantityLabel.text = String(quantity - 1)
-        }
+        delegate?.updateItemQuantity(self, operation: .decrement)
+    }
+    
+    func updateButtonState(maxQuantity: Int) {
+        incrementBtn.isEnabled = itemQuantity < maxQuantity
+        decrementBtn.isEnabled = itemQuantity > 1
     }
     
     func configure(lineItem: LineItem) {
         
-        let price = Double(lineItem.price)! * CurrencyManager.value
-        priceLabel.text = "\(price.priceFormatter()) \(CurrencyManager.currency)"
+        itemQuantity = lineItem.quantity
+        priceLabel.text = lineItem.price.priceFormatter()
         titleLabel.text = lineItem.title
         descLabel.text = lineItem.variantTitle
-        quantityLabel.text = String(lineItem.quantity)
+        quantityLabel.text = String(itemQuantity)
+        updateButtonState(maxQuantity: lineItem.inventoryQuantity ?? 1)
         
         NetworkService.shared.makeRequest(endPoint: "/products/\(lineItem.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in
             

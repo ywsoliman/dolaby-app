@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum QuantityUpdateOperation {
+    case increment, decrement
+}
+
 class CartViewController: UIViewController {
     
     @IBOutlet weak var emptyCartView: UIView!
@@ -15,8 +19,11 @@ class CartViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var priceLabel: UILabel!
     
-    private var totalPrice: Double!
-    
+    private var totalPrice: Double! {
+        didSet {
+            updateTotalPrice()
+        }
+    }
     private var cartViewModel: CartViewModel!
     
     override func viewDidLoad() {
@@ -28,23 +35,29 @@ class CartViewController: UIViewController {
         
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
-            self?.setTotalPrice()
             self?.tableView.reloadData()
+            self?.setTotalPrice()
         }
         
     }
     
     func setTotalPrice() {
-        totalPrice = cartViewModel.cart?.lineItems.reduce(0.0) { (result, item) -> Double in
+        
+        guard let cart = cartViewModel.cart else { return }
+        
+        totalPrice = cart.lineItems.reduce(0.0) { (result, item) -> Double in
             return result + (Double(item.price)! * Double(item.quantity))
         }
-        totalPrice *= CurrencyManager.value
-        priceLabel.text = "\(totalPrice.priceFormatter()) \(CurrencyManager.currency)"
+        priceLabel.text = totalPrice.priceFormatter()
+    }
+    
+    func updateTotalPrice() {
+        priceLabel.text = totalPrice.priceFormatter()
     }
     
 }
 
-extension CartViewController: UITableViewDelegate, UITableViewDataSource {
+extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let numberOfItems = cartViewModel.cart?.lineItems.count ?? 0
@@ -70,7 +83,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         guard let lineItems = cartViewModel.cart?.lineItems else { return UITableViewCell() }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.identifier) as! CartTableViewCell
-        
+        cell.delegate = self
         cell.configure(lineItem: lineItems[indexPath.row])
         
         return cell
@@ -95,10 +108,15 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
             
             guard let cart = self.cartViewModel.cart else { return }
             if cart.lineItems.count > 1 {
-                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id)
+                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id) {
+                    self.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
+                }
             } else {
-                self.cartViewModel.deleteCart()
+                self.cartViewModel.deleteCart() {
+                    self.totalPrice = 0.0
+                }
             }
+            tableView.deleteRows(at: [indexPath], with: .fade)
             
         }
         
@@ -106,6 +124,34 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         alert.addAction(deleteAction)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func updateItemQuantity(_ cell: CartTableViewCell, operation: QuantityUpdateOperation) {
+        
+        
+        guard let indexPath = tableView.indexPath(for: cell), let cart = cartViewModel.cart else { return }
+        let item = cart.lineItems[indexPath.row]
+        
+        switch operation {
+            
+        case .increment:
+            if cell.itemQuantity < item.inventoryQuantity ?? 1 {
+                cell.itemQuantity += 1
+                totalPrice += Double(item.price) ?? 0.0
+            }
+        case .decrement:
+            if cell.itemQuantity > 1 {
+                cell.itemQuantity -= 1
+                totalPrice -= Double(item.price) ?? 0.0
+            }
+            
+        }
+        
+        cartViewModel.cart?.lineItems[indexPath.row].quantity = cell.itemQuantity
+        cell.quantityLabel.text = String(cell.itemQuantity)
+        cell.updateButtonState(maxQuantity: item.inventoryQuantity ?? 1)
+        updateTotalPrice()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -116,6 +162,10 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
             destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, subtotal: totalPrice)
         }
         
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        cartViewModel.updateCart()
     }
     
 }
