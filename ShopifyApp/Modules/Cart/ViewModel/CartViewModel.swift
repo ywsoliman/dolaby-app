@@ -11,12 +11,7 @@ class CartViewModel {
     
     var service: NetworkService
     var bindCartToViewController: (() -> ()) = {}
-    var cart: DraftOrder? {
-        didSet {
-            bindCartToViewController()
-        }
-    }
-    var productsVariants: [Variant] = []
+    var cart: DraftOrder?
     
     init(service: NetworkService) {
         self.service = service
@@ -57,7 +52,7 @@ class CartViewModel {
             
             switch result {
             case .success(let response):
-                self.productsVariants.append(response.variant)
+                self.addQuantityToLineItem(response)
                 completion()
             case .failure(let error):
                 print("Error in fetching product variant: \(error)")
@@ -65,6 +60,19 @@ class CartViewModel {
             
         }
         
+    }
+    
+    func addQuantityToLineItem(_ response: VariantResponse) {
+        
+        guard var cart = cart else { return }
+        
+        for i in cart.lineItems.indices {
+            if cart.lineItems[i].variantID == response.variant.id {
+                cart.lineItems[i].inventoryQuantity = response.variant.inventoryQuantity
+            }
+        }
+        
+        self.cart = cart
     }
     
     func deleteCart() {

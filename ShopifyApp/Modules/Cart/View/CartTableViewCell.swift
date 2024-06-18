@@ -9,8 +9,7 @@ import UIKit
 import Kingfisher
 
 protocol CartTableViewCellDelegate {
-    func cartCellIncrementBtn(_ cell: CartTableViewCell)
-    func cartCellDecrementBtn(_ cell: CartTableViewCell)
+    func updateItemQuantity(_ cell: CartTableViewCell, operation: QuantityUpdateOperation)
 }
 
 class CartTableViewCell: UITableViewCell {
@@ -44,16 +43,38 @@ class CartTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     @IBAction func incrementBtn(_ sender: UIButton) {
-        delegate?.cartCellIncrementBtn(self)
+        delegate?.updateItemQuantity(self, operation: .increment)
     }
     
     @IBAction func decrementBtn(_ sender: UIButton) {
-        delegate?.cartCellDecrementBtn(self)
+        delegate?.updateItemQuantity(self, operation: .decrement)
     }
     
     func updateButtonState(maxQuantity: Int) {
         incrementBtn.isEnabled = itemQuantity < maxQuantity
         decrementBtn.isEnabled = itemQuantity > 1
+    }
+    
+    func configure(variant: Variant, quantity: Int) {
+        
+        itemQuantity = quantity
+        let price = Double(variant.price)! * CurrencyManager.value
+        priceLabel.text = price.priceFormatter()
+        titleLabel.text = variant.title
+        descLabel.text = variant.title
+        quantityLabel.text = String(itemQuantity)
+        
+        NetworkService.shared.makeRequest(endPoint: "/products/\(variant.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in
+
+            switch result {
+            case .success(let image):
+                self.setProductImage(src: image.images[0].src!)
+            case .failure(let error):
+                print("Failed to set cart image: \(error)")
+            }
+
+        }
+        
     }
     
     func configure(lineItem: LineItem) {

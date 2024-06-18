@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum QuantityUpdateOperation {
+    case increment, decrement
+}
+
 class CartViewController: UIViewController {
     
     @IBOutlet weak var emptyCartView: UIView!
@@ -16,8 +20,8 @@ class CartViewController: UIViewController {
     @IBOutlet weak var priceLabel: UILabel!
     
     private var totalPrice: Double!
-    
     private var cartViewModel: CartViewModel!
+    private var tempCart: DraftOrder?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +32,7 @@ class CartViewController: UIViewController {
         
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
+            self?.tempCart = self?.cartViewModel.cart
             self?.tableView.reloadData()
             self?.setTotalPrice()
         }
@@ -106,7 +111,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             } else {
                 self.cartViewModel.deleteCart()
             }
-            self.cartViewModel.productsVariants.remove(at: indexPath.row)
+//            self.cartViewModel.productsVariants.remove(at: indexPath.row)
             
         }
         
@@ -116,32 +121,32 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
         present(alert, animated: true, completion: nil)
     }
     
-    func cartCellIncrementBtn(_ cell: CartTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let productVariant = cartViewModel.productsVariants[indexPath.row]
-        let inventoryQuantity = productVariant.inventoryQuantity
-        if cell.itemQuantity < inventoryQuantity {
-            cell.itemQuantity += 1
-            cartViewModel.cart?.lineItems[indexPath.row].quantity = cell.itemQuantity
-            cell.quantityLabel.text = String(cell.itemQuantity)
-            cell.updateButtonState(maxQuantity: inventoryQuantity)
-            totalPrice += Double(productVariant.price) ?? 0.0
-            updateTotalPrice()
+    func updateItemQuantity(_ cell: CartTableViewCell, operation: QuantityUpdateOperation) {
+        
+        
+        guard let indexPath = tableView.indexPath(for: cell), let cart = cartViewModel.cart else { return }
+        let item = cart.lineItems[indexPath.row]
+        
+        switch operation {
+            
+        case .increment:
+            if cell.itemQuantity < item.inventoryQuantity ?? 0 {
+                cell.itemQuantity += 1
+                totalPrice += Double(item.price) ?? 0.0
+            }
+        case .decrement:
+            if cell.itemQuantity > 1 {
+                cell.itemQuantity -= 1
+                totalPrice -= Double(item.price) ?? 0.0
+            }
+            
         }
-    }
-    
-    func cartCellDecrementBtn(_ cell: CartTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let productVariant = cartViewModel.productsVariants[indexPath.row]
-        let inventoryQuantity = productVariant.inventoryQuantity
-        if cell.itemQuantity > 1 {
-            cell.itemQuantity -= 1
-            cartViewModel.cart?.lineItems[indexPath.row].quantity = cell.itemQuantity
-            cell.quantityLabel.text = String(cell.itemQuantity)
-            cell.updateButtonState(maxQuantity: inventoryQuantity)
-            totalPrice -= Double(productVariant.price) ?? 0.0
-            updateTotalPrice()
-        }
+        
+        tempCart?.lineItems[indexPath.row].quantity = cell.itemQuantity
+        cell.quantityLabel.text = String(cell.itemQuantity)
+        cell.updateButtonState(maxQuantity: item.inventoryQuantity ?? 0)
+        updateTotalPrice()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -155,6 +160,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        cartViewModel.cart = tempCart
         cartViewModel.updateCart()
     }
     
