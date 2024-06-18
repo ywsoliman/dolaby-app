@@ -19,7 +19,15 @@ extension UIView{
 
 extension Double {
     func priceFormatter() -> String {
-        return String(format: "%.2f \(CurrencyManager.currency)", self)
+        let result = self * CurrencyManager.value
+        return String(format: "%.2f \(CurrencyManager.currency)", result)
+    }
+}
+
+extension String {
+    func priceFormatter() -> String {
+        let result = Double(self)! * CurrencyManager.value
+        return String(format: "%.2f \(CurrencyManager.currency)", result)
     }
 }
 
