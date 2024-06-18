@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import ShopifyApp
 
 final class NetworkServiceMockTests: XCTestCase {
     
@@ -34,6 +35,39 @@ final class NetworkServiceMockTests: XCTestCase {
             XCTAssertNil(response)
         }
         
+    }
+    
+    func testFetchingCustomerAddressesSuccess() {
+        networkServiceMock.shouldFail = false
+        networkServiceMock.getCustomerAddresses { response, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(response)
+        }
+    }
+    
+    func testFetchingCustomerAddressesFailure() {
+        networkServiceMock.shouldFail = true
+        networkServiceMock.getCustomerAddresses { response, error in
+            XCTAssertNotNil(error)
+            XCTAssertNil(response)
+        }
+        
+    }
+    
+    func testAddingCustomerAddressSuccess() {
+        networkServiceMock.shouldFail = false
+        networkServiceMock.addCustomerAddress { response, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(response)
+        }
+    }
+    
+    func testAddingCustomerAddressFailure() {
+        networkServiceMock.shouldFail = true
+        networkServiceMock.addCustomerAddress { response, error in
+            XCTAssertNil(response)
+            XCTAssertNotNil(error)
+        }
     }
 
 }
