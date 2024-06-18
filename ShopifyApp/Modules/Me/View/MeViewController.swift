@@ -10,6 +10,8 @@ import UIKit
 class MeViewController: UIViewController {
 
     @IBOutlet weak var ordersTable: UITableView!
+    
+    @IBOutlet weak var welcomeLabel: UILabel!
     var ordersViewModel: OrdersViewModelProtocol?
     let indicator = UIActivityIndicatorView(style: .large)
     override func viewDidLoad() {
@@ -34,6 +36,7 @@ class MeViewController: UIViewController {
         ordersTable.layer.shadowColor=UIColor.gray.cgColor
         ordersTable.layer.shadowOffset=CGSize(width: 0, height: 0)
         ordersTable.layer.shadowOpacity = 0.3
+        welcomeLabel.text="Welcome, \(CurrentUser.user?.firstName ?? "Customer")"
     }
 
     override func viewWillAppear(_ animated: Bool) {
