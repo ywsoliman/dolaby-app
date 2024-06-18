@@ -21,7 +21,6 @@ class CartViewController: UIViewController {
     
     private var totalPrice: Double!
     private var cartViewModel: CartViewModel!
-    private var tempCart: DraftOrder?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +31,6 @@ class CartViewController: UIViewController {
         
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
-            self?.tempCart = self?.cartViewModel.cart
             self?.tableView.reloadData()
             self?.setTotalPrice()
         }
@@ -111,7 +109,6 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             } else {
                 self.cartViewModel.deleteCart()
             }
-//            self.cartViewModel.productsVariants.remove(at: indexPath.row)
             
         }
         
@@ -130,7 +127,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
         switch operation {
             
         case .increment:
-            if cell.itemQuantity < item.inventoryQuantity ?? 0 {
+            if cell.itemQuantity < item.inventoryQuantity ?? 1 {
                 cell.itemQuantity += 1
                 totalPrice += Double(item.price) ?? 0.0
             }
@@ -142,9 +139,9 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             
         }
         
-        tempCart?.lineItems[indexPath.row].quantity = cell.itemQuantity
+        cartViewModel.cart?.lineItems[indexPath.row].quantity = cell.itemQuantity
         cell.quantityLabel.text = String(cell.itemQuantity)
-        cell.updateButtonState(maxQuantity: item.inventoryQuantity ?? 0)
+        cell.updateButtonState(maxQuantity: item.inventoryQuantity ?? 1)
         updateTotalPrice()
         
     }
@@ -160,7 +157,6 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        cartViewModel.cart = tempCart
         cartViewModel.updateCart()
     }
     

@@ -55,28 +55,6 @@ class CartTableViewCell: UITableViewCell {
         decrementBtn.isEnabled = itemQuantity > 1
     }
     
-    func configure(variant: Variant, quantity: Int) {
-        
-        itemQuantity = quantity
-        let price = Double(variant.price)! * CurrencyManager.value
-        priceLabel.text = price.priceFormatter()
-        titleLabel.text = variant.title
-        descLabel.text = variant.title
-        quantityLabel.text = String(itemQuantity)
-        
-        NetworkService.shared.makeRequest(endPoint: "/products/\(variant.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in
-
-            switch result {
-            case .success(let image):
-                self.setProductImage(src: image.images[0].src!)
-            case .failure(let error):
-                print("Failed to set cart image: \(error)")
-            }
-
-        }
-        
-    }
-    
     func configure(lineItem: LineItem) {
         
         itemQuantity = lineItem.quantity
@@ -85,6 +63,7 @@ class CartTableViewCell: UITableViewCell {
         titleLabel.text = lineItem.title
         descLabel.text = lineItem.variantTitle
         quantityLabel.text = String(itemQuantity)
+        updateButtonState(maxQuantity: lineItem.inventoryQuantity ?? 1)
         
         NetworkService.shared.makeRequest(endPoint: "/products/\(lineItem.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in
             
