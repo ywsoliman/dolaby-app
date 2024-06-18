@@ -42,12 +42,21 @@ extension OrdersViewController:UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
-        cell.orderPrice.text=ordersViewModel?.getOrders()[indexPath.row].currentTotalPrice
-        cell.orderDate.text=ordersViewModel?.getOrders()[indexPath.row].createdAt
-//        cell.layer.cornerRadius=15
-//        cell.layer.borderWidth=0.5
-//        cell.layer.masksToBounds=true
-//        cell.layer.borderColor=UIColor.gray.cgColor
+        cell.orderPrice.text=Double((ordersViewModel?.getOrders()[indexPath.row].currentTotalPrice) ?? "0.0")?.priceFormatter()
+        if let createdAtString = ordersViewModel?.getOrders()[indexPath.row].createdAt {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+            if let date = formatter.date(from: createdAtString) {
+                formatter.dateFormat = "yyyy-MM-dd' 'HH:mm"
+                let formattedDate = formatter.string(from: date)
+                cell.orderDate.text = formattedDate
+            } else {
+                cell.orderDate.text=ordersViewModel?.getOrders()[indexPath.row].createdAt
+                print("Error: Unable to convert date from string")
+            }
+        } else {
+            print("Error: createdAt string is nil")
+        }
         cell.layer.shadowRadius=5
         cell.layer.masksToBounds=false
         cell.layer.shadowColor=UIColor.black.cgColor

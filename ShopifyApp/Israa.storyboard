@@ -344,6 +344,7 @@
                     </tabBarItem>
                     <connections>
                         <outlet property="ordersTable" destination="y0L-lr-OzL" id="v9V-Rm-7VZ"/>
+                        <outlet property="welcomeLabel" destination="2MY-OE-Syf" id="iHl-N9-8yw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ms0-pY-eNB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

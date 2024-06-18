@@ -65,6 +65,7 @@
 		9FBF0B7E2C09425A005FD71D /* BrandsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FBF0B7D2C09425A005FD71D /* BrandsCollectionViewCell.swift */; };
 		9FDF26EC2C1DEFD3001EB462 /* OrderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDF26EB2C1DEFD3001EB462 /* OrderResponse.swift */; };
 		9FDF26EF2C1DFDF9001EB462 /* OrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDF26EE2C1DFDF9001EB462 /* OrdersViewModel.swift */; };
+		9FF3A51E2C21FF6F005E653B /* DetleteDraftOrderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF3A51D2C21FF6F005E653B /* DetleteDraftOrderResponse.swift */; };
 		BE0F9F862C106BCC0027DEE7 /* SettingsStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0F9F852C106BCC0027DEE7 /* SettingsStoryboard.storyboard */; };
 		BE0F9F882C106BF20027DEE7 /* PaymentStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE0F9F872C106BF20027DEE7 /* PaymentStoryboard.storyboard */; };
 		BE0F9F8C2C10A06C0027DEE7 /* CheckoutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE0F9F8B2C10A06C0027DEE7 /* CheckoutViewModel.swift */; };
@@ -181,6 +182,7 @@
 		9FBF0B7D2C09425A005FD71D /* BrandsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsCollectionViewCell.swift; sourceTree = "<group>"; };
 		9FDF26EB2C1DEFD3001EB462 /* OrderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderResponse.swift; sourceTree = "<group>"; };
 		9FDF26EE2C1DFDF9001EB462 /* OrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersViewModel.swift; sourceTree = "<group>"; };
+		9FF3A51D2C21FF6F005E653B /* DetleteDraftOrderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetleteDraftOrderResponse.swift; sourceTree = "<group>"; };
 		A3528FF3D6A1B558416D19C0 /* Pods_ShopifyAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopifyAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC6B9EC0C9BAC07738E2F7E6 /* Pods-ShopifyAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopifyAppTests.release.xcconfig"; path = "Target Support Files/Pods-ShopifyAppTests/Pods-ShopifyAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		BE0F9F852C106BCC0027DEE7 /* SettingsStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsStoryboard.storyboard; sourceTree = "<group>"; };
@@ -663,6 +665,7 @@
 				03FDDA192C1C7DB500A8BB88 /* CurrentUser.swift */,
 				9FDF26EB2C1DEFD3001EB462 /* OrderResponse.swift */,
 				9FA3CF662C1E3B75006BBFCD /* CustomerOrderResponse.swift */,
+				9FF3A51D2C21FF6F005E653B /* DetleteDraftOrderResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1251,6 +1254,7 @@
 				BE2333392C0E33A600D80BE9 /* DraftOrders.swift in Sources */,
 				03E5B5482C17EA700052FE09 /* CustomerCoreDataModel.swift in Sources */,
 				BE0F9F8C2C10A06C0027DEE7 /* CheckoutViewModel.swift in Sources */,
+				9FF3A51E2C21FF6F005E653B /* DetleteDraftOrderResponse.swift in Sources */,
 				BE0F9F912C10C92A0027DEE7 /* CartViewModel.swift in Sources */,
 				039792862C136E0C005104C5 /* SignupViewController.swift in Sources */,
 				0397927A2C136AFE005104C5 /* AuthenticationManager.swift in Sources */,

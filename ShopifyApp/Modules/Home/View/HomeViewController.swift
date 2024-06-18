@@ -37,7 +37,6 @@ class HomeViewController: UIViewController {
         indicator.startAnimating()
         
         setupDiscountSection()
-        
     }
     
     func setupDiscountSection() {

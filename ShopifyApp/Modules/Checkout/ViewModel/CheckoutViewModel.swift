@@ -62,7 +62,7 @@ class CheckoutViewModel {
         
     }
 
-    func completeOrder(completion: @escaping () -> ()) {
+    func postOrder(completion: @escaping () -> ()) {
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
@@ -87,15 +87,32 @@ class CheckoutViewModel {
                        }
             ]
         ]
-        service.makeRequest(endPoint: "/orders.json", method: .post,parameters: parameters) { (result: Result<OrderResponse, APIError>) in
+        service.makeRequest(endPoint: "/orders.json", method: .post,parameters: parameters) {[weak self] (result: Result<OrderResponse, APIError>) in
             switch result {
             case .success(_):
                 print("Order is posted Successfully!")
                 completion()
+                self?.updateCustomer()
             case .failure(let error):
                 print("Error in posting an order: \(error)")
             }
         }
     }
-    
+    func updateCustomer(){
+        CurrentUser.user?.cartID=nil
+        let updatedCustomerData:[String:Any]=[
+            "customer":[
+                "note": nil
+            ]
+        ]
+        service.makeRequest(endPoint: "/customers/\((CurrentUser.user?.id)!).json",method:.put, parameters: updatedCustomerData) { (result: Result<CustomerResponse, APIError>) in
+            switch result {
+            case .success(_):
+                print("Customer is updated Successfully!")
+            case .failure(let error):
+                print("User id: \((CurrentUser.user?.id)!)")
+                print("Error in updating customer: \(error)")
+            }
+        }
+    }
 }

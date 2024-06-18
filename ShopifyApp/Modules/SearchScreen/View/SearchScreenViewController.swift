@@ -37,18 +37,18 @@ class SearchScreenViewController: UIViewController {
         indicator.center = self.view.center
         indicator.startAnimating()
         $searchText.debounce(for: .milliseconds(500), scheduler: RunLoop.main)
-                    .sink { [weak self] debouncedSearchText in
-                        print(debouncedSearchText)
-                        self?.viewModel.filterBySearchText(text:debouncedSearchText)
-                    }
-                    .store(in: &cancellables)
+            .sink { [weak self] debouncedSearchText in
+                print(debouncedSearchText)
+                self?.viewModel.filterBySearchText(text:debouncedSearchText)
+            }
+            .store(in: &cancellables)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-                tapGesture.cancelsTouchesInView = false
-                view.addGestureRecognizer(tapGesture)
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
     }
     
-@objc private func dismissKeyboard() {
-            view.endEditing(true)
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     override func viewWillAppear(_ animated: Bool) {
         favViewModel.updateFavItems()
@@ -66,9 +66,9 @@ extension SearchScreenViewController:UICollectionViewDataSource , UICollectionVi
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-         guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
-             return
-         }
+        guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
+            return
+        }
         productDetailsViewController.productID = viewModel.filteredProducts[indexPath.item].id
         navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
@@ -78,13 +78,13 @@ extension SearchScreenViewController:UICollectionViewDataSource , UICollectionVi
         return viewModel.filteredProducts.count
     }
     func getBackgroundView() -> UIView {
-           let backgroundView = UIView(frame: collectionView.bounds)
-           let imageView = UIImageView(frame: backgroundView.bounds)
-           imageView.contentMode = .scaleAspectFit
-           imageView.image = UIImage(named: "noProductsFound")
-           backgroundView.addSubview(imageView)
-           return backgroundView
-       }
+        let backgroundView = UIView(frame: collectionView.bounds)
+        let imageView = UIImageView(frame: backgroundView.bounds)
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "noProductsFound")
+        backgroundView.addSubview(imageView)
+        return backgroundView
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
@@ -112,13 +112,13 @@ extension SearchScreenViewController:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width=self.view.frame.width*0.44
         let height=width*1.2
-
+        
         return CGSize(width: width, height: height)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
-   
+    
 }
 extension SearchScreenViewController:FavItemDelegate{
     func deleteFavItem(itemIndex: Int) {
