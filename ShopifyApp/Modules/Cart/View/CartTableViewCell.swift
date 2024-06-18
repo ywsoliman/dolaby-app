@@ -9,8 +9,7 @@ import UIKit
 import Kingfisher
 
 protocol CartTableViewCellDelegate {
-    func cartCellIncrementBtn(_ cell: CartTableViewCell)
-    func cartCellDecrementBtn(_ cell: CartTableViewCell)
+    func updateItemQuantity(_ cell: CartTableViewCell, operation: QuantityUpdateOperation)
 }
 
 class CartTableViewCell: UITableViewCell {
@@ -44,11 +43,11 @@ class CartTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     @IBAction func incrementBtn(_ sender: UIButton) {
-        delegate?.cartCellIncrementBtn(self)
+        delegate?.updateItemQuantity(self, operation: .increment)
     }
     
     @IBAction func decrementBtn(_ sender: UIButton) {
-        delegate?.cartCellDecrementBtn(self)
+        delegate?.updateItemQuantity(self, operation: .decrement)
     }
     
     func updateButtonState(maxQuantity: Int) {
@@ -59,11 +58,11 @@ class CartTableViewCell: UITableViewCell {
     func configure(lineItem: LineItem) {
         
         itemQuantity = lineItem.quantity
-        let price = Double(lineItem.price)! * CurrencyManager.value
-        priceLabel.text = "\(price.priceFormatter()) \(CurrencyManager.currency)"
+        priceLabel.text = lineItem.price.priceFormatter()
         titleLabel.text = lineItem.title
         descLabel.text = lineItem.variantTitle
         quantityLabel.text = String(itemQuantity)
+        updateButtonState(maxQuantity: lineItem.inventoryQuantity ?? 1)
         
         NetworkService.shared.makeRequest(endPoint: "/products/\(lineItem.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in
             

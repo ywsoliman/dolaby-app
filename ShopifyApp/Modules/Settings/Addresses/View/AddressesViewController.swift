@@ -32,6 +32,14 @@ class AddressesViewController: UIViewController {
         
     }
     
+    func showAlertWithMessage(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alert.dismiss(animated: true)
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "addAddressSegue" {
@@ -94,14 +102,24 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func deleteAddressAlert(_ indexPath: IndexPath, _ tableView: UITableView) {
         
-        guard let addresses = addressesViewModel.addresses else { return }
+        guard let addresses = addressesViewModel.addresses?.addresses else { return }
         
         let alert = UIAlertController(title: "Delete Confirmation", message: "Are you sure you want to delete this?", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {_ in
             
-            self.addressesViewModel.delete(address: addresses.addresses[indexPath.row]) {
+            let address = addresses[indexPath.row]
+            if address.addressDefault ?? false {
+                if addresses.count > 1 {
+                    self.showAlertWithMessage(message: "You can't delete a default address")
+                } else {
+                    self.showAlertWithMessage(message: "You must have at least one address")
+                }
+                return
+            }
+            
+            self.addressesViewModel.delete(address: addresses[indexPath.row]) {
                 self.addressesViewModel.getAddresses()
             }
         }

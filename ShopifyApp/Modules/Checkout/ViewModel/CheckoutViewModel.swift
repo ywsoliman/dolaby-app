@@ -26,6 +26,8 @@ class CheckoutViewModel {
     
     func addDiscountToDraftOrder(_ priceRule: PriceRule) {
         
+        guard let cartId = CurrentUser.user?.cartID else { return }
+        
         var value = priceRule.value
         if value.hasPrefix("-") { value.removeFirst() }
         let appliedDiscount = AppliedDiscount(
@@ -42,7 +44,7 @@ class CheckoutViewModel {
             let appliedDiscount = ["applied_discount": discountJSON]
             let discountParams = ["draft_order": appliedDiscount]
             
-            service.makeRequest(endPoint: "/draft_orders/\(CART_ID).json", method: .put, parameters: discountParams) { (result: Result<DraftOrderResponse, APIError>) in
+            service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .put, parameters: discountParams) { (result: Result<DraftOrderResponse, APIError>) in
                 
                 switch result {
                 case .success(let response):

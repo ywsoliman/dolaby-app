@@ -56,9 +56,11 @@ struct AppliedDiscount: Codable {
 
 // MARK: - LineItem
 struct LineItem: Codable {
+    
     let id, variantID, productID: Int
     let title, variantTitle, sku, vendor: String
     var quantity: Int
+    var inventoryQuantity: Int?
     let appliedDiscount: AppliedDiscount?
     let name: String
     let price: String
@@ -72,6 +74,7 @@ struct LineItem: Codable {
         case sku, vendor, quantity
         case appliedDiscount = "applied_discount"
         case name, price
+        case inventoryQuantity
     }
     
 }

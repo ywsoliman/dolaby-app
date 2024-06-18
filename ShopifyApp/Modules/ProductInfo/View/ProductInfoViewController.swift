@@ -42,7 +42,7 @@ class ProductInfoViewController: UIViewController {
     private let viewModel:ProductInfoViewModel = ProductInfoViewModel(networkService: NetworkService.shared)
     private let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
     private  var isFavItem:Bool!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addToCartBtn.isEnabled = false
@@ -51,11 +51,20 @@ class ProductInfoViewController: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         quantityControlBtn.minimumValue = 1
-       isFavItem =  favViewModel.isFavoriteItem(withId: productID)
+        isFavItem = favViewModel.isFavoriteItem(withId: productID)
         viewModel.getProduct(productID: productID)
         viewModel.bindToViewController = {
             [weak self] productInfo in
             self?.updateViewWithProductInfo(productInfo)
+        }
+        viewModel.bindAlertToViewController = { [weak self] doesExist in
+            let message: String
+            if doesExist {
+                message = "Item is already in cart."
+            } else {
+                message = "Added item to cart successfully!"
+            }
+            self?.productAlert(message: message)
         }
         sizesSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
         colorSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
@@ -63,6 +72,34 @@ class ProductInfoViewController: UIViewController {
         applyCornerRadius()
         // Do any additional setup after loading the view.
     }
+    
+    private func productAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        present(alert, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            alert.dismiss(animated: true)
+        }
+    }
+    
+    func addAddressAlert() {
+        let alert = UIAlertController(title: "No addresses found", message: "Please provide at least one address to add products to cart", preferredStyle: .alert)
+        let addAction = UIAlertAction(title: "Add", style: .default) {_ in
+            self.navigateToAddAddress()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+    
+    private func navigateToAddAddress() {
+        let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
+        guard let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController else {
+            return
+        }
+        navigationController?.pushViewController(destVC, animated: true)
+    }
+    
     private func applyCornerRadius() {
         let path = UIBezierPath(roundedRect: bodyViewContainer.bounds,
                                 byRoundingCorners: [.topLeft, .topRight],
@@ -84,47 +121,52 @@ class ProductInfoViewController: UIViewController {
         currentFavImageName = imageName
     }
     func isCurrentItemFav() -> Bool {
-           return  currentFavImageName == "heart.fill"
+        return  currentFavImageName == "heart.fill"
     }
     private func updateViewWithProductInfo(_ productInfo: Product) {
-
-            product = productInfo
-            addToCartBtn.isEnabled = true
-            addToFavBtn.isEnabled = true
-            quantityControlBtn.isEnabled = true
-            productName.text = productInfo.title
-            productBrand.text = productInfo.vendor
-            descriptionLabel.text = productInfo.bodyHTML
-            updateFavBtnImage(isFav: isFavItem)
-            sizesSegment.removeAllSegments()
-            colorSegment.removeAllSegments()
-            let sizes = productInfo.getSizeOptions()
-            let colors = productInfo.getColorOptions()
-            for (index, size) in sizes.enumerated() {
-                sizesSegment.insertSegment(withTitle: size, at: index, animated: false)
-            }
-            if !sizes.isEmpty {
-                sizesSegment.selectedSegmentIndex = 0
-            }
-            for (index, color) in colors.enumerated() {
-                colorSegment.insertSegment(withTitle: color, at: index, animated: false)
-            }
-            if !colors.isEmpty {
-                colorSegment.selectedSegmentIndex = 0
-            }
-            updateQuantityLabel()
+        
+        product = productInfo
+        addToCartBtn.isEnabled = true
+        addToFavBtn.isEnabled = true
+        quantityControlBtn.isEnabled = true
+        productName.text = productInfo.title
+        productBrand.text = productInfo.vendor
+        descriptionLabel.text = productInfo.bodyHTML
+        updateFavBtnImage(isFav: isFavItem)
+        sizesSegment.removeAllSegments()
+        colorSegment.removeAllSegments()
+        let sizes = productInfo.getSizeOptions()
+        let colors = productInfo.getColorOptions()
+        for (index, size) in sizes.enumerated() {
+            sizesSegment.insertSegment(withTitle: size, at: index, animated: false)
+        }
+        if !sizes.isEmpty {
+            sizesSegment.selectedSegmentIndex = 0
+        }
+        for (index, color) in colors.enumerated() {
+            colorSegment.insertSegment(withTitle: color, at: index, animated: false)
+        }
+        if !colors.isEmpty {
+            colorSegment.selectedSegmentIndex = 0
+        }
+        updateQuantityLabel()
         priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
-            collectionView.reloadData()
-            pageControl.numberOfPages = productInfo.images.count
-
+        collectionView.reloadData()
+        pageControl.numberOfPages = productInfo.images.count
+        
     }
     @IBAction func addToCartPressed(_ sender: Any) {
+        
+        if CurrentUser.user?.addresses?.count == 0 {
+            addAddressAlert()
+            return
+        }
         
         let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
         
         print(Int(productQuantity.text ?? "1")!)
         
-        viewModel.addProductToCart(
+        viewModel.addVariantToCart(
             id: variantId,
             quantity: Int(productQuantity.text ?? "1")!
         )

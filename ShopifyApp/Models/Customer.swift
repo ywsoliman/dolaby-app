@@ -62,10 +62,10 @@ struct CustomerResponse:Codable{
     let customer:Customer
 }
 
-func updateCustomer(willCreateDraft: Bool) {
+func updateCustomer() {
     
     guard let customer = CurrentUser.user else { return }
-    let cartId: Any = willCreateDraft ? customer.cartID as Any : NSNull()
+    let cartId: Any = customer.cartID ?? NSNull()
     let customerDict: [String: Any] = ["customer":
         [
             "id": customer.id,

@@ -7,9 +7,11 @@
 
 import Foundation
 final class ProductInfoViewModel{
-    private let networkService:NetworkService
+    
+    private let networkService: NetworkService
     var productInfo:Product = Product.empty
-    var bindToViewController:((_ productInfo:Product)->()) = {_ in }
+    var bindToViewController: ((_ productInfo: Product)->()) = {_ in }
+    var bindAlertToViewController: ((_ doesExist: Bool) -> ()) = {_ in}
     init(networkService: NetworkService) {
         self.networkService = networkService
     }
@@ -28,23 +30,39 @@ final class ProductInfoViewModel{
         }
     }
     
-    func addProductToCart(id: Int, quantity: Int) {
+    func addVariantToCart(id: Int, quantity: Int) {
         
         guard let user = CurrentUser.user else { return }
-
+        
         if let cartId = user.cartID {
-            addProductToCart(cartId: cartId, productId: id, quantity: quantity)
+            addVariantToCart(cartId: cartId, variantId: id, quantity: quantity)
         } else {
             createCartWithProduct(id: id, quantity: quantity)
         }
-
+        
     }
     
-    private func addProductToCart(cartId: String, productId: Int, quantity: Int) {
+    func checkIfProductAlreadyExists(cart: DraftOrder, id: Int, completion: @escaping () -> ()) {
+        
+        for item in cart.lineItems {
+            if item.variantID == id {
+                bindAlertToViewController(true)
+                return
+            }
+        }
+        
+        bindAlertToViewController(false)
+        completion()
+        
+    }
+    
+    private func addVariantToCart(cartId: String, variantId: Int, quantity: Int) {
         networkService.getCart { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             switch result {
             case .success(let response):
-                self?.updateCart(cart: response.draftOrder, id: productId, quantity: quantity)
+                self?.checkIfProductAlreadyExists(cart: response.draftOrder, id: variantId) {
+                    self?.updateCart(cart: response.draftOrder, id: variantId, quantity: quantity)
+                }
             case .failure(let error):
                 print("Add to Product Error: \(error)")
             }
@@ -53,7 +71,7 @@ final class ProductInfoViewModel{
     
     private func updateCart(cart: DraftOrder, id: Int, quantity: Int) {
         
-        var updatedCart = updateCartLineItems(cart, id: id, quantity: quantity)
+        let updatedCart = updateCartLineItems(cart, id: id, quantity: quantity)
         
         networkService.makeRequest(endPoint: "/draft_orders/\(cart.id).json", method: .put, parameters: updatedCart) { (result: Result<DraftOrderResponse, APIError>) in
             
@@ -68,7 +86,7 @@ final class ProductInfoViewModel{
         }
     }
     
-
+    
     func updateCartLineItems(_ cart: DraftOrder, id: Int, quantity: Int) -> [String: Any] {
         
         var lineItemsArray = cart.lineItems.map { lineItem -> [String: Any] in
@@ -77,7 +95,7 @@ final class ProductInfoViewModel{
                 "quantity": lineItem.quantity
             ]
         }
-            
+        
         lineItemsArray.append([
             "variant_id": id,
             "quantity": quantity
@@ -110,12 +128,13 @@ final class ProductInfoViewModel{
             ]
         ]
         
-        networkService.makeRequest(endPoint: "/draft_orders.json", method: .post, parameters: draftOrder) { (result: Result<DraftOrderResponse, APIError>) in
+        networkService.makeRequest(endPoint: "/draft_orders.json", method: .post, parameters: draftOrder) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
             case .success(let response):
                 CurrentUser.user!.cartID = String(response.draftOrder.id)
-                updateCustomer(willCreateDraft: true)
+                updateCustomer()
+                self?.bindAlertToViewController(false)
                 print("Created a draft order with one item successfully!")
             case .failure(let error):
                 print("Failed to creat a draft order with one item: \(error)")

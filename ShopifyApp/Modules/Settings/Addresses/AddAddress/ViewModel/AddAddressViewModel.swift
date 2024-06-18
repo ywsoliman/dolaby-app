@@ -57,7 +57,8 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
         service.makeRequest(endPoint: "/customers/\(user.id)/addresses.json", method: .post, parameters: addressParams) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
-            case .success(let address):
+            case .success(let response):
+                CurrentUser.user?.addresses?.append(response.customerAddress)
                 self.bindAddressToViewController()
             case .failure(let error):
                 self.bindInvalidCountryToViewController()

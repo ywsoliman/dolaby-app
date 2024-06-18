@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum QuantityUpdateOperation {
+    case increment, decrement
+}
+
 class CartViewController: UIViewController {
     
     @IBOutlet weak var emptyCartView: UIView!
@@ -15,8 +19,11 @@ class CartViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var priceLabel: UILabel!
     
-    private var totalPrice: Double!
-    
+    private var totalPrice: Double! {
+        didSet {
+            updateTotalPrice()
+        }
+    }
     private var cartViewModel: CartViewModel!
     
     override func viewDidLoad() {
@@ -28,8 +35,8 @@ class CartViewController: UIViewController {
         
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
-            self?.setTotalPrice()
             self?.tableView.reloadData()
+            self?.setTotalPrice()
         }
         
     }
@@ -41,7 +48,6 @@ class CartViewController: UIViewController {
         totalPrice = cart.lineItems.reduce(0.0) { (result, item) -> Double in
             return result + (Double(item.price)! * Double(item.quantity))
         }
-        totalPrice *= CurrencyManager.value
         priceLabel.text = totalPrice.priceFormatter()
     }
     
@@ -102,11 +108,15 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             
             guard let cart = self.cartViewModel.cart else { return }
             if cart.lineItems.count > 1 {
-                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id)
+                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id) {
+                    self.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
+                }
             } else {
-                self.cartViewModel.deleteCart()
+                self.cartViewModel.deleteCart() {
+                    self.totalPrice = 0.0
+                }
             }
-            self.cartViewModel.productsVariants.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             
         }
         
@@ -116,32 +126,32 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
         present(alert, animated: true, completion: nil)
     }
     
-    func cartCellIncrementBtn(_ cell: CartTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let productVariant = cartViewModel.productsVariants[indexPath.row]
-        let inventoryQuantity = productVariant.inventoryQuantity
-        if cell.itemQuantity < inventoryQuantity {
-            cell.itemQuantity += 1
-            cartViewModel.cart?.lineItems[indexPath.row].quantity = cell.itemQuantity
-            cell.quantityLabel.text = String(cell.itemQuantity)
-            cell.updateButtonState(maxQuantity: inventoryQuantity)
-            totalPrice += Double(productVariant.price) ?? 0.0
-            updateTotalPrice()
+    func updateItemQuantity(_ cell: CartTableViewCell, operation: QuantityUpdateOperation) {
+        
+        
+        guard let indexPath = tableView.indexPath(for: cell), let cart = cartViewModel.cart else { return }
+        let item = cart.lineItems[indexPath.row]
+        
+        switch operation {
+            
+        case .increment:
+            if cell.itemQuantity < item.inventoryQuantity ?? 1 {
+                cell.itemQuantity += 1
+                totalPrice += Double(item.price) ?? 0.0
+            }
+        case .decrement:
+            if cell.itemQuantity > 1 {
+                cell.itemQuantity -= 1
+                totalPrice -= Double(item.price) ?? 0.0
+            }
+            
         }
-    }
-    
-    func cartCellDecrementBtn(_ cell: CartTableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let productVariant = cartViewModel.productsVariants[indexPath.row]
-        let inventoryQuantity = productVariant.inventoryQuantity
-        if cell.itemQuantity > 1 {
-            cell.itemQuantity -= 1
-            cartViewModel.cart?.lineItems[indexPath.row].quantity = cell.itemQuantity
-            cell.quantityLabel.text = String(cell.itemQuantity)
-            cell.updateButtonState(maxQuantity: inventoryQuantity)
-            totalPrice -= Double(productVariant.price) ?? 0.0
-            updateTotalPrice()
-        }
+        
+        cartViewModel.cart?.lineItems[indexPath.row].quantity = cell.itemQuantity
+        cell.quantityLabel.text = String(cell.itemQuantity)
+        cell.updateButtonState(maxQuantity: item.inventoryQuantity ?? 1)
+        updateTotalPrice()
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

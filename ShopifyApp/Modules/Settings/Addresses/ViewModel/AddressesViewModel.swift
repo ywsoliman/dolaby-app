@@ -54,7 +54,7 @@ class AddressesViewModel {
             
             switch result {
             case .success:
-//                self.removeAddress(withId: id)
+                self.removeAddress(withId: id)
                 completion()
             case .failure(let error):
                 print("Deleting address error: \(error)")
@@ -72,6 +72,7 @@ class AddressesViewModel {
                 break
             }
         }
+        CurrentUser.user!.addresses = addresses
     }
     
     func setDefault(addressID: Int) {
@@ -81,7 +82,6 @@ class AddressesViewModel {
             switch result {
             case .success(let address):
                 self.defaultAddress = address.customerAddress
-//                self.getAddresses()
                 self.changeCartShippingAddressToDefault(address)
             case .failure(let error):
                 print("Setting default address error: \(error)")
@@ -93,19 +93,9 @@ class AddressesViewModel {
     
     func changeCartShippingAddressToDefault(_ address: CustomerAddress) {
         
-        func convertToDictionary() -> [String: Any]? {
-            do {
-                let data = try JSONEncoder().encode(address)
-                if let dictionary = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] {
-                    return dictionary
-                }
-            } catch {
-                print("Error converting to parameters: \(error)")
-            }
-            return nil
-        }
-                
-        guard var shippingParams = convertToDictionary() else { return }
+        guard let cartId = CurrentUser.user?.cartID,
+              var shippingParams = address.toDictionary() else { return }
+        
         if let value = shippingParams.removeValue(forKey: "customer_address") {
             shippingParams["shipping_address"] = value
             shippingParams["billing_address"] = value
@@ -113,7 +103,7 @@ class AddressesViewModel {
         
         let addressParams = ["draft_order": shippingParams]
         
-        service.makeRequest(endPoint: "/draft_orders/\(CART_ID).json", method: .put, parameters: addressParams) { (result: Result<DraftOrderResponse, APIError>) in
+        service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .put, parameters: addressParams) { (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
             case .success(_):
