@@ -63,7 +63,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
-            <color key="backgroundColor" red="0.96640306711196899" green="0.98507767915725708" blue="0.98777180910110474" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="orderDate" destination="LJV-ZF-W8K" id="27d-rL-wYP"/>
                 <outlet property="orderPrice" destination="Xbp-Hd-eEk" id="1Bv-hQ-O0w"/>

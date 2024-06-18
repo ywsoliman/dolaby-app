@@ -92,20 +92,26 @@ class CheckoutViewModel {
             case .success(_):
                 print("Order is posted Successfully!")
                 completion()
-                self?.deleteDraftOrder()
+                self?.updateCustomer()
             case .failure(let error):
                 print("Error in posting an order: \(error)")
             }
         }
     }
-    func deleteDraftOrder(){
-        service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id).json", method: .delete) {[weak self] (result: Result<DetleteDraftOrderResponse, APIError>) in
+    func updateCustomer(){
+        CurrentUser.user?.cartID=nil
+        let updatedCustomerData:[String:Any]=[
+            "customer":[
+                "note": nil
+            ]
+        ]
+        service.makeRequest(endPoint: "/customers/\((CurrentUser.user?.id)!).json",method:.put, parameters: updatedCustomerData) { (result: Result<CustomerResponse, APIError>) in
             switch result {
             case .success(_):
-                print("Draft order is deleted Successfully!")
-                self?.deleteDraftOrder()
+                print("Customer is updated Successfully!")
             case .failure(let error):
-                print("Error in deleting draft order: \(error)")
+                print("User id: \((CurrentUser.user?.id)!)")
+                print("Error in updating customer: \(error)")
             }
         }
     }

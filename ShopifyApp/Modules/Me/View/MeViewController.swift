@@ -27,6 +27,7 @@ class MeViewController: UIViewController {
         ordersTable.layer.shadowOffset=CGSize(width: 0, height: 0)
         ordersTable.layer.shadowOpacity = 0.3
         welcomeLabel.text="Welcome, \(CurrentUser.user?.firstName ?? "Customer")"
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +41,7 @@ class MeViewController: UIViewController {
         }
         view.addSubview(indicator)
         indicator.center = self.view.center
+        
     }
     @IBAction func onLogout(_ sender: Any) {
        _ = LocalDataSource.shared.deleteFromKeychain()

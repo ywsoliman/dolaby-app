@@ -19,7 +19,6 @@ class CategoriesViewModel:CategoriesViewModelProtocol{
     func getNonFilteredProductsCount() -> Int {
         return allProducts?.count ?? 0
     }
-    
     let networkService:NetworkService
     init(networkService: NetworkService) {
         self.networkService = networkService
