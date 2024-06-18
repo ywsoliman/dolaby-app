@@ -19,7 +19,11 @@ class CartViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var priceLabel: UILabel!
     
-    private var totalPrice: Double!
+    private var totalPrice: Double! {
+        didSet {
+            updateTotalPrice()
+        }
+    }
     private var cartViewModel: CartViewModel!
     
     override func viewDidLoad() {
@@ -105,10 +109,15 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             
             guard let cart = self.cartViewModel.cart else { return }
             if cart.lineItems.count > 1 {
-                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id)
+                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id) {
+                    self.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
+                }
             } else {
-                self.cartViewModel.deleteCart()
+                self.cartViewModel.deleteCart() {
+                    self.totalPrice = 0.0
+                }
             }
+            tableView.deleteRows(at: [indexPath], with: .fade)
             
         }
         

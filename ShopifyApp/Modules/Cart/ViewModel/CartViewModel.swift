@@ -75,48 +75,25 @@ class CartViewModel {
         self.cart = cart
     }
     
-    func deleteCart() {
+    func deleteCart(completion: @escaping () -> ()) {
         
-        guard let cartId = CurrentUser.user?.cartID else { return }
-        
-        service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
-            
-            switch result {
-            case .success:
-                self.cart = nil
-                CurrentUser.user!.cartID = nil
-                updateCustomer(willCreateDraft: false)
-            case .failure(let error):
-                print("Error DraftOrder: \(error)")
-            }
-            
-        }
+        cart = nil
+        CurrentUser.user?.cartID = nil
+        updateCustomer()
+        completion()
         
     }
     
-    func deleteItem(withId id: Int) {
+    func deleteItem(withId id: Int, completion: @escaping () -> ()) {
         
-        guard var cart = cart else { return }
+        guard var updatedCart = cart else { return }
         
-        if let index = cart.lineItems.firstIndex(where: { $0.id == id }) {
-            cart.lineItems.remove(at: index)
+        if let index = updatedCart.lineItems.firstIndex(where: { $0.id == id }) {
+            updatedCart.lineItems.remove(at: index)
         }
         
-        guard let cartDict = cart.toDictionary() else { return }
-        let cartBody = ["draft_order": cartDict]
-        
-        service.makeRequest(endPoint: "/draft_orders/\(cart.id).json", method: .put, parameters: cartBody) { (result: Result<DraftOrderResponse, APIError>) in
-            
-            switch result {
-            case .success(let response):
-                DispatchQueue.main.async {
-                    self.cart = response.draftOrder
-                }
-            case .failure(let error):
-                print("Updating draft error: \(error)")
-            }
-            
-        }
+        cart = updatedCart
+        completion()
         
     }
     
@@ -135,6 +112,8 @@ class CartViewModel {
             case .failure(let error):
                 print("Updating draft error: \(error)")
             }
+            
+            
             
         }
         
