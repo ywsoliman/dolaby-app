@@ -146,14 +146,14 @@ extension CategoriesViewController:FavItemDelegate{
     func notAuthenticated() {
         showAlert(message: "You need to login first.") {
             let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-            guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
-                        return
-                    }
-                loginVC.modalPresentationStyle = .fullScreen
-                loginVC.modalTransitionStyle = .flipHorizontal
-                self.present(loginVC, animated: true)
-                self.navigationController?.viewControllers = []
-                   
+            let loginVC =
+                    
+                    storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
+            loginVC.modalPresentationStyle = .fullScreen
+            loginVC.modalTransitionStyle = .flipHorizontal
+            self.present(loginVC, animated: true)
+            self.navigationController?.viewControllers = []
+            
         }
     }
     
