@@ -110,13 +110,14 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             if cart.lineItems.count > 1 {
                 self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id) {
                     self.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
                 }
             } else {
                 self.cartViewModel.deleteCart() {
                     self.totalPrice = 0.0
+                    tableView.reloadData()
                 }
             }
-            tableView.deleteRows(at: [indexPath], with: .fade)
             
         }
         
