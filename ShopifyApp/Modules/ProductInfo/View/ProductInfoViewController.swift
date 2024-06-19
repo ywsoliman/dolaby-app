@@ -132,16 +132,16 @@ class ProductInfoViewController: UIViewController {
         }
     }
     func showAlert(message: String, okHandler: @escaping () -> Void) {
-            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-                okHandler()
-            }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-                present(alert, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            okHandler()
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
     func updateFavBtnImage(isFav:Bool){
         print(isFav)
         let imageName = isFav ? "heart.fill" : "heart"
@@ -210,10 +210,24 @@ class ProductInfoViewController: UIViewController {
     @objc func segmentValueChanged(_ sender: UISegmentedControl) {
         updateQuantityLabel()
     }
-    func updateQuantityLabel(){
+    func updateQuantityLabel() {
+        
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
-        quantityControlBtn.maximumValue = Double(quantityInVentory + 1)
-        if Int(quantityControlBtn.value) > quantityInVentory {
+        
+        let currentVariantMaxQuantity: Double
+        
+        print("Maximum Quantity Before: \(quantityInVentory)")
+        
+        if quantityInVentory > 10 {
+            currentVariantMaxQuantity = (Double(quantityInVentory) * 0.25).rounded()
+        } else {
+            currentVariantMaxQuantity = Double(quantityInVentory)
+        }
+        
+        print("Maximum Quantity After: \(currentVariantMaxQuantity)")
+        
+        quantityControlBtn.maximumValue = currentVariantMaxQuantity + 1
+        if Int(quantityControlBtn.value) > Int(currentVariantMaxQuantity) {
             quantityStatus.text = "No Enough Items"
             addToCartBtn.isEnabled = false
             print(quantityControlBtn.value)
