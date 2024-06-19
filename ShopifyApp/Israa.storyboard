@@ -343,6 +343,7 @@
                         <color key="badgeColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
                     <connections>
+                        <outlet property="moreOrdersBtn" destination="NjH-aW-M1B" id="NaV-eC-FsP"/>
                         <outlet property="ordersTable" destination="y0L-lr-OzL" id="v9V-Rm-7VZ"/>
                         <outlet property="welcomeLabel" destination="2MY-OE-Syf" id="iHl-N9-8yw"/>
                     </connections>
@@ -718,6 +719,21 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EyO-pX-bpZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4830" y="2483"/>
+        </scene>
+        <!--Order Details View Controller-->
+        <scene sceneID="MiO-c2-AhC">
+            <objects>
+                <viewController storyboardIdentifier="orderDetailsVC" id="iiq-wH-HTq" customClass="OrderDetailsViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="oNC-fX-FDF">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="PxS-rM-QlM"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8IP-ef-hv5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5891" y="2410"/>
         </scene>
     </scenes>
     <resources>
