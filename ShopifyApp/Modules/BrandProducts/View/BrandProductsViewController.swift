@@ -86,7 +86,7 @@ extension BrandProductsViewController:UICollectionViewDataSource{
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
         cell.delegate = self
         cell.cellIndex = indexPath.item
-        cell.categoryPrice.text="\((brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].variants[0].price) ?? "0.0") LE"
+        cell.categoryPrice.text=Double(brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].variants[0].price ?? "0")?.priceFormatter()
         cell.updateFavBtnImage(isFav: favViewModel.isFavoriteItem(withId: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].id ?? 0))
         let titleComponents = brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents?.last ?? "")

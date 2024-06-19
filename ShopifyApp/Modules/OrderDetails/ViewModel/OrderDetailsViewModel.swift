@@ -10,6 +10,8 @@ protocol OrderDetailsViewModelProtocol{
     func getOrder()->OrderDetails?
     func fetchOrder(orderId:Int)->Void
     var bindOrderToViewController:()->Void{get set}
+    //func getProductImage(productId:Int)->String
+
 }
 class OrderDetailsViewModel:OrderDetailsViewModelProtocol{
     var networkService:NetworkService?=nil
@@ -32,5 +34,7 @@ class OrderDetailsViewModel:OrderDetailsViewModelProtocol{
     func getOrder() -> OrderDetails? {
         return order
     }
+    
+    
     
 }
