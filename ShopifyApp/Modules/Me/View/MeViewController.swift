@@ -10,7 +10,7 @@ import UIKit
 class MeViewController: UIViewController {
 
     @IBOutlet weak var ordersTable: UITableView!
-    
+    @IBOutlet weak var moreOrdersBtn: UIButton!
     @IBOutlet weak var welcomeLabel: UILabel!
     var ordersViewModel: OrdersViewModelProtocol?
     let indicator = UIActivityIndicatorView(style: .large)
@@ -34,11 +34,13 @@ class MeViewController: UIViewController {
         ordersViewModel?.fetchOrders()
         indicator.startAnimating()
         ordersTable.isHidden=true
+        moreOrdersBtn.isHidden=true
         ordersViewModel?.bindOrdersToViewController={[weak self] in
             DispatchQueue.main.async {
                 self?.indicator.stopAnimating()
                 self?.ordersTable.reloadData()
                 self?.ordersTable.isHidden=false
+                self?.moreOrdersBtn.isHidden = self?.ordersViewModel?.getOrdersCount() ?? 0 > 1 ? false:true
             }
         }
         view.addSubview(indicator)

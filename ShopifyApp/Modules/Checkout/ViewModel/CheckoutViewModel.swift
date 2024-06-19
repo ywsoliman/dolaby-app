@@ -74,7 +74,7 @@ class CheckoutViewModel {
                 "created_at": formattedDate,
                 "currency": CurrencyManager.currency,
                 "email": CurrentUser.user?.email ?? "israaassem20@gmail.com",
-                "total_price": draftOrder.totalPrice,
+                "total_price": draftOrder.appliedDiscount?.amount ?? draftOrder.totalPrice,
                 "customer":
                     ["id":
                         CurrentUser.user?.id
@@ -84,7 +84,9 @@ class CheckoutViewModel {
                                "title": item.title,
                                "price": item.price,
                                "quantity": item.quantity,
-                               "variant_title": item.variantTitle
+                               "variant_title": item.variantTitle,
+                               "variant_id": item.variantID,
+                               "product_id": item.productID
                            ]
                        }
             ]
@@ -112,7 +114,6 @@ class CheckoutViewModel {
             case .success(_):
                 print("Customer is updated Successfully!")
             case .failure(let error):
-                print("User id: \((CurrentUser.user?.id)!)")
                 print("Error in updating customer: \(error)")
             }
         }
