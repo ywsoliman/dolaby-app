@@ -77,10 +77,21 @@ class CartViewModel {
     
     func deleteCart(completion: @escaping () -> ()) {
         
-        cart = nil
-        CurrentUser.user?.cartID = nil
-        updateCustomer()
-        completion()
+        guard let cartId = CurrentUser.user?.cartID else { return }
+            
+            service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
+                
+                switch result {
+                case .success:
+                    self.cart = nil
+                    CurrentUser.user!.cartID = nil
+                    updateCustomer()
+                    completion()
+                case .failure(let error):
+                    print("Error DraftOrder: \(error)")
+                }
+                
+            }
         
     }
     
