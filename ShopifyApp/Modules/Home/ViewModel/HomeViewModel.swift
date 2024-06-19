@@ -58,6 +58,7 @@ class HomeViewModel:HomeViewModelProtocol{
             case .success(let customerResponse):
                 CurrentUser.user = customerResponse.customer
                 CurrentUser.type = UserType.authenticated
+                print("Customer authenticated")
             case .failure(let error):
                 print("Error in getting the user data \(error.localizedDescription)")
             }

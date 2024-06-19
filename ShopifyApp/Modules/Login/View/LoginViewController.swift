@@ -98,9 +98,9 @@ class LoginViewController: UIViewController {
            present(alert, animated: true, completion: nil)
        }
     @objc func signupTextTapped() {
-           if let signupVC = storyboard?.instantiateViewController(withIdentifier: "signupVC") as? SignupViewController {
-               navigationController?.pushViewController(signupVC, animated: true)
-           }
+        print("Signup pressed")
+        let signupVC = self.storyboard?.instantiateViewController(withIdentifier: "signupVC") as! SignupViewController
+        self.navigationController?.pushViewController(signupVC, animated: true)
        }
     private func setupPasswordField(_ textField: UITextField) {
             textField.isSecureTextEntry = true
