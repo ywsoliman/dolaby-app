@@ -11,15 +11,15 @@ import XCTest
 final class NetworkServiceMockTests: XCTestCase {
     
     private var networkServiceMock: NetworkServiceMock!
-
+    
     override func setUpWithError() throws {
         networkServiceMock = NetworkServiceMock()
     }
-
+    
     override func tearDownWithError() throws {
         networkServiceMock = nil
     }
-
+    
     func testFetchingDiscountCodesSuccess() {
         networkServiceMock.shouldFail = false
         networkServiceMock.getDiscountCodes { response, error in
@@ -69,5 +69,37 @@ final class NetworkServiceMockTests: XCTestCase {
             XCTAssertNotNil(error)
         }
     }
-
+    
+    func testFetchingDraftOrderSuccess() {
+        networkServiceMock.shouldFail = false
+        networkServiceMock.getDraftOrder { response, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(response)
+        }
+    }
+    
+    func testFetchingDraftOrderFailure() {
+        networkServiceMock.shouldFail = true
+        networkServiceMock.getDraftOrder { response, error in
+            XCTAssertNil(response)
+            XCTAssertNotNil(error)
+        }
+    }
+    
+    func testCreateDraftOrderWithProductSuccess() {
+        networkServiceMock.shouldFail = false
+        networkServiceMock.createDraftOrderWithProduct { response, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(response)
+        }
+    }
+    
+    func testCreateDraftOrderWithProductFailure() {
+        networkServiceMock.shouldFail = true
+        networkServiceMock.createDraftOrderWithProduct { response, error in
+            XCTAssertNil(response)
+            XCTAssertNotNil(error)
+        }
+    }
+    
 }

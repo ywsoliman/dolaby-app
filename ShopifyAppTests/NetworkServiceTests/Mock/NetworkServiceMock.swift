@@ -39,6 +39,117 @@ class NetworkServiceMock {
         ]
     ]
     
+    private static let fakeCustomerDetails: [String: Any] = [
+        "id": TEST_CUSTOMER_ID,
+        "email": "steve.lastnameson@example.com",
+        "first_name": "Testing",
+        "last_name": "Account",
+        "orders_count": 0,
+        "state": "enabled",
+        "total_spent": "0.00",
+        "last_order_id": NSNull(),
+        "note": NSNull(),
+        "verified_email": true,
+        "multipass_identifier": NSNull(),
+        "tax_exempt": false,
+        "tags": "",
+        "last_order_name": NSNull(),
+        "currency": "EGP",
+        "phone": "+15142546011",
+        "default_address": [
+            "id": 10200923275564,
+            "customer_id": 8140780732716,
+            "first_name": "Mother",
+            "last_name": "Lastnameson",
+            "company": NSNull(),
+            "address1": "123 Oak St",
+            "address2": NSNull(),
+            "city": "Ottawa",
+            "province": "Ontario",
+            "country": "Canada",
+            "zip": "123 ABC",
+            "phone": "555-1212",
+            "name": "Mother Lastnameson",
+            "province_code": "ON",
+            "country_code": "CA",
+            "country_name": "Canada",
+            "default": true
+        ]
+    ]
+    
+    private static let fakeCustomer: [String: Any] = [
+        "customer": [
+            fakeCustomerDetails
+        ]
+    ]
+    
+    private let fakeDraftOrder: [String: Any] = [
+        "draft_order": [
+            "id": TEST_CART_ID,
+            "email": "steve.lastnameson@example.com",
+            "currency": "EGP",
+            "completed_at": NSNull(),
+            "name": "#D123",
+            "status": "open",
+            "line_items": [
+                [
+                    "id": 58462073913644,
+                    "variant_id": 48945467031852,
+                    "product_id": 9365476245804,
+                    "title": "ADIDAS | CLASSIC BACKPACK",
+                    "variant_title": "OS / black",
+                    "sku": "AD-03-black-OS",
+                    "vendor": "ADIDAS",
+                    "quantity": 1,
+                    "applied_discount": NSNull(),
+                    "name": "ADIDAS | CLASSIC BACKPACK - OS / black",
+                    "price": "70.00",
+                ]
+            ],
+            "shipping_address": [
+                "first_name": "Mother",
+                "address1": "123 Oak St",
+                "phone": "555-1212",
+                "city": "Ottawa",
+                "zip": "123 ABC",
+                "province": "Ontario",
+                "country": "Canada",
+                "last_name": "Lastnameson",
+                "address2": NSNull(),
+                "company": NSNull(),
+                "latitude": NSNull(),
+                "longitude": NSNull(),
+                "name": "Mother Lastnameson",
+                "country_code": "CA",
+                "province_code": "ON"
+            ],
+            "billing_address": [
+                "first_name": "Mother",
+                "address1": "123 Oak St",
+                "phone": "555-1212",
+                "city": "Ottawa",
+                "zip": "123 ABC",
+                "province": "Ontario",
+                "country": "Canada",
+                "last_name": "Lastnameson",
+                "address2": NSNull(),
+                "company": NSNull(),
+                "latitude": 45.406837,
+                "longitude": -75.7138004,
+                "name": "Mother Lastnameson",
+                "country_code": "CA",
+                "province_code": "ON"
+            ],
+            "applied_discount": NSNull(),
+            "order_id": NSNull(),
+            "total_price": "70.00",
+            "subtotal_price": "70.00",
+            "total_tax": "0.00",
+            "customer": fakeCustomerDetails
+        ]
+    ]
+
+    
     func getDiscountCodes(completion: @escaping (PriceRulesResponse?, Error?) -> Void) {
         
         var priceRuleResponse: PriceRulesResponse?
@@ -110,6 +221,43 @@ class NetworkServiceMock {
                 addresses.remove(at: index)
             }
             fakeCustomerAddresses["addresses"] = addresses
+        }
+        
+    }
+    
+    func getDraftOrder(completion: @escaping (DraftOrderResponse?, Error?) -> Void) {
+        
+        var draftOrder: DraftOrderResponse?
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: fakeDraftOrder)
+            draftOrder = try JSONDecoder().decode(DraftOrderResponse.self, from: data)
+        } catch {
+            print("Mock error \(error)")
+        }
+        
+        shouldFail ? completion(nil, NetworkError.genericError) : completion(draftOrder, nil)
+        
+    }
+    
+    func createDraftOrderWithProduct(completion: @escaping (DraftOrderResponse?, Error?) -> Void) {
+        
+        guard !shouldFail else {
+            completion(nil, NetworkError.genericError)
+            return
+        }
+        
+        var draftOrder: DraftOrderResponse?
+        
+        var newDraftOrder: [String: Any] = fakeDraftOrder
+        newDraftOrder["id"] = TEST_CART_ID + 1
+        
+        do {
+            let data = try JSONSerialization.data(withJSONObject: newDraftOrder)
+            draftOrder = try JSONDecoder().decode(DraftOrderResponse.self, from: data)
+            completion(draftOrder, nil)
+        } catch {
+            completion(nil, error)
         }
         
     }
