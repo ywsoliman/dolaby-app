@@ -18,7 +18,7 @@ class CartViewController: UIViewController {
     @IBOutlet weak var checkoutBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var priceLabel: UILabel!
-    
+        
     private var totalPrice: Double! {
         didSet {
             updateTotalPrice()
@@ -33,12 +33,24 @@ class CartViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(CartTableViewCell.nib(), forCellReuseIdentifier: CartTableViewCell.identifier)
         
+        LoadingIndicator.start(on: view)
+        
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
-            self?.tableView.reloadData()
-            self?.setTotalPrice()
+            self?.updateCartData()
         }
         
+        cartViewModel.getCart()
+    }
+    
+    func updateCartData() {
+        LoadingIndicator.stop()
+        
+        let numberOfItems = cartViewModel.cart?.lineItems.count ?? 0
+        checkIfCartIsEmpty(numberOfItems)
+        
+        tableView.reloadData()
+        setTotalPrice()
     }
     
     func setTotalPrice() {
@@ -60,9 +72,7 @@ class CartViewController: UIViewController {
 extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTableViewCellDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let numberOfItems = cartViewModel.cart?.lineItems.count ?? 0
-        checkIfCartIsEmpty(numberOfItems)
-        return numberOfItems
+        return cartViewModel.cart?.lineItems.count ?? 0
     }
     
     
@@ -108,14 +118,16 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             
             guard let cart = self.cartViewModel.cart else { return }
             if cart.lineItems.count > 1 {
-                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id) {
-                    self.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
+                self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id) { [weak self] in
+                    self?.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
             } else {
-                self.cartViewModel.deleteCart() {
-                    self.totalPrice = 0.0
-                    tableView.reloadData()
+                LoadingIndicator.start(on: self.view)
+                self.cartViewModel.deleteCart() { [weak self] in
+                    LoadingIndicator.stop()
+                    self?.totalPrice = 0.0
+                    self?.checkIfCartIsEmpty(0)
                 }
             }
             

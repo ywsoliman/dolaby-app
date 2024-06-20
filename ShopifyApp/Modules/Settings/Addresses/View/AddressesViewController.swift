@@ -14,6 +14,7 @@ class AddressesViewController: UIViewController {
     
     var addressesViewModel: AddressesViewModel!
     var onAddressChanged: (() -> ()) = {}
+    var loadingIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,12 +25,17 @@ class AddressesViewController: UIViewController {
         
         addressesViewModel = AddressesViewModel(service: NetworkService.shared)
         addressesViewModel.bindAddressesToViewController = { [weak self] in
+            let numberOfItems = self?.addressesViewModel.addresses?.addresses.count ?? 0
+            self?.checkIfAddressesAreEmpty(numberOfItems)
             self?.tableView.reloadData()
             self?.onAddressChanged()
         }
         addressesViewModel.bindDefaultAddressToViewController = { [weak self] in
             self?.onAddressChanged()
         }
+        
+        LoadingIndicator.start(on: view)
+        addressesViewModel.getAddresses()
         
     }
     
@@ -62,12 +68,11 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let numberOfItems = addressesViewModel.addresses?.addresses.count ?? 0
-        checkIfAddressesAreEmpty(numberOfItems)
-        return numberOfItems
+        return addressesViewModel.addresses?.addresses.count ?? 0
     }
     
     func checkIfAddressesAreEmpty(_ numberOfItems: Int) {
+        loadingIndicator.stopAnimating()
         if numberOfItems == 0 {
             noAddressesView.isHidden = false
         } else {

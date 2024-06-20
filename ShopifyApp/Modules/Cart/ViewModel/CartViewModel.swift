@@ -15,15 +15,20 @@ class CartViewModel {
     
     init(service: NetworkService) {
         self.service = service
-        getCart()
     }
     
     func getCart() {
-        service.getCart { (result: Result<DraftOrderResponse, APIError>) in
+        
+        guard let cartId = CurrentUser.user?.cartID else {
+            self.bindCartToViewController()
+            return
+        }
+        
+        service.getCart(withId: cartId) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             switch result {
             case .success(let response):
-                self.cart = response.draftOrder
-                self.getProductVariants()
+                self?.cart = response.draftOrder
+                self?.getProductVariants()
             case .failure(let error):
                 print("Getting Cart Error: \(error)")
             }

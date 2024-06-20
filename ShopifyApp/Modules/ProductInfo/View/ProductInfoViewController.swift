@@ -58,6 +58,7 @@ class ProductInfoViewController: UIViewController {
             self?.updateViewWithProductInfo(productInfo)
         }
         viewModel.bindAlertToViewController = { [weak self] doesExist in
+            LoadingIndicator.stop()
             let message: String
             if doesExist {
                 message = "Item is already in cart."
@@ -169,8 +170,7 @@ class ProductInfoViewController: UIViewController {
         
         let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
         
-        print(Int(productQuantity.text ?? "1")!)
-        
+        LoadingIndicator.start(on: view)
         viewModel.addVariantToCart(
             id: variantId,
             quantity: Int(productQuantity.text ?? "1")!

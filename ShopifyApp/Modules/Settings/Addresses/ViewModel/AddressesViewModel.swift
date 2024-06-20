@@ -27,7 +27,6 @@ class AddressesViewModel {
     
     init(service: NetworkService) {
         self.service = service
-        getAddresses()
     }
     
     func getAddresses() {
