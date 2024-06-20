@@ -23,6 +23,7 @@ class CheckoutViewController: UIViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var discountLabel: UILabel!
     
+    var onShippingAddressChanged: ((_: DraftOrderResponse) -> ()) = {_ in}
     var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
@@ -192,6 +193,19 @@ class CheckoutViewController: UIViewController {
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "changeAddressSegue" {
+
+            let destVC = segue.destination as? AddressesViewController
+            destVC?.onShippingAddressChanged = { draftOrder in
+                self.checkoutViewModel.draftOrder = draftOrder.draftOrder
+                self.onShippingAddressChanged(draftOrder)
+            }
+        }
+        
+    }
+    
     
 }
 
@@ -211,19 +225,6 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(lineItem: checkoutViewModel.draftOrder.lineItems[indexPath.row])
         
         return cell
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "changeAddressSegue" {
-
-            let destVC = segue.destination as? AddressesViewController
-            destVC?.onAddressChanged = {
-                guard let defaultAddress = destVC?.addressesViewModel.defaultAddress else { return }
-                self.setShippingAddress(city: defaultAddress.city, country: defaultAddress.country, address: defaultAddress.address1)
-            }
-        }
         
     }
     

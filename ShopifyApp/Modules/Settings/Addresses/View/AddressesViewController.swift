@@ -14,7 +14,7 @@ class AddressesViewController: UIViewController {
     
     var addressesViewModel: AddressesViewModel!
     var onAddressChanged: (() -> ()) = {}
-    var loadingIndicator: UIActivityIndicatorView!
+    var onShippingAddressChanged: ((_: DraftOrderResponse) -> ()) = {_ in}
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +32,9 @@ class AddressesViewController: UIViewController {
         }
         addressesViewModel.bindDefaultAddressToViewController = { [weak self] in
             self?.onAddressChanged()
+        }
+        addressesViewModel.bindCartWithNewShippingAddressToViewController = { [weak self] draftOrder in
+            self?.onShippingAddressChanged(draftOrder)
         }
         
         LoadingIndicator.start(on: view)
@@ -72,7 +75,7 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func checkIfAddressesAreEmpty(_ numberOfItems: Int) {
-        loadingIndicator.stopAnimating()
+        LoadingIndicator.stop()
         if numberOfItems == 0 {
             noAddressesView.isHidden = false
         } else {

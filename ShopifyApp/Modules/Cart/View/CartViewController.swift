@@ -210,6 +210,9 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             guard let cart = cartViewModel.cart else { return }
             let destVC = segue.destination as? CheckoutViewController
             destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, subtotal: totalPrice)
+            destVC?.onShippingAddressChanged = { draftOrder in
+                self.cartViewModel.cart = draftOrder.draftOrder
+            }
         }
         
     }

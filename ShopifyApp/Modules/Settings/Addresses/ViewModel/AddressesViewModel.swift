@@ -12,6 +12,7 @@ class AddressesViewModel {
     private let service: NetworkService
     var bindAddressesToViewController: (() -> ()) = {}
     var bindDefaultAddressToViewController: (() -> ()) = {}
+    var bindCartWithNewShippingAddressToViewController: ((_: DraftOrderResponse) -> ()) = {_ in}
     var addresses: CustomerAddresses? {
         didSet {
             bindAddressesToViewController()
@@ -104,10 +105,11 @@ class AddressesViewModel {
         
         let addressParams = ["draft_order": shippingParams]
         
-        service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .put, parameters: addressParams) { (result: Result<DraftOrderResponse, APIError>) in
+        service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .put, parameters: addressParams) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
-            case .success(_):
+            case .success(let response):
+                self?.bindCartWithNewShippingAddressToViewController(response)
                 completion()
                 print("Changed cart shipping address successfully!")
             case .failure(let error):
