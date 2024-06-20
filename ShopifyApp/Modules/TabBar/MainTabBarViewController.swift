@@ -39,9 +39,9 @@ class MainTabBarViewController: UITabBarController ,UITabBarControllerDelegate{
                 if !authenticated {
                     showAlert(message: "You need to login first.") {
                         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-                         guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
-                             return
-                         }
+                          let loginVC =
+                                
+                                storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
                         loginVC.modalPresentationStyle = .fullScreen
                         loginVC.modalTransitionStyle = .flipHorizontal
                         self.present(loginVC, animated: true)
@@ -83,9 +83,9 @@ extension MainTabBarViewController{
             } else {
                 showAlert(message: "You need to login first.") {
                     let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-                     guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
-                         return
-                     }
+                    let loginVC =
+                            
+                            storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
                     loginVC.modalPresentationStyle = .fullScreen
                     loginVC.modalTransitionStyle = .flipHorizontal
                     self.present(loginVC, animated: true)
