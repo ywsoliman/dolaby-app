@@ -141,18 +141,18 @@
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Egypt" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFo-iO-cqL">
-                                        <rect key="frame" x="43.666666666666657" y="15.999999999999998" width="309.33333333333337" height="20.333333333333329"/>
+                                        <rect key="frame" x="43.666666666666671" y="15.999999999999998" width="210.33333333333331" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Faisal Street, Giza" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Nu-Nm-JAE">
-                                        <rect key="frame" x="16" y="52.333333333333314" width="329" height="20.333333333333329"/>
+                                        <rect key="frame" x="16" y="52.333333333333314" width="238" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J8a-NS-10M">
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J8a-NS-10M">
                                         <rect key="frame" x="262" y="25.000000000000004" width="83" height="38.333333333333343"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="filled" title="Change">
@@ -167,13 +167,13 @@
                                     <constraint firstItem="7Nu-Nm-JAE" firstAttribute="top" secondItem="aFo-iO-cqL" secondAttribute="bottom" constant="16" id="6cr-UH-8J7"/>
                                     <constraint firstItem="aFo-iO-cqL" firstAttribute="centerY" secondItem="9Gh-CM-45Y" secondAttribute="centerY" id="8fk-xK-E95"/>
                                     <constraint firstAttribute="trailing" secondItem="J8a-NS-10M" secondAttribute="trailing" constant="16" id="D3B-i3-8VY"/>
-                                    <constraint firstAttribute="trailing" secondItem="7Nu-Nm-JAE" secondAttribute="trailing" constant="16" id="KkA-Zj-bAd"/>
+                                    <constraint firstItem="J8a-NS-10M" firstAttribute="leading" secondItem="7Nu-Nm-JAE" secondAttribute="trailing" constant="8" id="Glc-D3-OiU"/>
                                     <constraint firstItem="9Gh-CM-45Y" firstAttribute="top" secondItem="u35-wp-eDU" secondAttribute="top" constant="16" id="LtW-Km-Dbz"/>
+                                    <constraint firstItem="J8a-NS-10M" firstAttribute="leading" secondItem="aFo-iO-cqL" secondAttribute="trailing" constant="8" id="Rbd-oU-UeW"/>
                                     <constraint firstItem="aFo-iO-cqL" firstAttribute="leading" secondItem="9Gh-CM-45Y" secondAttribute="trailing" constant="8" id="Syd-ag-ebt"/>
                                     <constraint firstItem="7Nu-Nm-JAE" firstAttribute="leading" secondItem="u35-wp-eDU" secondAttribute="leading" constant="16" id="sUt-ig-xez"/>
                                     <constraint firstAttribute="height" constant="88" id="tTc-Ua-YTN"/>
                                     <constraint firstItem="J8a-NS-10M" firstAttribute="centerY" secondItem="u35-wp-eDU" secondAttribute="centerY" id="tfA-4m-TcN"/>
-                                    <constraint firstAttribute="trailing" secondItem="aFo-iO-cqL" secondAttribute="trailing" constant="8" id="wBx-Kw-iV3"/>
                                     <constraint firstItem="9Gh-CM-45Y" firstAttribute="leading" secondItem="u35-wp-eDU" secondAttribute="leading" constant="16" id="yeX-cb-ETM"/>
                                 </constraints>
                             </view>
