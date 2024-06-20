@@ -99,6 +99,7 @@
 		BE86103B2BFF5003001AB5A6 /* ShopifyAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86103A2BFF5003001AB5A6 /* ShopifyAppUITests.swift */; };
 		BE86103D2BFF5003001AB5A6 /* ShopifyAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE86103C2BFF5003001AB5A6 /* ShopifyAppUITestsLaunchTests.swift */; };
 		BE92D58C2C2461E50019BD8C /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE92D58B2C2461E50019BD8C /* LoadingIndicator.swift */; };
+		BE92D58E2C2497A10019BD8C /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE92D58D2C2497A00019BD8C /* Alert.swift */; };
 		BE9A0BA22C1375F900864A21 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9A0BA12C1375F900864A21 /* Address.swift */; };
 		BE9A0BA42C1396DA00864A21 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE9A0BA32C1396DA00864A21 /* GoogleService-Info.plist */; };
 		BEC28E2D2C18A936007A61BC /* Discounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC28E2C2C18A936007A61BC /* Discounts.swift */; };
@@ -224,6 +225,7 @@
 		BE86103A2BFF5003001AB5A6 /* ShopifyAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopifyAppUITests.swift; sourceTree = "<group>"; };
 		BE86103C2BFF5003001AB5A6 /* ShopifyAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopifyAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BE92D58B2C2461E50019BD8C /* LoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
+		BE92D58D2C2497A00019BD8C /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		BE9A0BA12C1375F900864A21 /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		BE9A0BA32C1396DA00864A21 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BEC28E2C2C18A936007A61BC /* Discounts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Discounts.swift; sourceTree = "<group>"; };
@@ -646,6 +648,7 @@
 				035FFC6B2C15348A0003EAA2 /* Extentions */,
 				BE2333312C0E334600D80BE9 /* Constants.swift */,
 				BE92D58B2C2461E50019BD8C /* LoadingIndicator.swift */,
+				BE92D58D2C2497A00019BD8C /* Alert.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1286,6 +1289,7 @@
 				9F62A21C2C1BB9DD0021A593 /* BrandProductsResponse.swift in Sources */,
 				036D56572C139E2600C3CC8C /* OnboardingViewController.swift in Sources */,
 				039E85B12C1ACB180020F32C /* ProductInfoViewController.swift in Sources */,
+				BE92D58E2C2497A10019BD8C /* Alert.swift in Sources */,
 				BE2333332C0E334600D80BE9 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

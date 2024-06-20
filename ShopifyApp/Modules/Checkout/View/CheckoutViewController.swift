@@ -40,8 +40,38 @@ class CheckoutViewController: UIViewController {
         initUI()
     }
     
+    func initUI() {
+        shippingView.layer.borderWidth = 1
+        shippingView.layer.borderColor = UIColor.lightGray.cgColor
+        shippingView.layer.cornerRadius = 8
+        
+        enableApplyWhenPromoIsAvailable()
+        
+        setOrderInfo()
+    }
+    
     @IBAction func cashOnDeliveryBtn(_ sender: UIButton) {
         confirmationAlert()
+    }
+    
+    @IBAction func applePayBtn(_ sender: UIButton) {
+        if let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: createPaymentRequest()) {
+            paymentVC.delegate = self
+            present(paymentVC, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
+        
+        for discount in Discounts.discounts {
+            if promoTextField.text! == discount.title {
+                checkoutViewModel.addDiscountToDraftOrder(discount)
+                return
+            }
+        }
+        
+        discountNotFoundAlert()
+        
     }
     
     func confirmationAlert() {
@@ -60,13 +90,6 @@ class CheckoutViewController: UIViewController {
         
         present(alert, animated: true)
         
-    }
-    
-    @IBAction func applePayBtn(_ sender: UIButton) {
-        if let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: createPaymentRequest()) {
-            paymentVC.delegate = self
-            present(paymentVC, animated: true, completion: nil)
-        }
     }
     
     func createPaymentRequest() -> PKPaymentRequest {
@@ -106,25 +129,9 @@ class CheckoutViewController: UIViewController {
         return itemsSummary
     }
     
-    @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
-        
-        for discount in Discounts.discounts {
-            if promoTextField.text! == discount.title {
-                checkoutViewModel.addDiscountToDraftOrder(discount)
-                break
-            }
-        }
-        
-    }
-    
-    func initUI() {
-        shippingView.layer.borderWidth = 1
-        shippingView.layer.borderColor = UIColor.lightGray.cgColor
-        shippingView.layer.cornerRadius = 8
-        
-        enableApplyWhenPromoIsAvailable()
-        
-        setOrderInfo()
+    func discountNotFoundAlert() {
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert(title: "Invalid Coupon", message: "Please enter a valid discount.", viewController: self, actions: okAction)
     }
     
     func setOrderInfo() {
