@@ -15,6 +15,7 @@ class AddressesViewController: UIViewController {
     var addressesViewModel: AddressesViewModel!
     var onAddressChanged: (() -> ()) = {}
     var onShippingAddressChanged: ((_: DraftOrderResponse) -> ()) = {_ in}
+    var lastSelectedAddressIndexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,6 +88,10 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
         
         guard let address = addressesViewModel.addresses?.addresses[indexPath.row] else { return UITableViewCell() }
         
+        if address.addressDefault ?? false {
+            lastSelectedAddressIndexPath = indexPath
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: AddressTableViewCell.identifier, for: indexPath) as! AddressTableViewCell
         
         cell.configure(address: address)
@@ -95,9 +100,19 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let lastSelected = lastSelectedAddressIndexPath, lastSelected == indexPath {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
+        
+        lastSelectedAddressIndexPath = indexPath
+        
+        LoadingIndicator.start(on: view)
         guard let addresses = addressesViewModel.addresses else { return }
         guard let id = addresses.addresses[indexPath.row].id else { return }
         addressesViewModel.setDefault(addressID: id) { [weak self] in
+            LoadingIndicator.stop()
             self?.changeCellsAccessory(tableView, indexPath)
         }
     }
