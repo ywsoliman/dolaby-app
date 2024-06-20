@@ -129,7 +129,7 @@ class CheckoutViewController: UIViewController {
     func setOrderInfo() {
         let order = checkoutViewModel.draftOrder
         setPriceSetction(order)
-        let shippingAddress = order.shippingAddress
+        let shippingAddress = order.shippingAddress!
         setShippingAddress(
             city: shippingAddress.city,
             country: shippingAddress.country,

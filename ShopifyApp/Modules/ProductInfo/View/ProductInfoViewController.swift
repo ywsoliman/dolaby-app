@@ -81,25 +81,6 @@ class ProductInfoViewController: UIViewController {
         }
     }
     
-    func addAddressAlert() {
-        let alert = UIAlertController(title: "No addresses found", message: "Please provide at least one address to add products to cart", preferredStyle: .alert)
-        let addAction = UIAlertAction(title: "Add", style: .default) {_ in
-            self.navigateToAddAddress()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(addAction)
-        alert.addAction(cancelAction)
-        present(alert, animated: true)
-    }
-    
-    private func navigateToAddAddress() {
-        let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
-        guard let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController else {
-            return
-        }
-        navigationController?.pushViewController(destVC, animated: true)
-    }
-    
     private func applyCornerRadius() {
         let path = UIBezierPath(roundedRect: bodyViewContainer.bounds,
                                 byRoundingCorners: [.topLeft, .topRight],
@@ -185,11 +166,6 @@ class ProductInfoViewController: UIViewController {
         
     }
     @IBAction func addToCartPressed(_ sender: Any) {
-        
-        if CurrentUser.user?.addresses?.count == 0 {
-            addAddressAlert()
-            return
-        }
         
         let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
         

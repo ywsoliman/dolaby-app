@@ -9,6 +9,7 @@ import UIKit
 
 class AddressesViewController: UIViewController {
     
+    @IBOutlet weak var noAddressesView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     var addressesViewModel: AddressesViewModel!
@@ -61,7 +62,17 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return addressesViewModel.addresses?.addresses.count ?? 0
+        let numberOfItems = addressesViewModel.addresses?.addresses.count ?? 0
+        checkIfAddressesAreEmpty(numberOfItems)
+        return numberOfItems
+    }
+    
+    func checkIfAddressesAreEmpty(_ numberOfItems: Int) {
+        if numberOfItems == 0 {
+            noAddressesView.isHidden = false
+        } else {
+            noAddressesView.isHidden = true
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -78,8 +89,9 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let addresses = addressesViewModel.addresses else { return }
         guard let id = addresses.addresses[indexPath.row].id else { return }
-        addressesViewModel.setDefault(addressID: id)
-        changeCellsAccessory(tableView, indexPath)
+        addressesViewModel.setDefault(addressID: id) { [weak self] in
+            self?.changeCellsAccessory(tableView, indexPath)
+        }
     }
     
     func changeCellsAccessory(_ tableView: UITableView, _ indexPath: IndexPath) {

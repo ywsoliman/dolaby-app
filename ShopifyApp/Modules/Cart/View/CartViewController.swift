@@ -155,6 +155,43 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
         
     }
     
+    func addAddressAlert() {
+        
+        let alert = UIAlertController(title: "No addresses found", message: "Please provide at least one address to add products to cart", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let addAction = UIAlertAction(title: "Add", style: .default) { _ in
+            self.navigateToAddAddress()
+        }
+        
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    private func navigateToAddAddress() {
+        let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
+        if let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController {
+            navigationController?.pushViewController(destVC, animated: true)
+            destVC.onAddressAdded = { [weak self] in
+                self?.cartViewModel.getCart()
+            }
+        }
+    }
+    
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "checkoutSegue" {
+            if CurrentUser.user?.addresses?.count ?? 0 > 0 { return true }
+            else {
+                addAddressAlert()
+                return false
+            }
+        }
+        
+        return true
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "checkoutSegue" {

@@ -75,14 +75,16 @@ class AddressesViewModel {
         CurrentUser.user!.addresses = addresses
     }
     
-    func setDefault(addressID: Int) {
+    func setDefault(addressID: Int, completion: @escaping () -> ()) {
         
         service.makeRequest(endPoint: "/customers/\(CurrentUser.user!.id)/addresses/\(addressID)/default.json", method: .put) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
             case .success(let address):
                 self.defaultAddress = address.customerAddress
-                self.changeCartShippingAddressToDefault(address)
+                self.changeCartShippingAddressToDefault(address) {
+                    completion()
+                }
             case .failure(let error):
                 print("Setting default address error: \(error)")
             }
@@ -91,7 +93,7 @@ class AddressesViewModel {
         
     }
     
-    func changeCartShippingAddressToDefault(_ address: CustomerAddress) {
+    func changeCartShippingAddressToDefault(_ address: CustomerAddress, completion: @escaping () -> ()) {
         
         guard let cartId = CurrentUser.user?.cartID,
               var shippingParams = address.toDictionary() else { return }
@@ -107,6 +109,7 @@ class AddressesViewModel {
             
             switch result {
             case .success(_):
+                completion()
                 print("Changed cart shipping address successfully!")
             case .failure(let error):
                 print("Couldn't change cart shipping address: \(error)")
