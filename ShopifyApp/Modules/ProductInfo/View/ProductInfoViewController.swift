@@ -193,22 +193,35 @@ class ProductInfoViewController: UIViewController {
         
     }
     @IBAction func addToCartPressed(_ sender: Any) {
-        
-        if CurrentUser.user?.addresses?.count == 0 {
-            addAddressAlert()
-            return
+        let authenticated = CurrentUser.type == UserType.authenticated
+        if authenticated{
+            if CurrentUser.user?.addresses?.count == 0 {
+                addAddressAlert()
+                return
+            }
+            let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+            
+            print(Int(productQuantity.text ?? "1")!)
+            
+            viewModel.addVariantToCart(
+                id: variantId,
+                quantity: Int(productQuantity.text ?? "1")!
+            )
+            
+            print("Variant id \(variantId)")
+        }else{
+            showAlert(message: "You need to login first.") {
+                let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+                let loginVC =
+                
+                storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
+                loginVC.modalPresentationStyle = .fullScreen
+                loginVC.modalTransitionStyle = .flipHorizontal
+                self.present(loginVC, animated: true)
+                self.navigationController?.viewControllers = []
+                
+            }
         }
-        
-        let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
-        
-        print(Int(productQuantity.text ?? "1")!)
-        
-        viewModel.addVariantToCart(
-            id: variantId,
-            quantity: Int(productQuantity.text ?? "1")!
-        )
-        
-        print("Variant id \(variantId)")
     }
     
     @IBAction func quantityControlPressed(_ sender: UIStepper) {
