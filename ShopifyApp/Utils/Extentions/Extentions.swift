@@ -31,6 +31,15 @@ extension String {
     }
 }
 
+extension Int {
+    func getValidQuantity() -> Int {
+        if self > 10 {
+            return Int(Double(self) * 0.25)
+        }
+        return self
+    }
+}
+
 extension UISearchBar {
     var textPublisher: AnyPublisher<String, Never> {
         NotificationCenter.default.publisher(for: UISearchTextField.textDidChangeNotification, object: self.searchTextField)

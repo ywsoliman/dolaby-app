@@ -144,11 +144,12 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
         
         guard let indexPath = tableView.indexPath(for: cell), let cart = cartViewModel.cart else { return }
         let item = cart.lineItems[indexPath.row]
+        let itemQuantity = item.inventoryQuantity?.getValidQuantity() ?? 1
         
         switch operation {
             
         case .increment:
-            if cell.itemQuantity < item.inventoryQuantity ?? 1 {
+            if cell.itemQuantity < itemQuantity {
                 cell.itemQuantity += 1
                 totalPrice += Double(item.price) ?? 0.0
             }
@@ -162,7 +163,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
         
         cartViewModel.cart?.lineItems[indexPath.row].quantity = cell.itemQuantity
         cell.quantityLabel.text = String(cell.itemQuantity)
-        cell.updateButtonState(maxQuantity: item.inventoryQuantity ?? 1)
+        cell.updateButtonState(maxQuantity: itemQuantity)
         updateTotalPrice()
         
     }

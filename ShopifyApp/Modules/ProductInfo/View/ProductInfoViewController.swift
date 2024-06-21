@@ -190,19 +190,13 @@ class ProductInfoViewController: UIViewController {
         
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
         
-        let currentVariantMaxQuantity: Double
-        
         print("Maximum Quantity Before: \(quantityInVentory)")
         
-        if quantityInVentory > 10 {
-            currentVariantMaxQuantity = (Double(quantityInVentory) * 0.25).rounded()
-        } else {
-            currentVariantMaxQuantity = Double(quantityInVentory)
-        }
+        let currentVariantMaxQuantity = quantityInVentory.getValidQuantity()
         
         print("Maximum Quantity After: \(currentVariantMaxQuantity)")
         
-        quantityControlBtn.maximumValue = currentVariantMaxQuantity + 1
+        quantityControlBtn.maximumValue = Double(currentVariantMaxQuantity + 1)
         if Int(quantityControlBtn.value) > Int(currentVariantMaxQuantity) {
             quantityStatus.text = "No Enough Items"
             addToCartBtn.isEnabled = false
