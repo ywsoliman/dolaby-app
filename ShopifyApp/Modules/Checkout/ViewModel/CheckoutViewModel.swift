@@ -9,8 +9,8 @@ import Foundation
 
 class CheckoutViewModel {
     
-    let service: NetworkService
-    let subtotalPrice: Double
+    private let service: NetworkService
+    let priceBeforeDiscount: Double!
     var draftOrder: DraftOrder {
         didSet {
             bindDraftOrderToViewController()
@@ -18,10 +18,11 @@ class CheckoutViewModel {
     }
     var bindDraftOrderToViewController: (() -> ()) = {}
     
-    init(service: NetworkService, draftOrder: DraftOrder, subtotal: Double) {
+    init(service: NetworkService, draftOrder: DraftOrder, priceBeforeDiscount: Double) {
         self.service = service
         self.draftOrder = draftOrder
-        self.subtotalPrice = subtotal
+        self.priceBeforeDiscount = priceBeforeDiscount
+        print("Price before discount: \(priceBeforeDiscount)")
     }
     
     func addDiscountToDraftOrder(_ priceRule: PriceRule) {

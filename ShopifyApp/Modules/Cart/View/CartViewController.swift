@@ -18,7 +18,7 @@ class CartViewController: UIViewController {
     @IBOutlet weak var checkoutBtn: UIButton!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var priceLabel: UILabel!
-        
+    
     private var totalPrice: Double! {
         didSet {
             updateTotalPrice()
@@ -67,6 +67,67 @@ class CartViewController: UIViewController {
         priceLabel.text = totalPrice.priceFormatter()
     }
     
+    @IBAction func proceedToCheckoutBtn(_ sender: UIButton) {
+        
+        if CurrentUser.user?.addresses?.count == 0 {
+            addAddressAlert()
+            return
+        }
+        
+        
+        if let destVC = storyboard?.instantiateViewController(withIdentifier: "CheckoutViewController") as? CheckoutViewController {
+            LoadingIndicator.start(on: view.self)
+            cartViewModel.updateCart { [weak self] in
+                
+                guard let self = self,
+                      let cart = cartViewModel.cart else { return }
+                
+                destVC.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, priceBeforeDiscount: totalPrice)
+                destVC.onShippingAddressChanged = { draftOrder in
+                    self.cartViewModel.cart = draftOrder.draftOrder
+                }
+                
+                DispatchQueue.main.async { LoadingIndicator.stop() }
+                navigationController?.pushViewController(destVC, animated: true)
+            }
+        }
+        
+        
+    }
+    
+    private func addAddressAlert() {
+        
+        let alert = UIAlertController(title: "No addresses found", message: "Please provide at least one address to add products to cart", preferredStyle: .alert)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let addAction = UIAlertAction(title: "Add", style: .default) { _ in
+            self.navigateToAddAddress()
+        }
+        
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+    }
+    
+    private func navigateToAddAddress() {
+        let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
+        if let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController {
+            navigationController?.pushViewController(destVC, animated: true)
+            destVC.onAddressAdded = { [weak self] in
+                self?.cartViewModel.getCart()
+            }
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if isMovingFromParent {
+            cartViewModel.updateCart {}
+        }
+        
+    }
 }
 
 extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTableViewCellDelegate {
@@ -120,6 +181,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             if cart.lineItems.count > 1 {
                 self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id) { [weak self] in
                     self?.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
+                    print("Total price after deleting: \(self?.totalPrice ?? -1)")
                     tableView.deleteRows(at: [indexPath], with: .fade)
                 }
             } else {
@@ -166,60 +228,6 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
         cell.updateButtonState(maxQuantity: itemQuantity)
         updateTotalPrice()
         
-    }
-    
-    func addAddressAlert() {
-        
-        let alert = UIAlertController(title: "No addresses found", message: "Please provide at least one address to add products to cart", preferredStyle: .alert)
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        let addAction = UIAlertAction(title: "Add", style: .default) { _ in
-            self.navigateToAddAddress()
-        }
-        
-        alert.addAction(addAction)
-        alert.addAction(cancelAction)
-        
-        present(alert, animated: true)
-    }
-    
-    private func navigateToAddAddress() {
-        let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
-        if let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController {
-            navigationController?.pushViewController(destVC, animated: true)
-            destVC.onAddressAdded = { [weak self] in
-                self?.cartViewModel.getCart()
-            }
-        }
-    }
-    
-    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
-        if identifier == "checkoutSegue" {
-            if CurrentUser.user?.addresses?.count ?? 0 > 0 { return true }
-            else {
-                addAddressAlert()
-                return false
-            }
-        }
-        
-        return true
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "checkoutSegue" {
-            guard let cart = cartViewModel.cart else { return }
-            let destVC = segue.destination as? CheckoutViewController
-            destVC?.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, subtotal: totalPrice)
-            destVC?.onShippingAddressChanged = { draftOrder in
-                self.cartViewModel.cart = draftOrder.draftOrder
-            }
-        }
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        cartViewModel.updateCart()
     }
     
 }
