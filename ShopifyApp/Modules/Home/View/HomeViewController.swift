@@ -34,6 +34,7 @@ class HomeViewController: UIViewController {
     private var imageWithCoupon: [String: String] = [:]
     private let homeSections: [HomeSections] = [.discounts, .brands]
     private var discountPageControlView: DiscountPageControlReusableView?
+    let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
     
     @IBOutlet weak var collectionView: UICollectionView!
 
