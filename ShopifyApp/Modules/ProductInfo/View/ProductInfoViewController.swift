@@ -115,8 +115,16 @@ class ProductInfoViewController: UIViewController {
     func isAuthenticatedUser(){
         let authenticated = CurrentUser.type == UserType.authenticated
         if authenticated{
-            !isCurrentItemFav() ? favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")) : favViewModel.deleteFavouriteItem(itemId: product.id)
-            updateFavBtnImage(isFav:  !isCurrentItemFav())
+            if  !isCurrentItemFav(){ favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+                updateFavBtnImage(isFav:  !isCurrentItemFav())
+            }
+            else{
+                showAlert(message: "Are you sure you want to remove this item from your favorites?"){ [weak self] in
+                    self?.favViewModel.deleteFavouriteItem(itemId: self?.product.id ?? 0)
+                    self?.updateFavBtnImage(isFav:  !(self?.isCurrentItemFav() ?? false))
+                }
+            }
+         
         }else{
             showAlert(message: "You need to login first.") {
                 let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
@@ -136,8 +144,7 @@ class ProductInfoViewController: UIViewController {
             let okAction = UIAlertAction(title: "OK", style: .default) { _ in
                 okHandler()
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
             alert.addAction(okAction)
             alert.addAction(cancelAction)
                 present(alert, animated: true, completion: nil)

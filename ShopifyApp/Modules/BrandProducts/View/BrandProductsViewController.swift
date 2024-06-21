@@ -19,7 +19,7 @@ class BrandProductsViewController: UIViewController {
     private var favViewModel:FavouriteViewModel!
     @Published var searchText: String = ""
     var cancellables = Set<AnyCancellable>()
-
+    var sliderFormattedValue:Double = 5000.0
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.delegate = self
@@ -47,11 +47,9 @@ class BrandProductsViewController: UIViewController {
         priceForFilter.text=String(priceSlider.value)+" LE"
         $searchText.debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .sink { [weak self] debouncedSearchText in
-                let sliderFormattedValue = Double(String(format: "%.2f", self?.priceSlider.value ?? 5000)) ?? 0
+                self?.sliderFormattedValue = Double(String(format: "%.2f", self?.priceSlider.value ?? 5000)) ?? 0
                 print(debouncedSearchText)
-                print(sliderFormattedValue)
-
-                self?.brandProductsViewModel?.filterProducts(withPrice: sliderFormattedValue, searchText: debouncedSearchText)
+                self?.brandProductsViewModel?.filterProducts(withPrice: self?.sliderFormattedValue ?? 5000.0, searchText: debouncedSearchText)
                 self?.brandProductsCollectionView.reloadData()
             }
             .store(in: &cancellables)
@@ -76,7 +74,7 @@ class BrandProductsViewController: UIViewController {
     @IBAction func sliderValueChanged(_ sender: Any) {
         let formattedValue = String(format: "%.2f", (sender as! UISlider).value)
         priceForFilter.text = "\(formattedValue) LE"
-        let sliderFormattedValue = Double(formattedValue) ?? 0.0
+        sliderFormattedValue = Double(formattedValue) ?? 0.0
         brandProductsViewModel?.filterProducts(withPrice: sliderFormattedValue, searchText: searchText)
         brandProductsCollectionView.reloadData()
         
@@ -154,22 +152,33 @@ extension BrandProductsViewController:FavItemDelegate{
     }
     
     func deleteFavItem(itemIndex: Int) {
-        let id = brandProductsViewModel?.filteredProducts[itemIndex].id
-        favViewModel.deleteFavouriteItem(itemId: id ?? 0)
+        showAlert(message: "Are you sure you want to remove this item from your favorites?"){ [weak self] in
+            let id = self?.brandProductsViewModel?.filteredProducts[itemIndex].id ?? 0
+            self?.favViewModel.deleteFavouriteItem(itemId: id)
+            self?.favViewModel.updateFavItems()
+            let indexPath = IndexPath(item: itemIndex, section: 0)
+                    if let cell = self?.brandProductsCollectionView.cellForItem(at: indexPath) as? CategoriesCollectionViewCell {
+                        cell.updateFavBtnImage(isFav: false)
+                    }
+            print("Data reloaded Brand products")
+        }
+        
     }
     
     func saveFavItem(itemIndex: Int) {
         favViewModel.addToFav(favItem: FavoriteItem(id: brandProductsViewModel?.filteredProducts[itemIndex].id ?? 0, itemName: brandProductsViewModel?.filteredProducts[itemIndex].title ?? " | ", imageURL: brandProductsViewModel?.filteredProducts[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
     }
     func showAlert(message: String, okHandler: @escaping () -> Void) {
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default) { _ in
                 okHandler()
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel){[weak self] _ in
+            self?.brandProductsCollectionView.reloadData()
+        }
             alert.addAction(okAction)
             alert.addAction(cancelAction)
-                present(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
     
 }
