@@ -51,7 +51,19 @@ class CheckoutViewController: UIViewController {
     }
     
     @IBAction func cashOnDeliveryBtn(_ sender: UIButton) {
-        confirmationAlert()
+        let totalPrice = Double(checkoutViewModel.draftOrder.totalPrice)!
+        print("Total Price = \(totalPrice)")
+        totalPrice > CART_LIMIT_PRICE ? noCashOnDeliveryAvailableAlert() : confirmationAlert()
+    }
+    
+    private func noCashOnDeliveryAvailableAlert() {
+        let action = UIAlertAction(title: "OK", style: .default)
+        alert(
+            title: "Reached Price Limit",
+            message: "Cash on delivery is ineligble on orders of total price higher than \(CART_LIMIT_PRICE.priceFormatter()). Please use Apple Pay instead.",
+            viewController: self,
+            actions: action
+        )
     }
     
     @IBAction func applePayBtn(_ sender: UIButton) {
@@ -125,7 +137,7 @@ class CheckoutViewController: UIViewController {
                 amount: NSDecimalNumber(string: draftOrder.totalPrice)
             )
         )
-
+        
         return itemsSummary
     }
     
@@ -203,7 +215,7 @@ class CheckoutViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "changeAddressSegue" {
-
+            
             let destVC = segue.destination as? AddressesViewController
             destVC?.onShippingAddressChanged = { draftOrder in
                 self.checkoutViewModel.draftOrder = draftOrder.draftOrder
