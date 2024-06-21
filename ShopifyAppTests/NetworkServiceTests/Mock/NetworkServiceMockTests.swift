@@ -102,4 +102,38 @@ final class NetworkServiceMockTests: XCTestCase {
         }
     }
     
+    func testUpdateCartByAddingAProductSuccess() {
+        networkServiceMock.shouldFail = false
+        networkServiceMock.updateCartByAddingAProduct { response, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(response)
+            XCTAssertGreaterThan(response!.draftOrder.lineItems.count, 1)
+        }
+    }
+    
+    func testUpdateCartByAddingAProductFailure() {
+        networkServiceMock.shouldFail = true
+        networkServiceMock.updateCartByAddingAProduct { response, error in
+            XCTAssertNil(response)
+            XCTAssertNotNil(error)
+        }
+    }
+    
+    func testAddDiscountToDraftOrderSuccess() {
+        networkServiceMock.shouldFail = false
+        networkServiceMock.addDiscountToDraftOrder { response, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(response)
+            XCTAssertNotNil(response!.draftOrder.appliedDiscount)
+        }
+    }
+    
+    func testAddDiscountToDraftOrderFailure() {
+        networkServiceMock.shouldFail = true
+        networkServiceMock.addDiscountToDraftOrder { response, error in
+            XCTAssertNil(response)
+            XCTAssertNotNil(error)
+        }
+    }
+    
 }

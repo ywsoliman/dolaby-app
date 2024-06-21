@@ -12,6 +12,8 @@ final class NetworkServiceTests: XCTestCase {
     
     private var addressIDToDelete: Int?
     private var draftOrderIDToDelete: Int?
+    private var variantIDToDelete: Int?
+    private var deleteDiscount: Bool?
     
     override func setUp() {
         super.setUp()
@@ -25,6 +27,12 @@ final class NetworkServiceTests: XCTestCase {
         }
         if let id = draftOrderIDToDelete {
             deleteDraftOrder(withId: id)
+        }
+        if let variantIDToDelete {
+            deleteProductVariant()
+        }
+        if let deleteDiscount {
+            deleteCartDiscount()
         }
         super.tearDown()
     }
@@ -144,11 +152,11 @@ final class NetworkServiceTests: XCTestCase {
         
         let expectation = expectation(description: "Waiting for API")
         
-        NetworkService.shared.makeRequest(endPoint: "/variants/\(TEST_PRODUCT_VARIANT).json", method: .get) { (result: Result<VariantResponse, APIError>) in
+        NetworkService.shared.makeRequest(endPoint: "/variants/\(TEST_PRODUCT_VARIANT_1).json", method: .get) { (result: Result<VariantResponse, APIError>) in
             
             switch result {
             case .success(let response):
-                XCTAssertEqual(response.variant.id, TEST_PRODUCT_VARIANT)
+                XCTAssertEqual(response.variant.id, TEST_PRODUCT_VARIANT_1)
                 expectation.fulfill()
             case .failure(let error):
                 print("Error in fetching product variant: \(error)")
@@ -168,7 +176,7 @@ final class NetworkServiceTests: XCTestCase {
             "draft_order": [
                 "line_items": [
                     [
-                        "variant_id": TEST_PRODUCT_VARIANT,
+                        "variant_id": TEST_PRODUCT_VARIANT_1,
                         "quantity": 1
                     ]
                 ],
@@ -196,6 +204,84 @@ final class NetworkServiceTests: XCTestCase {
         
     }
     
+    func testUpdatingCartByAddingAProduct() {
+        
+        let expectation = expectation(description: "Waiting for API")
+        
+        let draftOrder: [String: Any] = [
+            "draft_order": [
+                "line_items": [
+                    [
+                        "variant_id": TEST_PRODUCT_VARIANT_1,
+                        "quantity": 1
+                    ],
+                    [
+                        "variant_id": TEST_PRODUCT_VARIANT_2,
+                        "quantity": 2
+                    ]
+                ],
+                "customer": [
+                    "id": TEST_CUSTOMER_ID
+                ],
+                "use_customer_default_address": true
+            ]
+        ]
+        
+        NetworkService.shared.makeRequest(endPoint: "/draft_orders/\(TEST_CART_ID).json", method: .put, parameters: draftOrder) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
+            
+            switch result {
+            case .success(let response):
+                for item in response.draftOrder.lineItems {
+                    if item.variantID == TEST_PRODUCT_VARIANT_2 {
+                        self?.variantIDToDelete = item.variantID
+                        XCTAssert(true)
+                        expectation.fulfill()
+                    }
+                }
+            case .failure(let error):
+                print("Updating draft error: \(error)")
+            }
+            
+        }
+        
+        waitForExpectations(timeout: 10)
+    }
+    
+    func testAddDiscountToDraftOrder() {
+        
+        let expectation = expectation(description: "Waiting for API")
+        
+        let appliedDiscount: [String: Any] = [
+            "description": "Custom",
+            "value": "30.0",
+            "title": "0EZCWYY2WJEN",
+            "amount": "30.00",
+            "value_type": "fixed_amount"
+        ]
+        
+        let draftOrder: [String: Any] = [
+            "draft_order": [
+                "applied_discount": appliedDiscount
+            ]
+        ]
+        
+        NetworkService.shared.makeRequest(endPoint: "/draft_orders/\(TEST_CART_ID).json", method: .put, parameters: draftOrder) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
+            
+            switch result {
+            case .success(let response):
+                self?.deleteDiscount = true
+                XCTAssertNotNil(response.draftOrder.appliedDiscount)
+                expectation.fulfill()
+            case .failure:
+                XCTFail()
+            }
+            
+        }
+        
+        waitForExpectations(timeout: 10)
+        
+    }
+    
     private func deleteDraftOrder(withId id: Int) {
         
         let expectation = expectation(description: "Waiting for API")
@@ -208,6 +294,72 @@ final class NetworkServiceTests: XCTestCase {
                 expectation.fulfill()
             case .failure(let error):
                 print("Error DraftOrder: \(error)")
+            }
+            
+        }
+        
+        waitForExpectations(timeout: 10)
+        
+    }
+    
+    private func deleteProductVariant() {
+        
+        let expectation = expectation(description: "Waiting for API")
+        
+        let draftOrder: [String: Any] = [
+            "draft_order": [
+                "line_items": [
+                    [
+                        "variant_id": TEST_PRODUCT_VARIANT_1,
+                        "quantity": 1
+                    ]
+                ],
+                "customer": [
+                    "id": TEST_CUSTOMER_ID
+                ],
+                "use_customer_default_address": true
+            ]
+        ]
+        
+        NetworkService.shared.makeRequest(endPoint: "/draft_orders/\(TEST_CART_ID).json", method: .put, parameters: draftOrder) { (result: Result<DraftOrderResponse, APIError>) in
+            
+            switch result {
+            case .success(let response):
+                if response.draftOrder.lineItems.count == 1 {
+                    XCTAssert(true)
+                    expectation.fulfill()
+                } else {
+                    XCTFail()
+                }
+            case .failure:
+                XCTFail()
+            }
+            
+        }
+        
+        
+        waitForExpectations(timeout: 10)
+        
+    }
+    
+    private func deleteCartDiscount() {
+        
+        let expectation = expectation(description: "Waiting for API")
+        
+        let draftOrder: [String: Any] = [
+            "draft_order": [
+                "applied_discount": nil
+            ]
+        ]
+        
+        NetworkService.shared.makeRequest(endPoint: "/draft_orders/\(TEST_CART_ID).json", method: .put, parameters: draftOrder) { (result: Result<DraftOrderResponse, APIError>) in
+            
+            switch result {
+            case .success(let response):
+                XCTAssertNil(response.draftOrder.appliedDiscount)
+                expectation.fulfill()
+            case .failure:
+                XCTFail()
             }
             
         }

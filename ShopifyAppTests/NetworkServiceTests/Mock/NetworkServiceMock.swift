@@ -249,8 +249,80 @@ class NetworkServiceMock {
         
         var draftOrder: DraftOrderResponse?
         
-        var newDraftOrder: [String: Any] = fakeDraftOrder
-        newDraftOrder["id"] = TEST_CART_ID + 1
+        do {
+            let data = try JSONSerialization.data(withJSONObject: fakeDraftOrder)
+            draftOrder = try JSONDecoder().decode(DraftOrderResponse.self, from: data)
+            completion(draftOrder, nil)
+        } catch {
+            completion(nil, error)
+        }
+        
+    }
+    
+    func updateCartByAddingAProduct(completion: @escaping (DraftOrderResponse?, Error?) -> Void) {
+        
+        guard !shouldFail else {
+            completion(nil, NetworkError.genericError)
+            return
+        }
+        
+        var draftOrder: DraftOrderResponse?
+        
+        var newDraftOrder = fakeDraftOrder
+        var newDraftOrderDict = newDraftOrder["draft_order"] as? [String: Any] ?? [:]
+        var items = newDraftOrderDict["line_items"] as? [[String: Any]] ?? []
+                        
+        let addedItem: [String: Any] = [
+            "id": 1,
+            "variant_id": 2,
+            "product_id": 3,
+            "title": "CONVERSE | CHUCK TAYLOR ALL STAR II HI",
+            "variant_title": "4 / black",
+            "sku": "C-02-black-4",
+            "vendor": "CONVERSE",
+            "quantity": 1,
+            "applied_discount": NSNull(),
+            "name": "CONVERSE | CHUCK TAYLOR ALL STAR II HI - 4 / black",
+            "price": "140.00",
+        ]
+        
+        items.append(addedItem)
+        
+        newDraftOrderDict["line_items"] = items
+        newDraftOrder["draft_order"] = newDraftOrderDict
+                
+        do {
+            let data = try JSONSerialization.data(withJSONObject: newDraftOrder)
+            draftOrder = try JSONDecoder().decode(DraftOrderResponse.self, from: data)
+            completion(draftOrder, nil)
+        } catch {
+            completion(nil, error)
+        }
+        
+    }
+    
+    func addDiscountToDraftOrder(completion: @escaping (DraftOrderResponse?, Error?) -> Void) {
+        
+        guard !shouldFail else {
+            completion(nil, NetworkError.genericError)
+            return
+        }
+        
+        var draftOrder: DraftOrderResponse?
+        
+        var newDraftOrder = fakeDraftOrder
+        var newDraftOrderDict = newDraftOrder["draft_order"] as? [String: Any] ?? [:]
+        
+        let appliedDiscount: [String: Any] = [
+            "description": "Custom",
+            "value": "30.0",
+            "title": "0EZCWYY2WJEN",
+            "amount": "30.00",
+            "value_type": "fixed_amount"
+        ]
+        
+        newDraftOrderDict["applied_discount"] = appliedDiscount
+        newDraftOrder["draft_order"] = newDraftOrderDict
         
         do {
             let data = try JSONSerialization.data(withJSONObject: newDraftOrder)
