@@ -36,7 +36,7 @@ class HomeViewController: UIViewController {
     private var discountPageControlView: DiscountPageControlReusableView?
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,6 +46,7 @@ class HomeViewController: UIViewController {
         
         indicator.startAnimating()
         homeViewModel = HomeViewModel(service: NetworkService.shared, currencyService: CurrencyService.shared)
+        favViewModel.fetchFavouriteItems()
         homeViewModel?.loadUser()
         homeViewModel?.fetchBrands()
         homeViewModel?.bindBrandsToViewController={[weak self] in

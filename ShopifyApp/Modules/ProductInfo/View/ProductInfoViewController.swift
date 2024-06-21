@@ -97,8 +97,16 @@ class ProductInfoViewController: UIViewController {
     func isAuthenticatedUser(){
         let authenticated = CurrentUser.type == UserType.authenticated
         if authenticated{
-            !isCurrentItemFav() ? favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")) : favViewModel.deleteFavouriteItem(itemId: product.id)
-            updateFavBtnImage(isFav:  !isCurrentItemFav())
+            if  !isCurrentItemFav(){ favViewModel.addToFav(favItem: FavoriteItem(id: product.id, itemName: product.title, imageURL: product.image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+                updateFavBtnImage(isFav:  !isCurrentItemFav())
+            }
+            else{
+                showAlert(message: "Are you sure you want to remove this item from your favorites?"){ [weak self] in
+                    self?.favViewModel.deleteFavouriteItem(itemId: self?.product.id ?? 0)
+                    self?.updateFavBtnImage(isFav:  !(self?.isCurrentItemFav() ?? false))
+                }
+            }
+         
         }else{
             showAlert(message: "You need to login first.") {
                 let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
@@ -143,6 +151,7 @@ class ProductInfoViewController: UIViewController {
         productName.text = productInfo.title
         productBrand.text = productInfo.vendor
         descriptionLabel.text = productInfo.bodyHTML
+        
         updateFavBtnImage(isFav: isFavItem)
         sizesSegment.removeAllSegments()
         colorSegment.removeAllSegments()
@@ -161,11 +170,12 @@ class ProductInfoViewController: UIViewController {
             colorSegment.selectedSegmentIndex = 0
         }
         updateQuantityLabel()
-        priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        priceLabel.text = Double(productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? ""))?.priceFormatter()
         collectionView.reloadData()
         pageControl.numberOfPages = productInfo.images.count
         
     }
+  
     @IBAction func addToCartPressed(_ sender: Any) {
         
         let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
@@ -177,15 +187,18 @@ class ProductInfoViewController: UIViewController {
         )
         
         print("Variant id \(variantId)")
+      
     }
     
     @IBAction func quantityControlPressed(_ sender: UIStepper) {
         productQuantity.text = "\(Int(sender.value))"
         updateQuantityLabel()
     }
+  
     @objc func segmentValueChanged(_ sender: UISegmentedControl) {
         updateQuantityLabel()
     }
+  
     func updateQuantityLabel() {
         
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")

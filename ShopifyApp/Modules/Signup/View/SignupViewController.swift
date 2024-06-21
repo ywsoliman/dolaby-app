@@ -98,7 +98,7 @@ class SignupViewController: UIViewController {
                     return
                 }
          customer = CustomerData(id:nil,userId: "", firstName:firstNameTextField.text ?? "",lastName: lastNameTextField.text ?? "" ,phone:phoneTextField.text ?? "",email: emailTextField.text ?? "", password:passwordTextField.text ?? ""  )
-      //  viewModel.signup(customer: customer!)
+        //viewModel.signup(customer: customer!)
         viewModel.createShopifyCustomer(customer: customer!)
     }
     

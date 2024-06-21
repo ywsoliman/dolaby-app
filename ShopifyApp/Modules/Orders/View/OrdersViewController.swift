@@ -33,7 +33,14 @@ class OrdersViewController: UIViewController {
 
 }
 extension OrdersViewController:UITableViewDelegate{
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Israa", bundle: nil)
+         guard let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "orderDetailsVC") as? OrderDetailsViewController else {
+             return
+         }
+        orderDetailsViewController.orderID = ordersViewModel?.getOrders()[indexPath.row].id
+         navigationController?.pushViewController(orderDetailsViewController, animated: true)
+    }
 }
 extension OrdersViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
