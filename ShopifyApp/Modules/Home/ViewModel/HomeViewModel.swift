@@ -88,7 +88,16 @@ class HomeViewModel:HomeViewModelProtocol{
     }
     
     func getConversionRates() {
-        currencyService.fetchCurrencies()
+        currencyService.fetchCurrencies { (result: Result<CurrencyResponse, Error>) in
+            switch result {
+            case .success(let response):
+                CurrencyManager.currencies = response.conversionRates
+                CurrencyManager.currency = UserDefaults.standard.value(forKey: "currency") as? String ?? "USD"
+                CurrencyManager.value = response.conversionRates[CurrencyManager.currency] ?? 1.0
+            case .failure(let error):
+                print("Fetching Currencies Error: \(error)")
+            }
+        }
     }
     
 }
