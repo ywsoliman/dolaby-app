@@ -38,6 +38,13 @@ class CategoriesViewController: UIViewController {
                 self?.categoriesCollectionView.reloadData()
             }
         }
+        favViewModel.fetchFavouriteItems()
+        favViewModel.bindToViewController =  { [weak self] in
+            DispatchQueue.main.async {
+                self?.indicator.stopAnimating()
+                self?.categoriesCollectionView.reloadData()
+            }
+        }
         view.addSubview(indicator)
         indicator.center = self.view.center
         indicator.startAnimating()
@@ -115,7 +122,7 @@ extension CategoriesViewController:UICollectionViewDataSource{
         let titleComponents = categoriesViewModel?.getProducts()[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents?.last ?? "")
         cell.categoryName.text = categoryName
-        cell.categoryPrice.text="\( (categoriesViewModel?.getProducts()[indexPath.item].variants[0].price) ?? "0.0") LE"
+        cell.categoryPrice.text=Double(categoriesViewModel?.getProducts()[indexPath.item].variants[0].price ?? "0")?.priceFormatter()
         cell.clipsToBounds=true
         cell.layer.cornerRadius=20
         cell.layer.borderColor = UIColor.darkGray.cgColor
@@ -146,30 +153,36 @@ extension CategoriesViewController:FavItemDelegate{
     func notAuthenticated() {
         showAlert(message: "You need to login first.") {
             let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-            guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
-                        return
-                    }
-                loginVC.modalPresentationStyle = .fullScreen
-                loginVC.modalTransitionStyle = .flipHorizontal
-                self.present(loginVC, animated: true)
-                self.navigationController?.viewControllers = []
-                   
+            let loginVC =
+                    
+                    storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
+            loginVC.modalPresentationStyle = .fullScreen
+            loginVC.modalTransitionStyle = .flipHorizontal
+            self.present(loginVC, animated: true)
+            self.navigationController?.viewControllers = []
+            
         }
     }
     
     func deleteFavItem(itemIndex: Int) {
-        favViewModel.deleteFavouriteItem(itemId: categoriesViewModel?.getProducts()[itemIndex].id ?? 0)
+        showAlert(message: "Are you sure you want to remove this item from your favorites?"){ [weak self] in
+            self?.favViewModel.deleteFavouriteItem(itemId: self?.categoriesViewModel?.getProducts()[itemIndex].id ?? 0)
+            let indexPath = IndexPath(item: itemIndex, section: 0)
+            if let cell = self?.categoriesCollectionView.cellForItem(at: indexPath) as? CategoriesCollectionViewCell {
+                cell.updateFavBtnImage(isFav: false)
+            }
+        }
     }
     
     func saveFavItem(itemIndex: Int) {
         favViewModel.addToFav(favItem: FavoriteItem(id: categoriesViewModel?.getProducts()[itemIndex].id ?? 0, itemName: categoriesViewModel?.getProducts()[itemIndex].title ?? " | ", imageURL: categoriesViewModel?.getProducts()[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
     }
     func showAlert(message: String, okHandler: @escaping () -> Void) {
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default) { _ in
                 okHandler()
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
             alert.addAction(okAction)
             alert.addAction(cancelAction)
                 present(alert, animated: true, completion: nil)

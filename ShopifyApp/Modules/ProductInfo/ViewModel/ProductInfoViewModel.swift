@@ -57,7 +57,7 @@ final class ProductInfoViewModel{
     }
     
     private func addVariantToCart(cartId: String, variantId: Int, quantity: Int) {
-        networkService.getCart { [weak self] (result: Result<DraftOrderResponse, APIError>) in
+        networkService.getCart(withId: cartId) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             switch result {
             case .success(let response):
                 self?.checkIfProductAlreadyExists(cart: response.draftOrder, id: variantId) {

@@ -14,23 +14,6 @@ class FavoritesManager {
     var favItems:[FavoriteItem] = []
     private let databaseRef = Database.database(url: "https://e-commerce-c640e-default-rtdb.firebaseio.com/").reference()
     
-    func addFavoriteItem(favItem:FavoriteItem) throws {
-        let userID = try LocalDataSource.shared.retrieveCustomerId()
-        var throwError = false
-        let itemRef = databaseRef.child("users").child(String(userID)).child("favorites").child(String(favItem.id))
-        itemRef.setValue(["itemName": favItem.itemName, "imageURL": favItem.imageURL]){ error, _ in
-            if let _ = error {
-                throwError = true
-            } else {
-                self.favItems.append(favItem)
-                }
-                
-            }
-        if throwError {
-            throw NSError(domain: "com.yourapp", code: -1, userInfo: [NSLocalizedDescriptionKey: "Couldn't add to favorites"])
-        }
-    }
-    
     func fetchFavoriteItems(completion: @escaping ([FavoriteItem]) -> Void) throws{
         let userID = try LocalDataSource.shared.retrieveCustomerId()
         databaseRef.child("users").child(String(userID)).child("favorites").observeSingleEvent(of: .value, with: { snapshot in
@@ -48,7 +31,25 @@ class FavoritesManager {
             completion(items)
         })
     }
-    func deleteFavoriteItem(itemId: Int)throws {
+    func addFavoriteItem(favItem:FavoriteItem) throws {
+        let userID = try LocalDataSource.shared.retrieveCustomerId()
+        var throwError = false
+        let itemRef = databaseRef.child("users").child(String(userID)).child("favorites").child(String(favItem.id))
+        itemRef.setValue(["itemName": favItem.itemName, "imageURL": favItem.imageURL]){ error, _ in
+            if let _ = error {
+                throwError = true
+            } else {
+                self.favItems.append(favItem)
+                print("Item added in Favourite manager")
+                }
+                
+            }
+        if throwError {
+            throw NSError(domain: "com.yourapp", code: -1, userInfo: [NSLocalizedDescriptionKey: "Couldn't add to favorites"])
+        }
+    }
+    
+    func deleteFavoriteItem(itemId: Int) throws {
         let userID = try LocalDataSource.shared.retrieveCustomerId()
         var throwError = false
         databaseRef.child("users").child(String(userID)).child("favorites").child(String(itemId)).removeValue { error, _ in
@@ -57,8 +58,8 @@ class FavoritesManager {
             } else {
                 if let index = self.favItems.firstIndex(where: { $0.id == itemId }) {
                     self.favItems.remove(at: index)
+                    print("Item deleted in Favourite manager")
                 }
-                
             }
         }
         if throwError {

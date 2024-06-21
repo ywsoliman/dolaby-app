@@ -8,12 +8,13 @@
 import Foundation
 import Kingfisher
 protocol BrandProductsViewModelProtocol{
-    func getProducts(withPrice:Double)->[CategoriesProduct]
-    func getProductsCount(withPrice:Double)->Int
+    func filterProducts(withPrice:Double,searchText:String)
+    func getProductsCount(withPrice:Double,searchText:String)->Int
     var bindProductsToViewController:()->Void { get set }
     func fetchProducts()->Void
 }
 class BrandProductsViewModel:BrandProductsViewModelProtocol{
+ 
 
     var brandId=475723497772
     let networkService:NetworkService
@@ -21,7 +22,8 @@ class BrandProductsViewModel:BrandProductsViewModelProtocol{
         self.networkService = networkService
     }
     var bindProductsToViewController:()->Void={}
-    var products:[CategoriesProduct]?=nil
+    var products:[CategoriesProduct] = []
+    var filteredProducts:[CategoriesProduct] = []
     var productsWithoutPrice:[BrandsProduct]?=nil
     func fetchProducts(){
         networkService.makeRequest(endPoint: "/collections/\(brandId)/products.json", method: .get) {[weak self] (result: Result<BrandProductsResponse, APIError>) in
@@ -42,16 +44,24 @@ class BrandProductsViewModel:BrandProductsViewModelProtocol{
             switch result {
             case .success(let response):
                 self?.products=response.products
+                self?.filteredProducts = response.products
                 self?.bindProductsToViewController()
             case .failure(let error):
                 print("Error in retrieving products: \(error)")
             }
         }
     }
-    func getProducts(withPrice:Double)->[CategoriesProduct]{
-        return products?.filter{Double($0.variants[0].price) ?? 0 <= withPrice} ?? []
+   
+    func filterProducts(withPrice: Double, searchText: String){
+        if searchText.isEmpty{
+            filteredProducts = products.filter{Double($0.variants[0].price) ?? 0 <= withPrice}
+        }
+        else{
+            filteredProducts =  products.filter{Double($0.variants[0].price) ?? 0 <= withPrice && $0.title.range(of: searchText, options: .caseInsensitive) != nil}
+        }
     }
-    func getProductsCount(withPrice:Double)->Int{
-        return products?.filter{Double($0.variants[0].price) ?? 0 <= withPrice}.count ?? 0
+    
+    func getProductsCount(withPrice: Double, searchText: String) -> Int {
+        return filteredProducts.count
     }
 }

@@ -48,11 +48,11 @@ struct NetworkService: NetworkServiceProtocol {
                 case .success(let data):
 
                     do {
-                        #if DEBUG
-                        if let jsonString = String(data: data, encoding: .utf8) {
-                            print("Returned JSON: \(jsonString)")
-                        }
-                        #endif
+//                        #if DEBUG
+//                        if let jsonString = String(data: data, encoding: .utf8) {
+//                            print("Returned JSON: \(jsonString)")
+//                        }
+//                        #endif
                         let decodedResponse = try JSONDecoder().decode(T.self, from: data)
                         completion(.success(decodedResponse))
                     } catch let decodingError {
@@ -66,11 +66,10 @@ struct NetworkService: NetworkServiceProtocol {
 
     }
     
-    func getCart(completion: @escaping (Result<DraftOrderResponse, APIError>) -> Void) {
+    func getCart(withId id: String, completion: @escaping (Result<DraftOrderResponse, APIError>) -> Void) {
         
-        guard let cartId = CurrentUser.user?.cartID else { return }
         makeRequest(
-            endPoint: "/draft_orders/\(cartId).json",
+            endPoint: "/draft_orders/\(id).json",
             method: .get,
             completion: completion
         )

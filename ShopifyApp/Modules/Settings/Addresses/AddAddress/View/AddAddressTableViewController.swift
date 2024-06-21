@@ -27,7 +27,7 @@ class AddAddressTableViewController: UITableViewController {
         
         observeTextFieldsToEnableSaveBtn()
         
-        addAddressViewModel = AddAddressViewModel(service: NetworkService.shared)
+        addAddressViewModel = AddAddressViewModel(service: NetworkService.shared, addressesViewModel: AddressesViewModel(service: NetworkService.shared))
         addAddressViewModel.bindAddressToViewController = { [weak self] in
             print("Address binding")
             self?.onAddressAdded()

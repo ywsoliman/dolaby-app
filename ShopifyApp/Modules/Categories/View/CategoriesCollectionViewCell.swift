@@ -40,8 +40,12 @@ extension CategoriesCollectionViewCell {
     func checkUserAndProceedForFavorites() {
         let isAuthenticated = CurrentUser.type == UserType.authenticated
         if isAuthenticated {
-            !isCurrentItemFav() ? delegate?.saveFavItem(itemIndex: cellIndex) : delegate?.deleteFavItem(itemIndex: cellIndex)
-            updateFavBtnImage(isFav: !isCurrentItemFav())
+            if !isCurrentItemFav(){
+                delegate?.saveFavItem(itemIndex: cellIndex)
+                updateFavBtnImage(isFav: !isCurrentItemFav())
+            }else{
+                delegate?.deleteFavItem(itemIndex: cellIndex)
+            }
         } else {
             print("Not authenticated")
             delegate?.notAuthenticated()

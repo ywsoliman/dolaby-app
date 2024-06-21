@@ -9,6 +9,5 @@ import UIKit
 
 class BrandsCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var brandImage: UIImageView!
-    
     @IBOutlet weak var brandName: UILabel!
 }
