@@ -16,7 +16,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var discountScrollView: UIScrollView!
     @IBOutlet weak var discountPageControl: UIPageControl!
     @IBOutlet weak var brandsCollectionView: UICollectionView!
-    
+    let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
     override func viewDidLoad() {
         super.viewDidLoad()
         brandsCollectionView.delegate=self
@@ -24,6 +24,7 @@ class HomeViewController: UIViewController {
         brandsCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
         indicator.startAnimating()
         homeViewModel = HomeViewModel(service: NetworkService.shared, currencyService: CurrencyService.shared)
+        favViewModel.fetchFavouriteItems()
         homeViewModel?.loadUser()
         homeViewModel?.fetchBrands()
         homeViewModel?.bindBrandsToViewController={[weak self] in
