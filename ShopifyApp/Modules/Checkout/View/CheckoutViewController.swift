@@ -23,6 +23,10 @@ class CheckoutViewController: UIViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var discountLabel: UILabel!
     
+    private var priceBeforeDiscount: Double!
+    private var appliedDiscount: Double?
+    
+    var onShippingAddressChanged: ((_: DraftOrderResponse) -> ()) = {_ in}
     var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
@@ -39,8 +43,49 @@ class CheckoutViewController: UIViewController {
         initUI()
     }
     
+    func initUI() {
+        shippingView.layer.borderWidth = 1
+        shippingView.layer.borderColor = UIColor.lightGray.cgColor
+        shippingView.layer.cornerRadius = 8
+        
+        enableApplyWhenPromoIsAvailable()
+        
+        setOrderInfo()
+    }
+    
     @IBAction func cashOnDeliveryBtn(_ sender: UIButton) {
-        confirmationAlert()
+        let totalPrice = Double(checkoutViewModel.draftOrder.subtotalPrice)!
+        totalPrice > CART_LIMIT_PRICE ? noCashOnDeliveryAvailableAlert() : confirmationAlert()
+    }
+    
+    private func noCashOnDeliveryAvailableAlert() {
+        let action = UIAlertAction(title: "Cancel", style: .cancel)
+        alert(
+            title: "Reached Price Limit",
+            message: "Cash on delivery is ineligble on orders of total price higher than \(CART_LIMIT_PRICE.priceFormatter()). Please use Apple Pay instead.",
+            viewController: self,
+            actions: action
+        )
+    }
+    
+    @IBAction func applePayBtn(_ sender: UIButton) {
+        if let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: createPaymentRequest()) {
+            paymentVC.delegate = self
+            present(paymentVC, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
+        
+        for discount in Discounts.discounts {
+            if promoTextField.text! == discount.title {
+                checkoutViewModel.addDiscountToDraftOrder(discount)
+                return
+            }
+        }
+        
+        discountNotFoundAlert()
+        
     }
     
     func confirmationAlert() {
@@ -61,13 +106,6 @@ class CheckoutViewController: UIViewController {
         
     }
     
-    @IBAction func applePayBtn(_ sender: UIButton) {
-        if let paymentVC = PKPaymentAuthorizationViewController(paymentRequest: createPaymentRequest()) {
-            paymentVC.delegate = self
-            present(paymentVC, animated: true, completion: nil)
-        }
-    }
-    
     func createPaymentRequest() -> PKPaymentRequest {
         let request = PKPaymentRequest()
         request.merchantIdentifier = "merchant.com.welly.ShopifyApp"
@@ -86,50 +124,35 @@ class CheckoutViewController: UIViewController {
         var itemsSummary: [PKPaymentSummaryItem] = []
         
         for item in draftOrder.lineItems {
+            let amountValue = (Double(item.price)! * Double(item.quantity) * CurrencyManager.value).roundedToTwoDecimals()
             itemsSummary.append(
                 PKPaymentSummaryItem(
                     label: "\(item.title) x\(item.quantity)",
-                    amount: NSDecimalNumber(string: String(Double(item.price)! * Double(item.quantity)))
+                    amount: NSDecimalNumber(string: String(amountValue))
                 )
             )
             
         }
-        
+                
         itemsSummary.append(
             PKPaymentSummaryItem(
                 label: "Total",
-                amount: NSDecimalNumber(string: draftOrder.totalPrice)
+                amount: NSDecimalNumber(string: totalLabel.text)
             )
         )
-
+        
         return itemsSummary
     }
     
-    @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
-        
-        for discount in Discounts.discounts {
-            if promoTextField.text! == discount.title {
-                checkoutViewModel.addDiscountToDraftOrder(discount)
-                break
-            }
-        }
-        
-    }
-    
-    func initUI() {
-        shippingView.layer.borderWidth = 1
-        shippingView.layer.borderColor = UIColor.lightGray.cgColor
-        shippingView.layer.cornerRadius = 8
-        
-        enableApplyWhenPromoIsAvailable()
-        
-        setOrderInfo()
+    func discountNotFoundAlert() {
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert(title: "Invalid Coupon", message: "Please enter a valid discount.", viewController: self, actions: okAction)
     }
     
     func setOrderInfo() {
         let order = checkoutViewModel.draftOrder
         setPriceSetction(order)
-        let shippingAddress = order.shippingAddress
+        let shippingAddress = order.shippingAddress!
         setShippingAddress(
             city: shippingAddress.city,
             country: shippingAddress.country,
@@ -153,32 +176,32 @@ class CheckoutViewController: UIViewController {
     
     func setPriceSetction(_ order: DraftOrder) {
         
-        let currency = CurrencyManager.currency
-        let subtotalPrice = checkoutViewModel.subtotalPrice
-        
-        subtotalLabel.text = subtotalPrice.priceFormatter()
+        let subtotalPrice = (checkoutViewModel.priceBeforeDiscount ?? 0.0).currencyConverter()
+        subtotalLabel.text = subtotalPrice.appendCurrency()
         
         if let discount = order.appliedDiscount {
             
             let type: String
+            var totalPrice: Double
+            let discountValue = Double(discount.value)!
+            appliedDiscount = discountValue
             
             if discount.valueType == "fixed_amount" {
                 
-                type = currency
-                var totalPrice = subtotalPrice - Double(discount.value)!
+                type = CurrencyManager.currency
+                totalPrice = subtotalPrice - discountValue
                 if totalPrice < 0 { totalPrice = 0 }
-                totalLabel.text = totalPrice.priceFormatter()
                 
             } else {
                 
                 type = "%"
-                let percentage = Double(discount.value)! / 100
-                let totalPrice = subtotalPrice - (subtotalPrice * percentage)
-                totalLabel.text = totalPrice.priceFormatter()
+                let percentage = discountValue / 100
+                totalPrice = subtotalPrice - (subtotalPrice * percentage)
                 
             }
             
-            discountLabel.text = "\(discount.value)\(type)"
+            totalLabel.text = totalPrice.appendCurrency()
+            discountLabel.text = "\(discountValue) \(type)"
             
         } else {
             totalLabel.text = subtotalLabel.text
@@ -190,6 +213,19 @@ class CheckoutViewController: UIViewController {
         if let navigationController = navigationController {
             navigationController.popToRootViewController(animated: true)
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "changeAddressSegue" {
+            
+            let destVC = segue.destination as? AddressesViewController
+            destVC?.onShippingAddressChanged = { draftOrder in
+                self.checkoutViewModel.draftOrder = draftOrder.draftOrder
+                self.onShippingAddressChanged(draftOrder)
+            }
+        }
+        
     }
     
     
@@ -211,19 +247,6 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configure(lineItem: checkoutViewModel.draftOrder.lineItems[indexPath.row])
         
         return cell
-        
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        if segue.identifier == "changeAddressSegue" {
-
-            let destVC = segue.destination as? AddressesViewController
-            destVC?.onAddressChanged = {
-                guard let defaultAddress = destVC?.addressesViewModel.defaultAddress else { return }
-                self.setShippingAddress(city: defaultAddress.city, country: defaultAddress.country, address: defaultAddress.address1)
-            }
-        }
         
     }
     

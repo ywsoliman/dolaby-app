@@ -12,6 +12,7 @@ class AddressesViewModel {
     private let service: NetworkService
     var bindAddressesToViewController: (() -> ()) = {}
     var bindDefaultAddressToViewController: (() -> ()) = {}
+    var bindCartWithNewShippingAddressToViewController: ((_: DraftOrderResponse) -> ()) = {_ in}
     var addresses: CustomerAddresses? {
         didSet {
             bindAddressesToViewController()
@@ -27,7 +28,6 @@ class AddressesViewModel {
     
     init(service: NetworkService) {
         self.service = service
-        getAddresses()
     }
     
     func getAddresses() {
@@ -75,14 +75,16 @@ class AddressesViewModel {
         CurrentUser.user!.addresses = addresses
     }
     
-    func setDefault(addressID: Int) {
+    func setDefault(addressID: Int, completion: @escaping () -> ()) {
         
         service.makeRequest(endPoint: "/customers/\(CurrentUser.user!.id)/addresses/\(addressID)/default.json", method: .put) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
             case .success(let address):
                 self.defaultAddress = address.customerAddress
-                self.changeCartShippingAddressToDefault(address)
+                self.changeCartShippingAddressToDefault(address) {
+                    completion()
+                }
             case .failure(let error):
                 print("Setting default address error: \(error)")
             }
@@ -91,7 +93,7 @@ class AddressesViewModel {
         
     }
     
-    func changeCartShippingAddressToDefault(_ address: CustomerAddress) {
+    func changeCartShippingAddressToDefault(_ address: CustomerAddress, completion: @escaping () -> ()) {
         
         guard let cartId = CurrentUser.user?.cartID,
               var shippingParams = address.toDictionary() else { return }
@@ -103,10 +105,12 @@ class AddressesViewModel {
         
         let addressParams = ["draft_order": shippingParams]
         
-        service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .put, parameters: addressParams) { (result: Result<DraftOrderResponse, APIError>) in
+        service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .put, parameters: addressParams) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
-            case .success(_):
+            case .success(let response):
+                self?.bindCartWithNewShippingAddressToViewController(response)
+                completion()
                 print("Changed cart shipping address successfully!")
             case .failure(let error):
                 print("Couldn't change cart shipping address: \(error)")
