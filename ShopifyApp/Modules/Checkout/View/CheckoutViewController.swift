@@ -232,14 +232,14 @@ extension CheckoutViewController: UITableViewDelegate, UITableViewDataSource {
 extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     
     func paymentAuthorizationViewControllerDidFinish(_ controller: PKPaymentAuthorizationViewController) {
-        checkoutViewModel.postOrder()  { [weak self] in
-            self?.navigateToHome()
-        }
         controller.dismiss(animated: true)
     }
     
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
+        checkoutViewModel.postOrder()  { [weak self] in
+            self?.navigateToHome()
+        }
     }
     
     

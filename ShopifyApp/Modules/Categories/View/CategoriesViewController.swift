@@ -122,7 +122,7 @@ extension CategoriesViewController:UICollectionViewDataSource{
         let titleComponents = categoriesViewModel?.getProducts()[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents?.last ?? "")
         cell.categoryName.text = categoryName
-        cell.categoryPrice.text="\( (categoriesViewModel?.getProducts()[indexPath.item].variants[0].price) ?? "0.0") LE"
+        cell.categoryPrice.text=Double(categoriesViewModel?.getProducts()[indexPath.item].variants[0].price ?? "0")?.priceFormatter()
         cell.clipsToBounds=true
         cell.layer.cornerRadius=20
         cell.layer.borderColor = UIColor.darkGray.cgColor

@@ -13,7 +13,6 @@ protocol OrdersViewModelProtocol{
     func fetchOrders()->Void
 }
 class OrdersViewModel:OrdersViewModelProtocol{
-    
     private let service: NetworkService
     var bindOrdersToViewController:()->Void={}
     var Orders:[Order]?=nil
@@ -37,4 +36,5 @@ class OrdersViewModel:OrdersViewModelProtocol{
     func getOrdersCount()->Int{
         return Orders?.count ?? 0
     }
+    
 }

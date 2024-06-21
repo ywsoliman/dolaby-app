@@ -6,6 +6,6 @@
 //
 
 import Foundation
-struct DetleteDraftOrderResponse:Codable{
+struct DeleteDraftOrderResponse:Codable{
     
 }
