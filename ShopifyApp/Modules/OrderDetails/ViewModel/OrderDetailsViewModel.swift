@@ -10,7 +10,7 @@ protocol OrderDetailsViewModelProtocol{
     func getOrder()->OrderDetails?
     func fetchOrder(orderId:Int)->Void
     var bindOrderToViewController:()->Void{get set}
-  //  func getProductImage(productId:Int,completion:(String?)->())
+    func getProductImage(productId:Int, completion:@escaping (String?)->())
 
 }
 class OrderDetailsViewModel:OrderDetailsViewModelProtocol{
@@ -20,6 +20,7 @@ class OrderDetailsViewModel:OrderDetailsViewModelProtocol{
         self.networkService=network
     }
     var order:OrderDetails?=nil
+    var images:[Image]?=nil
     var bindOrderToViewController:()->Void={}
     func fetchOrder(orderId:Int){
         networkService?.makeRequest(endPoint: "/orders/\(orderId).json", method: .get) {[weak self] (result: Result<OrderResponse, APIError>) in
@@ -36,16 +37,18 @@ class OrderDetailsViewModel:OrderDetailsViewModelProtocol{
         return order
     }
     
-//    func getProductImage(productId: Int,@escaping completion: (String?) -> ())  {
-//        networkService?.makeRequest(endPoint: "/orders/\(orderId).json", method: .get) {[weak self] (result: Result<OrderResponse, APIError>) in
-//            switch result {
-//            case .success(let response):
-//                self?.order=response.order
-//            case .failure(let error):
-//                print("Error in retrieving order: \(error)")
-//            }
-//        }
-//    }
+    func getProductImage(productId: Int, completion: @escaping (String?) -> ())  {
+        networkService?.makeRequest(endPoint: "/products/\(productId)/images.json", method: .get) {[weak self] (result: Result<ProductImagesResponse, APIError>) in
+            switch result {
+            case .success(let response):
+                self?.images=response.images
+                completion(response.images.first?.src)
+            case .failure(let error):
+                print("Error in retrieving images: \(error)")
+                completion(nil)
+            }
+        }
+    }
     
     
 }
