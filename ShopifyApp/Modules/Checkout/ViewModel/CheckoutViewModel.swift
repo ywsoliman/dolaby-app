@@ -74,7 +74,8 @@ class CheckoutViewModel {
                 "created_at": formattedDate,
                 "currency": CurrencyManager.currency,
                 "email": CurrentUser.user?.email ?? "israaassem20@gmail.com",
-                "total_price": draftOrder.appliedDiscount?.amount ?? draftOrder.totalPrice,
+                "total_price": draftOrder.totalPrice,
+                "total_discounts": draftOrder.appliedDiscount?.amount ?? "0",
                 "customer":
                     ["id":
                         CurrentUser.user?.id

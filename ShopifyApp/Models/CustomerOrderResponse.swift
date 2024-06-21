@@ -20,7 +20,7 @@ struct Order: Codable {
     let orderNumber: Int?
     let presentmentCurrency: String?
     let processedAt: String?
-    let subtotalPrice: String?
+    let subtotalPrice,totalPrice: String?
     let totalWeight: Int?
     let updatedAt: String?
     let customer: CustomerModel?
@@ -39,6 +39,7 @@ struct Order: Codable {
         case presentmentCurrency = "presentment_currency"
         case processedAt = "processed_at"
         case subtotalPrice = "subtotal_price"
+        case totalPrice = "total_price"
         case totalWeight = "total_weight"
         case updatedAt = "updated_at"
         case customer
@@ -85,6 +86,7 @@ struct LineItemModel: Codable {
     let quantity: Int
     let title: String
     let variantId: Int?
+    let productId:Int?
     let variantInventoryManagement: String?
     let variantTitle: String?
     let vendor: String?
@@ -93,7 +95,7 @@ struct LineItemModel: Codable {
       case currentQuantity = "current_quantity"
       case fulfillableQuantity = "fulfillable_quantity"
       case fulfillmentService = "fulfillment_service"
-      case grams
+      case grams,productId="product_id"
       case name
       case price
       case quantity

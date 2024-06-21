@@ -18,6 +18,7 @@ class MeViewController: UIViewController {
         super.viewDidLoad()
         let cellNib=UINib(nibName: "OrdersTableViewCell", bundle: nil)
         ordersTable.dataSource=self
+        ordersTable.delegate=self
         ordersTable.register(cellNib, forCellReuseIdentifier: "ordersCell")
         indicator.startAnimating()
         ordersViewModel = OrdersViewModel(service: NetworkService.shared)
@@ -70,6 +71,16 @@ class MeViewController: UIViewController {
         
     }
 }
+extension MeViewController:UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Israa", bundle: nil)
+         guard let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "orderDetailsVC") as? OrderDetailsViewController else {
+             return
+         }
+        orderDetailsViewController.orderID = ordersViewModel?.getOrders()[indexPath.row].id
+         navigationController?.pushViewController(orderDetailsViewController, animated: true)
+    }
+}
 extension MeViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if ordersViewModel?.getOrdersCount()==0{
@@ -82,7 +93,7 @@ extension MeViewController:UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
-        cell.orderPrice.text = Double((ordersViewModel?.getOrders().first?.currentTotalPrice) ?? "0.0")?.priceFormatter()
+        cell.orderPrice.text=(ordersViewModel?.getOrders()[indexPath.row].totalPrice ?? "0.0") + " " + (ordersViewModel?.getOrders()[indexPath.row].currency ?? "USD")
         if let createdAtString = ordersViewModel?.getOrders().first?.createdAt {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
