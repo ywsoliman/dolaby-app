@@ -57,6 +57,12 @@ class MeViewController: UIViewController {
 
     }
     
+    @IBAction func onMoreFav(_ sender: Any) {
+        let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+        if let favViewController = storyboard.instantiateViewController(withIdentifier: "FavouriteScreenViewController") as? FavouriteScreenViewController {
+            navigationController?.pushViewController(favViewController, animated: true)
+        }
+    }
     
     @IBAction func settingsBtn(_ sender: UIButton) {
         

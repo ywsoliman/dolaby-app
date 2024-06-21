@@ -161,6 +161,7 @@ class ProductInfoViewController: UIViewController {
         productName.text = productInfo.title
         productBrand.text = productInfo.vendor
         descriptionLabel.text = productInfo.bodyHTML
+        
         updateFavBtnImage(isFav: isFavItem)
         sizesSegment.removeAllSegments()
         colorSegment.removeAllSegments()
@@ -179,7 +180,7 @@ class ProductInfoViewController: UIViewController {
             colorSegment.selectedSegmentIndex = 0
         }
         updateQuantityLabel()
-        priceLabel.text = productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        priceLabel.text = Double(productInfo.getVariantPrice(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? ""))?.priceFormatter()
         collectionView.reloadData()
         pageControl.numberOfPages = productInfo.images.count
         

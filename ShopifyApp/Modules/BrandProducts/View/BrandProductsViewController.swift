@@ -6,18 +6,23 @@
 //
 
 import UIKit
-
+import Combine
 class BrandProductsViewController: UIViewController {
     @IBOutlet weak var priceFilterStack: UIStackView!
     
+    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var brandProductsCollectionView: UICollectionView!
     @IBOutlet weak var priceForFilter: UILabel!
     @IBOutlet weak var priceSlider: UISlider!
     let indicator = UIActivityIndicatorView(style: .large)
-    var brandProductsViewModel:BrandProductsViewModelProtocol?
+    var brandProductsViewModel:BrandProductsViewModel?
     private var favViewModel:FavouriteViewModel!
+    @Published var searchText: String = ""
+    var cancellables = Set<AnyCancellable>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchBar.delegate = self
         favViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
         brandProductsCollectionView.dataSource=self
         brandProductsCollectionView.delegate=self
@@ -40,10 +45,27 @@ class BrandProductsViewController: UIViewController {
         priceSlider.minimumValue=1
         priceSlider.value=priceSlider.maximumValue
         priceForFilter.text=String(priceSlider.value)+" LE"
+        $searchText.debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .sink { [weak self] debouncedSearchText in
+                let sliderFormattedValue = Double(String(format: "%.2f", self?.priceSlider.value ?? 5000)) ?? 0
+                print(debouncedSearchText)
+                print(sliderFormattedValue)
+
+                self?.brandProductsViewModel?.filterProducts(withPrice: sliderFormattedValue, searchText: debouncedSearchText)
+                self?.brandProductsCollectionView.reloadData()
+            }
+            .store(in: &cancellables)
         if brandProductsViewModel==nil{
             print("brandProductsViewModel==nil")
         }
         priceFilterStack.isHidden=true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        tapGesture.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @IBAction func filterBtn(_ sender: Any) {
@@ -54,6 +76,8 @@ class BrandProductsViewController: UIViewController {
     @IBAction func sliderValueChanged(_ sender: Any) {
         let formattedValue = String(format: "%.2f", (sender as! UISlider).value)
         priceForFilter.text = "\(formattedValue) LE"
+        let sliderFormattedValue = Double(formattedValue) ?? 0.0
+        brandProductsViewModel?.filterProducts(withPrice: sliderFormattedValue, searchText: searchText)
         brandProductsCollectionView.reloadData()
         
     }
@@ -66,36 +90,33 @@ class BrandProductsViewController: UIViewController {
 extension BrandProductsViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
-        let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
         guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
             return
         }
-        productDetailsViewController.productID = brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].id
+        productDetailsViewController.productID = brandProductsViewModel?.filteredProducts[indexPath.item].id
         navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
 }
 extension BrandProductsViewController:UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
-        return brandProductsViewModel?.getProductsCount(withPrice: sliderFormattedValue) ?? 0
+        return brandProductsViewModel?.filteredProducts.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
         cell.delegate = self
         cell.cellIndex = indexPath.item
-        cell.categoryPrice.text="\((brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].variants[0].price) ?? "0.0") LE"
-        cell.updateFavBtnImage(isFav: favViewModel.isFavoriteItem(withId: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].id ?? 0))
-        let titleComponents = brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].title.split(separator: " | ")
+        cell.categoryPrice.text="\((brandProductsViewModel?.filteredProducts[indexPath.item].variants[0].price) ?? "0.0") LE"
+        cell.updateFavBtnImage(isFav: favViewModel.isFavoriteItem(withId: brandProductsViewModel?.filteredProducts[indexPath.item].id ?? 0))
+        let titleComponents = brandProductsViewModel?.filteredProducts[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents?.last ?? "")
         cell.categoryName.text = categoryName
         cell.clipsToBounds=true
         cell.layer.cornerRadius=20
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.borderWidth=0.7
-        let url=URL(string: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[indexPath.item].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")
+        let url=URL(string: brandProductsViewModel?.filteredProducts[indexPath.item].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")
         guard let imageUrl=url else{
             print("Error loading image: ",APIError.invalidURL)
             return cell
@@ -123,7 +144,6 @@ extension BrandProductsViewController:FavItemDelegate{
         showAlert(message: "You need to login first.") {
             let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
             let loginVC =
-            
             storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
             loginVC.modalPresentationStyle = .fullScreen
             loginVC.modalTransitionStyle = .flipHorizontal
@@ -134,14 +154,12 @@ extension BrandProductsViewController:FavItemDelegate{
     }
     
     func deleteFavItem(itemIndex: Int) {
-        let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
-        let id = brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].id
+        let id = brandProductsViewModel?.filteredProducts[itemIndex].id
         favViewModel.deleteFavouriteItem(itemId: id ?? 0)
     }
     
     func saveFavItem(itemIndex: Int) {
-        let sliderFormattedValue = Double(String(format: "%.2f", priceSlider.value)) ?? 0
-        favViewModel.addToFav(favItem: FavoriteItem(id: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].id ?? 0, itemName: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].title ?? " | ", imageURL: brandProductsViewModel?.getProducts(withPrice: sliderFormattedValue)[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+        favViewModel.addToFav(favItem: FavoriteItem(id: brandProductsViewModel?.filteredProducts[itemIndex].id ?? 0, itemName: brandProductsViewModel?.filteredProducts[itemIndex].title ?? " | ", imageURL: brandProductsViewModel?.filteredProducts[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
     }
     func showAlert(message: String, okHandler: @escaping () -> Void) {
             let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -156,3 +174,8 @@ extension BrandProductsViewController:FavItemDelegate{
     
 }
 
+extension BrandProductsViewController : UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchText = searchText
+    }
+}
