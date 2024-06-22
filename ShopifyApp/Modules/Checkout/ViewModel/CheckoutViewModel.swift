@@ -88,6 +88,7 @@ class CheckoutViewModel {
                                "price": item.price.priceFormatterValue(),
                                "quantity": item.quantity,
                                "variant_title": item.variantTitle,
+                               "variant_id": item.variantID,
                                "product_id": item.productID
                            ]
                        }
