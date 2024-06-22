@@ -30,6 +30,9 @@ class OrderDetailsViewController: UIViewController {
         }
         backgroundView.layer.cornerRadius = 30
         backgroundView.layer.maskedCorners = [.layerMinXMaxYCorner,.layerMaxXMaxYCorner]
+
+        orderItemsTable.layer.borderWidth=0.25
+        orderItemsTable.layer.borderColor=UIColor.gray.cgColor
     }
     func loadData(){
         if let createdAtString = orderDetailsViewModel?.getOrder()?.created_at {
@@ -46,12 +49,12 @@ class OrderDetailsViewController: UIViewController {
         } else {
             print("Error: createdAt string is nil")
         }
-        orderPrice.text=Double(orderDetailsViewModel?.getOrder()?.total_price ?? "0")?.priceFormatter()
+        orderPrice.text=(orderDetailsViewModel?.getOrder()?.total_price ?? "0") + " " + (orderDetailsViewModel?.getOrder()?.currency ?? "USD")
         customerName.text=(orderDetailsViewModel?.getOrder()?.customer?.firstName ?? "FName")+" "+(orderDetailsViewModel?.getOrder()?.customer?.lastName ?? "LName")
         orderItemsTable.reloadData()
     }
     
-
+    
 }
 extension OrderDetailsViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -67,8 +70,24 @@ extension OrderDetailsViewController:UITableViewDataSource{
         cell.layer.shadowOpacity = 0.3
         
         cell.itemName.text=orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].name
-        cell.itemPrice.text=Double(orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].price ?? "0")?.priceFormatter()
+        cell.itemPrice.text=(orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].price ?? "0") + " " + (orderDetailsViewModel?.getOrder()?.currency ?? "USD")
         cell.itemQuantity.text="Items : "+String(orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].quantity ?? 0 )
+        
+        let productId=orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].productId
+        guard let productId=productId else{
+            print("No product id")
+            return cell
+        }
+        orderDetailsViewModel?.getProductImage(productId: productId){imageSrc in
+            let url=URL(string: imageSrc ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")
+            guard let imageUrl=url else{
+                print("Error loading image: ",APIError.invalidURL)
+                return
+            }
+            cell.itemImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "loadingPlaceholder"))
 
-        return cell    }
+        }
+
+        return cell
+    }
 }

@@ -17,27 +17,27 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadingPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="Zfg-sC-qME">
-                        <rect key="frame" x="0.0" y="10" width="100" height="100"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadingPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="Zfg-sC-qME">
+                        <rect key="frame" x="8" y="10" width="100" height="100"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="d6B-bh-1aC"/>
                             <constraint firstAttribute="height" constant="100" id="gBQ-F9-t2U"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="1000" text="CONVERSE | CHUCK TAYLOR ALL STAR LO - 3 / white" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-91-uUP">
-                        <rect key="frame" x="104" y="4" width="216" height="61"/>
+                        <rect key="frame" x="112" y="4" width="204" height="61"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pko-Rc-rdc">
-                        <rect key="frame" x="104" y="73" width="216" height="20.333333333333329"/>
+                        <rect key="frame" x="112" y="73" width="208" height="20.333333333333329"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="quantity" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chj-C3-JNN">
-                        <rect key="frame" x="104" y="101.33333333333333" width="216" height="14.666666666666671"/>
+                        <rect key="frame" x="112" y="101.33333333333333" width="208" height="14.666666666666671"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -49,10 +49,10 @@
                     <constraint firstItem="Pko-Rc-rdc" firstAttribute="leading" secondItem="Zfg-sC-qME" secondAttribute="trailing" constant="4" id="BKI-7k-Gwb"/>
                     <constraint firstItem="Zfg-sC-qME" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Z46-K9-AEA"/>
                     <constraint firstAttribute="trailing" secondItem="chj-C3-JNN" secondAttribute="trailing" id="ac9-BZ-wSd"/>
-                    <constraint firstItem="Zfg-sC-qME" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="bxL-jo-yCw"/>
+                    <constraint firstItem="Zfg-sC-qME" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="bxL-jo-yCw"/>
                     <constraint firstItem="Pko-Rc-rdc" firstAttribute="top" secondItem="OBc-91-uUP" secondAttribute="bottom" constant="8" id="c3J-Eg-nMU"/>
                     <constraint firstAttribute="bottom" secondItem="Zfg-sC-qME" secondAttribute="bottom" constant="10" id="fdj-R8-0RN"/>
-                    <constraint firstAttribute="trailing" secondItem="OBc-91-uUP" secondAttribute="trailing" id="goG-S8-YCg"/>
+                    <constraint firstAttribute="trailing" secondItem="OBc-91-uUP" secondAttribute="trailing" constant="4" id="goG-S8-YCg"/>
                     <constraint firstItem="chj-C3-JNN" firstAttribute="top" secondItem="Pko-Rc-rdc" secondAttribute="bottom" constant="8" id="lZ4-DB-7Mb"/>
                     <constraint firstItem="chj-C3-JNN" firstAttribute="leading" secondItem="Zfg-sC-qME" secondAttribute="trailing" constant="4" id="mc5-OF-aUD"/>
                     <constraint firstAttribute="trailing" secondItem="Pko-Rc-rdc" secondAttribute="trailing" id="qS3-JV-oiy"/>

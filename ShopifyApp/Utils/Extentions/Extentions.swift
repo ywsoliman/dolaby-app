@@ -46,6 +46,12 @@ extension String {
         return String(format: "%.2f \(CurrencyManager.currency)", result)
     }
 }
+extension String {
+    func priceFormatterValue() -> String {
+        let result = Double(self)! * CurrencyManager.value
+        return String(format: "%.2f", result)
+    }
+}
 
 extension Int {
     func getValidQuantity() -> Int {

@@ -41,10 +41,10 @@ class BrandProductsViewController: UIViewController {
         view.addSubview(indicator)
         indicator.center = self.view.center
         indicator.startAnimating()
-        priceSlider.maximumValue=500
+        priceSlider.maximumValue=300
         priceSlider.minimumValue=1
         priceSlider.value=priceSlider.maximumValue
-        priceForFilter.text=String(priceSlider.value)+" LE"
+        priceForFilter.text=String(priceSlider.value).priceFormatter()
         $searchText.debounce(for: .milliseconds(500), scheduler: RunLoop.main)
             .sink { [weak self] debouncedSearchText in
                 self?.sliderFormattedValue = Double(String(format: "%.2f", self?.priceSlider.value ?? 5000)) ?? 0
@@ -73,7 +73,7 @@ class BrandProductsViewController: UIViewController {
     }
     @IBAction func sliderValueChanged(_ sender: Any) {
         let formattedValue = String(format: "%.2f", (sender as! UISlider).value)
-        priceForFilter.text = "\(formattedValue) LE"
+        priceForFilter.text = formattedValue.priceFormatter()
         sliderFormattedValue = Double(formattedValue) ?? 0.0
         brandProductsViewModel?.filterProducts(withPrice: sliderFormattedValue, searchText: searchText)
         brandProductsCollectionView.reloadData()
@@ -105,7 +105,8 @@ extension BrandProductsViewController:UICollectionViewDataSource{
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
         cell.delegate = self
         cell.cellIndex = indexPath.item
-        cell.categoryPrice.text="\((brandProductsViewModel?.filteredProducts[indexPath.item].variants[0].price) ?? "0.0") LE"
+        cell.categoryPrice.text=(brandProductsViewModel?.filteredProducts[indexPath.item].variants[0].price ?? "0").priceFormatter()
+        
         cell.updateFavBtnImage(isFav: favViewModel.isFavoriteItem(withId: brandProductsViewModel?.filteredProducts[indexPath.item].id ?? 0))
         let titleComponents = brandProductsViewModel?.filteredProducts[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents?.last ?? "")

@@ -8,7 +8,7 @@
 import UIKit
 
 class MeViewController: UIViewController {
-
+    
     @IBOutlet weak var favCollectionView: UICollectionView!
     @IBOutlet weak var ordersTable: UITableView!
     @IBOutlet weak var moreOrdersBtn: UIButton!
@@ -20,6 +20,7 @@ class MeViewController: UIViewController {
         super.viewDidLoad()
         let cellNib=UINib(nibName: "OrdersTableViewCell", bundle: nil)
         ordersTable.dataSource=self
+        ordersTable.delegate=self
         favCollectionView.dataSource = self
         favCollectionView.delegate = self
         favCollectionView.keyboardDismissMode = .onDrag
@@ -42,18 +43,16 @@ class MeViewController: UIViewController {
             }
         }
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         ordersViewModel?.fetchOrders()
         favViewModel.fetchFavouriteItems()
         indicator.startAnimating()
-        ordersTable.isHidden=true
         moreOrdersBtn.isHidden=true
         ordersViewModel?.bindOrdersToViewController={[weak self] in
             DispatchQueue.main.async {
                 self?.indicator.stopAnimating()
                 self?.ordersTable.reloadData()
-                self?.ordersTable.isHidden=false
                 self?.moreOrdersBtn.isHidden = self?.ordersViewModel?.getOrdersCount() ?? 0 > 1 ? false:true
             }
         }
@@ -79,19 +78,39 @@ class MeViewController: UIViewController {
         
     }
 }
+extension MeViewController:UITableViewDelegate{
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Israa", bundle: nil)
+        guard let orderDetailsViewController = storyboard.instantiateViewController(withIdentifier: "orderDetailsVC") as? OrderDetailsViewController else {
+            return
+        }
+        orderDetailsViewController.orderID = ordersViewModel?.getOrders()[indexPath.row].id
+        navigationController?.pushViewController(orderDetailsViewController, animated: true)
+    }
+    
+}
 extension MeViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let isEmpty = ordersViewModel?.getOrdersCount() == 0
+        ordersTable.backgroundView = isEmpty ? getOrdersTableBackgroundView() : nil
         if ordersViewModel?.getOrdersCount()==0{
-          return 0
+            return 0
         }else{
             return 1
         }
         
     }
-    
+    func getOrdersTableBackgroundView() -> UIView {
+        let backgroundView = UIView(frame: ordersTable.bounds)
+        let imageView = UIImageView(frame: backgroundView.bounds)
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "noOrdersFound")
+        backgroundView.addSubview(imageView)
+        return backgroundView
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
-        cell.orderPrice.text = Double((ordersViewModel?.getOrders().first?.currentTotalPrice) ?? "0.0")?.priceFormatter()
+        cell.orderPrice.text=(ordersViewModel?.getOrders()[indexPath.row].totalPrice ?? "0.0") + " " + (ordersViewModel?.getOrders()[indexPath.row].currency ?? "USD")
         if let createdAtString = ordersViewModel?.getOrders().first?.createdAt {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
@@ -117,11 +136,11 @@ extension MeViewController:UICollectionViewDataSource , UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(indexPath.row)
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-         guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
-             return
-         }
+        guard let productDetailsViewController = storyboard.instantiateViewController(withIdentifier: "productInfoVC") as? ProductInfoViewController else {
+            return
+        }
         productDetailsViewController.productID = favViewModel.favouriteItems[indexPath.item].id
-         navigationController?.pushViewController(productDetailsViewController, animated: true)
+        navigationController?.pushViewController(productDetailsViewController, animated: true)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let isEmpty =  favViewModel.favouriteItems.count == 0
@@ -129,13 +148,13 @@ extension MeViewController:UICollectionViewDataSource , UICollectionViewDelegate
         return min(favViewModel.favouriteItems.count,4)
     }
     func getBackgroundView() -> UIView {
-           let backgroundView = UIView(frame: favCollectionView.bounds)
-           let imageView = UIImageView(frame: backgroundView.bounds)
-           imageView.contentMode = .scaleAspectFit
-           imageView.image = UIImage(named: "noProductsFound")
-           backgroundView.addSubview(imageView)
-           return backgroundView
-       }
+        let backgroundView = UIView(frame: favCollectionView.bounds)
+        let imageView = UIImageView(frame: backgroundView.bounds)
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "noProductsFound")
+        backgroundView.addSubview(imageView)
+        return backgroundView
+    }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "meFavCell", for: indexPath) as! CategoriesCollectionViewCell
@@ -163,27 +182,27 @@ extension MeViewController:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width=self.view.frame.width*0.44
         let height=width*1.2
-
+        
         return CGSize(width: width, height: height)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 8
     }
-   
+    
 }
 
 extension MeViewController:FavItemDelegate{
     func notAuthenticated() {
         showAlert(message: "You need to login first.") {
             let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-              let loginVC =
-                    
-                    storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
+            let loginVC =
+            
+            storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
             loginVC.modalPresentationStyle = .fullScreen
             loginVC.modalTransitionStyle = .flipHorizontal
             self.present(loginVC, animated: true)
             self.navigationController?.viewControllers = []
-                    }
+        }
     }
     
     func deleteFavItem(itemIndex: Int) {
@@ -209,14 +228,14 @@ extension MeViewController:FavItemDelegate{
 }
 extension MeViewController{
     func showAlert(message: String, okHandler: @escaping () -> Void) {
-            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-                okHandler()
-            }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-                present(alert, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            okHandler()
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
 }
-    
+

@@ -263,7 +263,7 @@
         <!--Me-->
         <scene sceneID="gcr-ew-ZaK">
             <objects>
-                <viewController id="jTr-at-lzu" customClass="MeViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Me" id="jTr-at-lzu" customClass="MeViewController" customModule="ShopifyApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lg8-Jo-760">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -275,8 +275,8 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJm-mY-BEQ">
-                                <rect key="frame" x="8" y="165" width="64" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <rect key="frame" x="8" y="165" width="65" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -294,13 +294,13 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wish list" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ViX-Al-xkm">
-                                <rect key="frame" x="8" y="313.33333333333331" width="78" height="24"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <rect key="frame" x="8" y="311.33333333333331" width="80.333333333333329" height="24"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6po-Bz-BFX">
-                                <rect key="frame" x="86" y="306" width="301" height="38.333333333333314"/>
+                                <rect key="frame" x="88.333333333333343" y="306" width="298.66666666666663" height="34.333333333333314"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrowshape.right.fill" catalog="system" imagePlacement="trailing" title="More "/>
@@ -308,8 +308,8 @@
                                     <action selector="onMoreFav:" destination="jTr-at-lzu" eventType="touchUpInside" id="Xxf-ms-Osh"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="y0L-lr-OzL">
-                                <rect key="frame" x="6" y="204.33333333333334" width="381" height="85.000000000000028"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="y0L-lr-OzL">
+                                <rect key="frame" x="6" y="202.33333333333334" width="381" height="85.000000000000028"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="85" id="pdU-PN-452"/>
@@ -327,7 +327,7 @@
                                 <sections/>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NjH-aW-M1B">
-                                <rect key="frame" x="72" y="158" width="315" height="38.333333333333343"/>
+                                <rect key="frame" x="73" y="160" width="314" height="34.333333333333343"/>
                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" image="arrowshape.right.fill" catalog="system" imagePlacement="trailing" title="More "/>
@@ -816,7 +816,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                                <color key="backgroundColor" red="0.92156863209999995" green="0.92156863209999995" blue="0.92156857250000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="sCN-lI-BTN" firstAttribute="top" secondItem="KnD-Mr-Wba" secondAttribute="top" id="5Ts-tu-HaE"/>
                                     <constraint firstAttribute="trailing" secondItem="KyJ-Gz-ndU" secondAttribute="trailing" id="6zA-wY-uDv"/>
@@ -843,14 +843,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="APJ-sd-0wA">
-                                <rect key="frame" x="8" y="340" width="377" height="478"/>
+                                <rect key="frame" x="0.0" y="340" width="393" height="512"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="orderItemsCell" id="qPs-88-6wb">
-                                        <rect key="frame" x="0.0" y="50" width="377" height="43.666667938232422"/>
+                                        <rect key="frame" x="0.0" y="50" width="393" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qPs-88-6wb" id="BTd-Em-2VE">
-                                            <rect key="frame" x="0.0" y="0.0" width="377" height="43.666667938232422"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="43.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -860,15 +860,15 @@
                         <viewLayoutGuide key="safeArea" id="PxS-rM-QlM"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="APJ-sd-0wA" firstAttribute="leading" secondItem="PxS-rM-QlM" secondAttribute="leading" constant="8" id="1ms-LK-tbZ"/>
+                            <constraint firstItem="APJ-sd-0wA" firstAttribute="leading" secondItem="PxS-rM-QlM" secondAttribute="leading" id="1ms-LK-tbZ"/>
                             <constraint firstItem="PxS-rM-QlM" firstAttribute="trailing" secondItem="8fe-bb-Dma" secondAttribute="trailing" id="5yl-lT-RDx"/>
-                            <constraint firstItem="PxS-rM-QlM" firstAttribute="bottom" secondItem="APJ-sd-0wA" secondAttribute="bottom" id="K62-an-bhT"/>
+                            <constraint firstAttribute="bottom" secondItem="APJ-sd-0wA" secondAttribute="bottom" id="K62-an-bhT"/>
                             <constraint firstItem="ps0-LL-KcZ" firstAttribute="leading" secondItem="PxS-rM-QlM" secondAttribute="leading" id="Lt5-9Q-9wP"/>
                             <constraint firstItem="APJ-sd-0wA" firstAttribute="top" secondItem="8fe-bb-Dma" secondAttribute="bottom" constant="16" id="RqV-r8-bhL"/>
                             <constraint firstItem="8fe-bb-Dma" firstAttribute="leading" secondItem="PxS-rM-QlM" secondAttribute="leading" id="Rww-tn-Qn1"/>
                             <constraint firstItem="PxS-rM-QlM" firstAttribute="trailing" secondItem="ps0-LL-KcZ" secondAttribute="trailing" id="Wrk-Kk-x5H"/>
                             <constraint firstItem="ps0-LL-KcZ" firstAttribute="top" secondItem="oNC-fX-FDF" secondAttribute="top" id="XBS-q6-EDV"/>
-                            <constraint firstItem="PxS-rM-QlM" firstAttribute="trailing" secondItem="APJ-sd-0wA" secondAttribute="trailing" constant="8" id="fOK-7f-0ea"/>
+                            <constraint firstItem="PxS-rM-QlM" firstAttribute="trailing" secondItem="APJ-sd-0wA" secondAttribute="trailing" id="fOK-7f-0ea"/>
                             <constraint firstItem="ps0-LL-KcZ" firstAttribute="height" secondItem="oNC-fX-FDF" secondAttribute="height" multiplier="0.333333" id="q88-WE-fiu"/>
                             <constraint firstItem="8fe-bb-Dma" firstAttribute="top" secondItem="ps0-LL-KcZ" secondAttribute="bottom" constant="16" id="xFp-xE-q56"/>
                         </constraints>
@@ -902,13 +902,10 @@
         <image name="square.grid.2x2.fill" catalog="system" width="128" height="114"/>
         <image name="tshirt.fill" catalog="system" width="128" height="98"/>
         <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
