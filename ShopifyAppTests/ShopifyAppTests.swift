@@ -7,7 +7,6 @@
 
 import XCTest
 @testable import ShopifyApp
-
 final class ShopifyAppTests: XCTestCase {
 
     override func setUpWithError() throws {

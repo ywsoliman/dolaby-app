@@ -18,7 +18,8 @@ final class FavouriteViewModel{
     }
     func fetchFavouriteItems() {
         do{
-          try favSerivce.fetchFavoriteItems { [weak self] items in
+            let userID = try LocalDataSource.shared.retrieveCustomerId()
+          try favSerivce.fetchFavoriteItems(userId: userID){ [weak self] items in
                         self?.favouriteItems = items
                         self?.bindToViewController()
                 }
@@ -35,7 +36,8 @@ final class FavouriteViewModel{
     
     func addToFav(favItem:FavoriteItem){
         do{
-            try favSerivce.addFavoriteItem(favItem:favItem )
+            let userID = try LocalDataSource.shared.retrieveCustomerId()
+            try favSerivce.addFavoriteItem(userId:userID,favItem:favItem )
             updateFavItems()
         }catch{
             print("Errror in saving fav item")
@@ -46,7 +48,8 @@ final class FavouriteViewModel{
     }
     func deleteFavouriteItem(itemId: Int) {
         do{
-            try favSerivce.deleteFavoriteItem(itemId: itemId)
+            let userID = try LocalDataSource.shared.retrieveCustomerId()
+            try favSerivce.deleteFavoriteItem(userId:userID,itemId: itemId)
             fetchFavouriteItems()
         }catch{
             print("Deleting favorite Item Error")

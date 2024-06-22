@@ -14,9 +14,8 @@ class FavoritesManager {
     var favItems:[FavoriteItem] = []
     private let databaseRef = Database.database(url: "https://e-commerce-c640e-default-rtdb.firebaseio.com/").reference()
     
-    func fetchFavoriteItems(completion: @escaping ([FavoriteItem]) -> Void) throws{
-        let userID = try LocalDataSource.shared.retrieveCustomerId()
-        databaseRef.child("users").child(String(userID)).child("favorites").observeSingleEvent(of: .value, with: { snapshot in
+    func fetchFavoriteItems(userId:Int,completion: @escaping ([FavoriteItem]) -> Void) throws{
+        databaseRef.child("users").child(String(userId)).child("favorites").observeSingleEvent(of: .value, with: { snapshot in
             var items: [FavoriteItem] = []
             for child in snapshot.children {
                 if let snapshot = child as? DataSnapshot,
@@ -31,10 +30,9 @@ class FavoritesManager {
             completion(items)
         })
     }
-    func addFavoriteItem(favItem:FavoriteItem) throws {
-        let userID = try LocalDataSource.shared.retrieveCustomerId()
+    func addFavoriteItem(userId:Int,favItem:FavoriteItem) throws {
         var throwError = false
-        let itemRef = databaseRef.child("users").child(String(userID)).child("favorites").child(String(favItem.id))
+        let itemRef = databaseRef.child("users").child(String(userId)).child("favorites").child(String(favItem.id))
         itemRef.setValue(["itemName": favItem.itemName, "imageURL": favItem.imageURL]){ error, _ in
             if let _ = error {
                 throwError = true
@@ -49,10 +47,9 @@ class FavoritesManager {
         }
     }
     
-    func deleteFavoriteItem(itemId: Int) throws {
-        let userID = try LocalDataSource.shared.retrieveCustomerId()
+    func deleteFavoriteItem(userId:Int,itemId: Int) throws {
         var throwError = false
-        databaseRef.child("users").child(String(userID)).child("favorites").child(String(itemId)).removeValue { error, _ in
+        databaseRef.child("users").child(String(userId)).child("favorites").child(String(itemId)).removeValue { error, _ in
             if let _ = error {
                 throwError = true
             } else {

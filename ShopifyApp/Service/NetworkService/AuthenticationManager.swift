@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
+
 final class AuthenticationManager{
     static let shared = AuthenticationManager()
     private init(){}
@@ -22,7 +23,7 @@ final class AuthenticationManager{
                         "lastName": customer.lastName,
                         "phoneNumber": customer.phone,
                         "email": customer.email,
-                        "id": customer.id
+                        "id": customer.id ?? 0
                     ])
     }
     func login(customer:CustomerCredentials)async throws->CustomerData{
