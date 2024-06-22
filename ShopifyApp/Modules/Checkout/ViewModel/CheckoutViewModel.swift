@@ -65,6 +65,7 @@ class CheckoutViewModel {
     }
 
     func postOrder(completion: @escaping () -> ()) {
+        print("DraftOrder",draftOrder)
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
@@ -83,10 +84,9 @@ class CheckoutViewModel {
                 "line_items": draftOrder.lineItems.map { item in
                            [
                                "title": item.title,
-                               "price": item.price,
+                               "price": item.price.priceFormatterValue(),
                                "quantity": item.quantity,
                                "variant_title": item.variantTitle,
-                               "variant_id": item.variantID,
                                "product_id": item.productID
                            ]
                        }
@@ -98,11 +98,55 @@ class CheckoutViewModel {
                 print("Order is posted Successfully!")
                 completion()
                 self?.updateCustomer()
+                self?.deleteDraftOrder()
+                self?.postDraftOrderInvoice()
+               
             case .failure(let error):
                 print("Error in posting an order: \(error)")
             }
         }
     }
+    func completeOrder() {
+           
+        service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id)/complete.json", method: .put) { (result: Result<DraftOrderResponse, APIError>) in
+               
+               switch result {
+               case .success(_):
+                   print("Compeleted Order Successfully!")
+               case .failure(let error):
+                   print("Error in completing an order: \(error)")
+               }
+               
+           }
+           
+       }
+    func postDraftOrderInvoice(){
+        let parameters: [String: Any] = [
+            "draft_order_invoice": [
+                "to":  "israaassem20@gmail.com",
+                "subject": "Successful order Invoice",
+                "custom_message": "Thanks for ordering from our application!"
+            ]
+        ]
+        service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id)/send_invoice", method: .post,parameters: parameters) {(result: Result<InvoiceResponse, APIError>) in
+            switch result {
+            case .success(_):
+                print("DraftOrderInvoice is posted Successfully!")
+            case .failure(let error):
+                print("Error in posting DraftOrderInvoice: \(error)")
+            }
+        }
+    }
+    func deleteDraftOrder(){
+         service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
+             switch result {
+             case .success(_):
+                 print("Draft order is deleted Successfully!")
+             case .failure(let error):
+                 print("Error in deleting draft order: \(error)")
+             }
+         }
+     }
     func updateCustomer(){
         CurrentUser.user?.cartID=nil
         let updatedCustomerData:[String:Any]=[
