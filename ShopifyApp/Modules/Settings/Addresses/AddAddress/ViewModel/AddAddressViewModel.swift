@@ -11,6 +11,7 @@ import CoreLocation
 class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
     
     private var service: NetworkService
+    private var addressesViewModel: AddressesViewModel
     private var locationManager: CLLocationManager?
     private var showNoLocationAlert: Bool = false {
         didSet {
@@ -31,8 +32,9 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
     var bindInvalidCountryToViewController: (() -> ()) = {}
     var bindAddressExistsToViewController: (() -> ()) = {}
     
-    init(service: NetworkService) {
+    init(service: NetworkService, addressesViewModel: AddressesViewModel) {
         self.service = service
+        self.addressesViewModel = addressesViewModel
     }
     
     func addAddress(_ newAddress: AddedAddress) {
@@ -49,17 +51,23 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
         }
         
         let addressParams: [String: Any] = ["address": [
-                "address1": newAddress.address1,
-                "city": newAddress.city,
-                "country": newAddress.country
-            ]]
+            "address1": newAddress.address1,
+            "city": newAddress.city,
+            "country": newAddress.country
+        ]]
         
         service.makeRequest(endPoint: "/customers/\(user.id)/addresses.json", method: .post, parameters: addressParams) { (result: Result<CustomerAddress, APIError>) in
             
             switch result {
             case .success(let response):
                 CurrentUser.user?.addresses?.append(response.customerAddress)
-                self.bindAddressToViewController()
+                if CurrentUser.user?.addresses?.count == 1 {
+                    self.addressesViewModel.setDefault(addressID: response.customerAddress.id!) {
+                        self.bindAddressToViewController()
+                    }
+                } else {
+                    self.bindAddressToViewController()
+                }
             case .failure(let error):
                 self.bindInvalidCountryToViewController()
                 print("Adding an address error: \(error)")

@@ -62,7 +62,7 @@ class CartTableViewCell: UITableViewCell {
         titleLabel.text = lineItem.title
         descLabel.text = lineItem.variantTitle
         quantityLabel.text = String(itemQuantity)
-        updateButtonState(maxQuantity: lineItem.inventoryQuantity ?? 1)
+        updateButtonState(maxQuantity: lineItem.inventoryQuantity?.getValidQuantity() ?? 1)
         
         NetworkService.shared.makeRequest(endPoint: "/products/\(lineItem.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in
             

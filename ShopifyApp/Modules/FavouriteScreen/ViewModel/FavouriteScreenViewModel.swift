@@ -25,6 +25,8 @@ final class FavouriteViewModel{
             self.succcessful = true
         }catch{
             self.succcessful = false
+            self.favouriteItems = []
+            self.favSerivce.favItems = []
             errorMessage = error.localizedDescription
             print("ERror fethcing fav items")
         }
@@ -34,7 +36,7 @@ final class FavouriteViewModel{
     func addToFav(favItem:FavoriteItem){
         do{
             try favSerivce.addFavoriteItem(favItem:favItem )
-            favouriteItems.append(favItem)
+            updateFavItems()
         }catch{
             print("Errror in saving fav item")
         }

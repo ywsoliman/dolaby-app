@@ -38,6 +38,13 @@ class CategoriesViewController: UIViewController {
                 self?.categoriesCollectionView.reloadData()
             }
         }
+        favViewModel.fetchFavouriteItems()
+        favViewModel.bindToViewController =  { [weak self] in
+            DispatchQueue.main.async {
+                self?.indicator.stopAnimating()
+                self?.categoriesCollectionView.reloadData()
+            }
+        }
         view.addSubview(indicator)
         indicator.center = self.view.center
         indicator.startAnimating()
@@ -158,18 +165,24 @@ extension CategoriesViewController:FavItemDelegate{
     }
     
     func deleteFavItem(itemIndex: Int) {
-        favViewModel.deleteFavouriteItem(itemId: categoriesViewModel?.getProducts()[itemIndex].id ?? 0)
+        showAlert(message: "Are you sure you want to remove this item from your favorites?"){ [weak self] in
+            self?.favViewModel.deleteFavouriteItem(itemId: self?.categoriesViewModel?.getProducts()[itemIndex].id ?? 0)
+            let indexPath = IndexPath(item: itemIndex, section: 0)
+            if let cell = self?.categoriesCollectionView.cellForItem(at: indexPath) as? CategoriesCollectionViewCell {
+                cell.updateFavBtnImage(isFav: false)
+            }
+        }
     }
     
     func saveFavItem(itemIndex: Int) {
         favViewModel.addToFav(favItem: FavoriteItem(id: categoriesViewModel?.getProducts()[itemIndex].id ?? 0, itemName: categoriesViewModel?.getProducts()[itemIndex].title ?? " | ", imageURL: categoriesViewModel?.getProducts()[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
     }
     func showAlert(message: String, okHandler: @escaping () -> Void) {
-            let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default) { _ in
                 okHandler()
             }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
             alert.addAction(okAction)
             alert.addAction(cancelAction)
                 present(alert, animated: true, completion: nil)

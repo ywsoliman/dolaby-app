@@ -7,29 +7,53 @@
 
 import UIKit
 
+enum HomeSections {
+    case discounts
+    case brands
+    
+    var title: String {
+        switch self {
+        case .discounts:
+            return "Discounts"
+        case .brands:
+            return "Brands"
+        }
+    }
+}
+
+protocol DiscountPageControlDelegate {
+    func configure(_ page: Int)
+}
+
 class HomeViewController: UIViewController {
     
     let indicator = UIActivityIndicatorView(style: .large)
     var homeViewModel: HomeViewModelProtocol?
-    var discountImages: [String: String] = [:]
+    private let discountWithIndex = [0: "discount-1", 1: "discount-2", 2: "discount-3"]
+    private let discountImages = ["discount-1", "discount-2", "discount-3"]
+    private var imageWithCoupon: [String: String] = [:]
+    private let homeSections: [HomeSections] = [.discounts, .brands]
+    private var discountPageControlView: DiscountPageControlReusableView?
+    let favViewModel:FavouriteViewModel = FavouriteViewModel(favSerivce: FavoritesManager.shared)
     
-    @IBOutlet weak var discountScrollView: UIScrollView!
-    @IBOutlet weak var discountPageControl: UIPageControl!
-    @IBOutlet weak var brandsCollectionView: UICollectionView!
-    
+    @IBOutlet weak var collectionView: UICollectionView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        brandsCollectionView.delegate=self
-        brandsCollectionView.dataSource=self
-        brandsCollectionView.collectionViewLayout = UICollectionViewFlowLayout()
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.collectionViewLayout = createLayout()
+        
         indicator.startAnimating()
         homeViewModel = HomeViewModel(service: NetworkService.shared, currencyService: CurrencyService.shared)
+        favViewModel.fetchFavouriteItems()
         homeViewModel?.loadUser()
         homeViewModel?.fetchBrands()
         homeViewModel?.bindBrandsToViewController={[weak self] in
             DispatchQueue.main.async {
                 self?.indicator.stopAnimating()
-                self?.brandsCollectionView.reloadData()
+                self?.collectionView.reloadData()
             }
         }
         view.addSubview(indicator)
@@ -39,92 +63,130 @@ class HomeViewController: UIViewController {
         setupDiscountSection()
     }
     
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        UICollectionViewCompositionalLayout { [weak self] sectionIndex, layoutEnviroment in
+            guard let self = self else { return nil }
+            let section = homeSections[sectionIndex]
+            switch section {
+            case .discounts:
+                return createDiscountsCollectionView()
+            case .brands:
+                return createBrandsCollectionView()
+            }
+        }
+    }
+    
+    private func createDiscountsCollectionView() -> NSCollectionLayoutSection {
+        
+        
+        let item = CompositionalLayout.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 16)
+        
+        let group = CompositionalLayout.createGroup(alignment: .horizontal, width: .fractionalWidth(1), height: .absolute(200), item: item, count: 1)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .paging
+        section.boundarySupplementaryItems = [supplementaryHeaderItem(), supplemntaryFooterItem()]
+        section.visibleItemsInvalidationHandler = { [weak self] (visibleItems, _, _) in
+            if let indexPath = visibleItems.last?.indexPath {
+                self?.discountPageControlView?.configure(indexPath.row)
+            }
+        }
+        return section
+        
+    }
+    
+    private func createBrandsCollectionView() -> NSCollectionLayoutSection {
+        
+        let item = CompositionalLayout.createItem(width: .fractionalWidth(1), height: .fractionalHeight(1), spacing: 16)
+        
+        let group = CompositionalLayout.createGroup(alignment: .horizontal, width: .fractionalWidth(0.5), height: .fractionalHeight(0.3), item: item, count: 2)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.boundarySupplementaryItems = [supplementaryHeaderItem()]
+        return section
+        
+    }
+    
+    private func supplementaryHeaderItem() -> NSCollectionLayoutBoundarySupplementaryItem {
+        .init(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(60)
+            ),
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+    }
+    
+    private func supplemntaryFooterItem() -> NSCollectionLayoutBoundarySupplementaryItem {
+        .init(
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1),
+                heightDimension: .estimated(50)
+            ),
+            elementKind: UICollectionView.elementKindSectionFooter,
+            alignment: .bottom
+        )
+    }
+    
     func setupDiscountSection() {
         homeViewModel?.getDiscountCodes { [weak self] in
             self?.constructImageCouponDictionary()
-            self?.setupDiscountPageControl()
-            self?.setupDiscountScrollView()
-            self?.loadDiscountImages()
         }
     }
     
     func constructImageCouponDictionary() {
-        discountImages["discount-1"] = Discounts.discounts[0].title
-        discountImages["discount-2"] = Discounts.discounts[1].title
-        discountImages["discount-3"] = Discounts.discounts[2].title
+        imageWithCoupon["discount-1"] = Discounts.discounts[0].title
+        imageWithCoupon["discount-2"] = Discounts.discounts[1].title
+        imageWithCoupon["discount-3"] = Discounts.discounts[2].title
     }
     
-    func setupDiscountScrollView() {
-        discountScrollView.delegate = self
-        discountScrollView.isPagingEnabled = true
-        discountScrollView.showsHorizontalScrollIndicator = false
-        discountScrollView.contentSize = CGSize(
-            width: view.bounds.width * CGFloat(discountImages.count),
-            height: 225
-        )
+    
+}
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return homeSections.count
     }
     
-    func setupDiscountPageControl() {
-        discountPageControl.numberOfPages = discountImages.count
-        discountPageControl.currentPage = 0
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch homeSections[section] {
+        case .discounts:
+            return 3
+        case .brands:
+            return homeViewModel?.getBrandsCount() ?? 0
+        }
     }
     
-    func loadDiscountImages() {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        for (index, imageAndCoupon) in discountImages.enumerated() {
-            let imageView = UIImageView(image: UIImage(named: imageAndCoupon.key))
-            imageView.contentMode = .scaleAspectFill
-            imageView.frame = CGRect(
-                x: CGFloat(index) * view.bounds.width,
-                y: 0,
-                width: view.bounds.width,
-                height: discountScrollView.bounds.height
-            )
-            
-            let tapGesture = CouponTapGestureRecognizer(target: self, action: #selector(handleDiscountImageTapped(_:)))
-            tapGesture.couponCode = imageAndCoupon.value
-            imageView.isUserInteractionEnabled = true
-            imageView.addGestureRecognizer(tapGesture)
-            
-            discountScrollView.addSubview(imageView)
+        switch homeSections[indexPath.section] {
+        case .discounts:
+            return configureDiscountCell(collectionView, indexPath)
+        case .brands:
+            return configureBrandCell(collectionView, indexPath)
         }
         
     }
     
-    @objc func handleDiscountImageTapped(_ sender: CouponTapGestureRecognizer) {
-        guard let coupon = sender.couponCode else { return }
-        UIPasteboard.general.string = coupon
-        couponCopiedAlert()
-    }
-    
-    func couponCopiedAlert() {
-        let alert = UIAlertController(
-            title: nil,
-            message: "Copoun copied successfully!🎉 \(UIPasteboard.general.string ?? "N/A")",
-            preferredStyle: .alert
-        )
-        
-        present(alert, animated: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            alert.dismiss(animated: true)
-        }
-    }
-    
-}
-
-extension HomeViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let page = discountScrollView.contentOffset.x / discountScrollView.frame.size.width
-        discountPageControl.currentPage = Int(page)
-    }
-    
-}
-
-extension HomeViewController:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
         
+        switch homeSections[indexPath.section] {
+        case .discounts:
+            copiedCouponAlert(indexPath)
+        case .brands:
+            navigateToBrandProducts(indexPath)
+        }
+        
+    }
+    
+    private func copiedCouponAlert(_ indexPath: IndexPath) {
+        UIPasteboard.general.string = imageWithCoupon[discountWithIndex[indexPath.row] ?? "N/A"]
+        alertWithDuration(message: "Copoun copied successfully!🎉 \(UIPasteboard.general.string ?? "N/A")", viewController: self)
+    }
+    
+    private func navigateToBrandProducts(_ indexPath: IndexPath) {
         guard let brandProductsViewController = storyboard?.instantiateViewController(withIdentifier: "brandProductsScreen") as? BrandProductsViewController else {
             return
         }
@@ -132,16 +194,22 @@ extension HomeViewController:UICollectionViewDelegate{
         let brandProductsViewModel=BrandProductsViewModel(networkService: NetworkService.shared)
         brandProductsViewModel.brandId=homeViewModel?.getBrands()[indexPath.item].id ?? 475723497772
         brandProductsViewController.brandProductsViewModel=brandProductsViewModel
-         navigationController?.pushViewController(brandProductsViewController, animated: true)
-    }
-}
-extension HomeViewController:UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        homeViewModel?.getBrandsCount() ?? 0
+        navigationController?.pushViewController(brandProductsViewController, animated: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "BrandsCell", for: indexPath) as! BrandsCollectionViewCell
+    private func configureDiscountCell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiscountCollectionViewCell.identifier, for: indexPath) as! DiscountCollectionViewCell
+        
+        cell.configure(image: UIImage(named: discountImages[indexPath.row])!)
+        
+        return cell
+        
+    }
+    
+    private func configureBrandCell(_ collectionView: UICollectionView, _ indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "BrandsCollectionViewCell", for: indexPath) as! BrandsCollectionViewCell
+        
         cell.brandImage.layer.borderColor = UIColor.darkGray.cgColor
         cell.brandImage.layer.borderWidth=1
         cell.brandImage.layer.cornerRadius=20
@@ -155,21 +223,33 @@ extension HomeViewController:UICollectionViewDataSource{
         return cell
     }
     
-}
-extension HomeViewController:UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width=self.view.frame.width*0.425
-        let height=width
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        return CGSize(width: width, height: height)
-    }
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
+        switch kind {
+            
+        case UICollectionView.elementKindSectionHeader:
+            
+            let header = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: CollectionViewHeaderReusable.identifier,
+                for: indexPath) as! CollectionViewHeaderReusable
+            header.configure(homeSections[indexPath.section].title)
+            return header
+            
+        case UICollectionView.elementKindSectionFooter:
+            
+            let footer = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: DiscountPageControlReusableView.identifier,
+                for: indexPath) as! DiscountPageControlReusableView
+            self.discountPageControlView = footer
+            return footer
+            
+        default:
+            return UICollectionReusableView()
+            
+        }
+        
     }
     
-    
-}
-
-class CouponTapGestureRecognizer: UITapGestureRecognizer {
-    var couponCode: String?
 }

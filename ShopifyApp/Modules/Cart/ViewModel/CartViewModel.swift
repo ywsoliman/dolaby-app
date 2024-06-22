@@ -15,15 +15,20 @@ class CartViewModel {
     
     init(service: NetworkService) {
         self.service = service
-        getCart()
     }
     
     func getCart() {
-        service.getCart { (result: Result<DraftOrderResponse, APIError>) in
+        
+        guard let cartId = CurrentUser.user?.cartID else {
+            self.bindCartToViewController()
+            return
+        }
+        
+        service.getCart(withId: cartId) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             switch result {
             case .success(let response):
-                self.cart = response.draftOrder
-                self.getProductVariants()
+                self?.cart = response.draftOrder
+                self?.getProductVariants()
             case .failure(let error):
                 print("Getting Cart Error: \(error)")
             }
@@ -108,23 +113,22 @@ class CartViewModel {
         
     }
     
-    func updateCart() {
+    func updateCart(completion: @escaping () -> ()) {
         
         guard let cart = cart,
               let cartDict = cart.toDictionary() else { return }
         
         let cartBody = ["draft_order": cartDict]
         
-        service.makeRequest(endPoint: "/draft_orders/\(cart.id).json", method: .put, parameters: cartBody) { (result: Result<DraftOrderResponse, APIError>) in
+        service.makeRequest(endPoint: "/draft_orders/\(cart.id).json", method: .put, parameters: cartBody) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
             
             switch result {
-            case .success:
-                print("Updated cart succesufully")
+            case .success(let response):
+                self?.cart = response.draftOrder
+                completion()
             case .failure(let error):
                 print("Updating draft error: \(error)")
             }
-            
-            
             
         }
         
