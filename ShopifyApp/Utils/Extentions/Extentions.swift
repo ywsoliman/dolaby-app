@@ -18,16 +18,47 @@ extension UIView{
 }
 
 extension Double {
+    
+    func roundedToTwoDecimals() -> Double {
+        return (self * 100).rounded() / 100
+    }
+    
+    func currencyConverter() -> Double {
+        let convertedValue = self * CurrencyManager.value
+        let roundedValue = (convertedValue * 100).rounded() / 100
+        return roundedValue
+    }
+    
     func priceFormatter() -> String {
         let result = self * CurrencyManager.value
         return String(format: "%.2f \(CurrencyManager.currency)", result)
     }
+    
+    func appendCurrency() -> String {
+        return String(format: "%.2f \(CurrencyManager.currency)", self)
+    }
+    
 }
 
 extension String {
     func priceFormatter() -> String {
         let result = Double(self)! * CurrencyManager.value
         return String(format: "%.2f \(CurrencyManager.currency)", result)
+    }
+}
+extension String {
+    func priceFormatterValue() -> String {
+        let result = Double(self)! * CurrencyManager.value
+        return String(format: "%.2f", result)
+    }
+}
+
+extension Int {
+    func getValidQuantity() -> Int {
+        if self > 10 {
+            return Int(Double(self) * 0.25)
+        }
+        return self
     }
 }
 

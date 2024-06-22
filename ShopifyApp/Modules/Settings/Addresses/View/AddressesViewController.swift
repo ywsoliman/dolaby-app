@@ -9,10 +9,13 @@ import UIKit
 
 class AddressesViewController: UIViewController {
     
+    @IBOutlet weak var noAddressesView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
     var addressesViewModel: AddressesViewModel!
     var onAddressChanged: (() -> ()) = {}
+    var onShippingAddressChanged: ((_: DraftOrderResponse) -> ()) = {_ in}
+    var lastSelectedAddressIndexPath: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,12 +26,20 @@ class AddressesViewController: UIViewController {
         
         addressesViewModel = AddressesViewModel(service: NetworkService.shared)
         addressesViewModel.bindAddressesToViewController = { [weak self] in
+            let numberOfItems = self?.addressesViewModel.addresses?.addresses.count ?? 0
+            self?.checkIfAddressesAreEmpty(numberOfItems)
             self?.tableView.reloadData()
             self?.onAddressChanged()
         }
         addressesViewModel.bindDefaultAddressToViewController = { [weak self] in
             self?.onAddressChanged()
         }
+        addressesViewModel.bindCartWithNewShippingAddressToViewController = { [weak self] draftOrder in
+            self?.onShippingAddressChanged(draftOrder)
+        }
+        
+        LoadingIndicator.start(on: view)
+        addressesViewModel.getAddresses()
         
     }
     
@@ -64,9 +75,22 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
         return addressesViewModel.addresses?.addresses.count ?? 0
     }
     
+    func checkIfAddressesAreEmpty(_ numberOfItems: Int) {
+        LoadingIndicator.stop()
+        if numberOfItems == 0 {
+            noAddressesView.isHidden = false
+        } else {
+            noAddressesView.isHidden = true
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let address = addressesViewModel.addresses?.addresses[indexPath.row] else { return UITableViewCell() }
+        
+        if address.addressDefault ?? false {
+            lastSelectedAddressIndexPath = indexPath
+        }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: AddressTableViewCell.identifier, for: indexPath) as! AddressTableViewCell
         
@@ -76,10 +100,21 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let lastSelected = lastSelectedAddressIndexPath, lastSelected == indexPath {
+            tableView.deselectRow(at: indexPath, animated: true)
+            return
+        }
+        
+        lastSelectedAddressIndexPath = indexPath
+        
+        LoadingIndicator.start(on: view)
         guard let addresses = addressesViewModel.addresses else { return }
         guard let id = addresses.addresses[indexPath.row].id else { return }
-        addressesViewModel.setDefault(addressID: id)
-        changeCellsAccessory(tableView, indexPath)
+        addressesViewModel.setDefault(addressID: id) { [weak self] in
+            LoadingIndicator.stop()
+            self?.changeCellsAccessory(tableView, indexPath)
+        }
     }
     
     func changeCellsAccessory(_ tableView: UITableView, _ indexPath: IndexPath) {

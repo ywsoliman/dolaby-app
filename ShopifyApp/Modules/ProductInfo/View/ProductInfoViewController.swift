@@ -58,6 +58,7 @@ class ProductInfoViewController: UIViewController {
             self?.updateViewWithProductInfo(productInfo)
         }
         viewModel.bindAlertToViewController = { [weak self] doesExist in
+            LoadingIndicator.stop()
             let message: String
             if doesExist {
                 message = "Item is already in cart."
@@ -79,25 +80,6 @@ class ProductInfoViewController: UIViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             alert.dismiss(animated: true)
         }
-    }
-    
-    func addAddressAlert() {
-        let alert = UIAlertController(title: "No addresses found", message: "Please provide at least one address to add products to cart", preferredStyle: .alert)
-        let addAction = UIAlertAction(title: "Add", style: .default) {_ in
-            self.navigateToAddAddress()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(addAction)
-        alert.addAction(cancelAction)
-        present(alert, animated: true)
-    }
-    
-    private func navigateToAddAddress() {
-        let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
-        guard let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController else {
-            return
-        }
-        navigationController?.pushViewController(destVC, animated: true)
     }
     
     private func applyCornerRadius() {
@@ -140,15 +122,16 @@ class ProductInfoViewController: UIViewController {
         }
     }
     func showAlert(message: String, okHandler: @escaping () -> Void) {
-            let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "OK", style: .default) { _ in
-                okHandler()
-            }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
-            alert.addAction(okAction)
-            alert.addAction(cancelAction)
-                present(alert, animated: true, completion: nil)
+        let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            okHandler()
         }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
+    }
     func updateFavBtnImage(isFav:Bool){
         print(isFav)
         let imageName = isFav ? "heart.fill" : "heart"
@@ -192,49 +175,42 @@ class ProductInfoViewController: UIViewController {
         pageControl.numberOfPages = productInfo.images.count
         
     }
+  
     @IBAction func addToCartPressed(_ sender: Any) {
-        let authenticated = CurrentUser.type == UserType.authenticated
-        if authenticated{
-            if CurrentUser.user?.addresses?.count == 0 {
-                addAddressAlert()
-                return
-            }
-            let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
-            
-            print(Int(productQuantity.text ?? "1")!)
-            
-            viewModel.addVariantToCart(
-                id: variantId,
-                quantity: Int(productQuantity.text ?? "1")!
-            )
-            
-            print("Variant id \(variantId)")
-        }else{
-            showAlert(message: "You need to login first.") {
-                let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-                let loginVC =
-                
-                storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
-                loginVC.modalPresentationStyle = .fullScreen
-                loginVC.modalTransitionStyle = .flipHorizontal
-                self.present(loginVC, animated: true)
-                self.navigationController?.viewControllers = []
-                
-            }
-        }
+        
+        let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+        
+        LoadingIndicator.start(on: view)
+        viewModel.addVariantToCart(
+            id: variantId,
+            quantity: Int(productQuantity.text ?? "1")!
+        )
+        
+        print("Variant id \(variantId)")
+      
     }
     
     @IBAction func quantityControlPressed(_ sender: UIStepper) {
         productQuantity.text = "\(Int(sender.value))"
         updateQuantityLabel()
     }
+  
     @objc func segmentValueChanged(_ sender: UISegmentedControl) {
         updateQuantityLabel()
     }
-    func updateQuantityLabel(){
+  
+    func updateQuantityLabel() {
+        
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
-        quantityControlBtn.maximumValue = Double(quantityInVentory + 1)
-        if Int(quantityControlBtn.value) > quantityInVentory {
+        
+        print("Maximum Quantity Before: \(quantityInVentory)")
+        
+        let currentVariantMaxQuantity = quantityInVentory.getValidQuantity()
+        
+        print("Maximum Quantity After: \(currentVariantMaxQuantity)")
+        
+        quantityControlBtn.maximumValue = Double(currentVariantMaxQuantity + 1)
+        if Int(quantityControlBtn.value) > Int(currentVariantMaxQuantity) {
             quantityStatus.text = "No Enough Items"
             addToCartBtn.isEnabled = false
             print(quantityControlBtn.value)

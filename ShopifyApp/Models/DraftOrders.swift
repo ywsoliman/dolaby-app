@@ -22,7 +22,7 @@ struct DraftOrder: Codable {
     let completedAt: String?
     let name, status: String
     var lineItems: [LineItem]
-    let shippingAddress, billingAddress: Address
+    let shippingAddress, billingAddress: Address?
     let orderID: Int?
     let appliedDiscount: AppliedDiscount?
     let totalPrice, subtotalPrice: String

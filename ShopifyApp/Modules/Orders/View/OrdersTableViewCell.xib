@@ -18,20 +18,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total price: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VDx-Dh-HLq">
-                        <rect key="frame" x="8" y="16" width="109" height="31"/>
+                        <rect key="frame" x="8" y="15.999999999999996" width="109" height="34.666666666666657"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="109" id="aVW-Zu-XKx"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Created at:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Dd-hr-NvI">
-                        <rect key="frame" x="8" y="63" width="105" height="24"/>
+                        <rect key="frame" x="8" y="66.666666666666671" width="105" height="20.333333333333329"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="105" id="q7V-89-MVn"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -42,7 +42,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5/5/2524" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LJV-ZF-W8K">
-                        <rect key="frame" x="121.00000000000003" y="63.000000000000007" width="287.66666666666674" height="20.333333333333336"/>
+                        <rect key="frame" x="121.00000000000003" y="66.666666666666671" width="287.66666666666674" height="20.333333333333329"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>

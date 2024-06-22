@@ -9,8 +9,8 @@ import Foundation
 
 class CheckoutViewModel {
     
-    let service: NetworkService
-    let subtotalPrice: Double
+    private let service: NetworkService
+    let priceBeforeDiscount: Double!
     var draftOrder: DraftOrder {
         didSet {
             bindDraftOrderToViewController()
@@ -18,10 +18,11 @@ class CheckoutViewModel {
     }
     var bindDraftOrderToViewController: (() -> ()) = {}
     
-    init(service: NetworkService, draftOrder: DraftOrder, subtotal: Double) {
+    init(service: NetworkService, draftOrder: DraftOrder, priceBeforeDiscount: Double) {
         self.service = service
         self.draftOrder = draftOrder
-        self.subtotalPrice = subtotal
+        self.priceBeforeDiscount = priceBeforeDiscount
+        print("Price before discount: \(priceBeforeDiscount)")
     }
     
     func addDiscountToDraftOrder(_ priceRule: PriceRule) {
@@ -65,6 +66,7 @@ class CheckoutViewModel {
     }
 
     func postOrder(completion: @escaping () -> ()) {
+        print("DraftOrder",draftOrder)
         let date = Date()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd' 'HH:mm:ss"
@@ -74,7 +76,8 @@ class CheckoutViewModel {
                 "created_at": formattedDate,
                 "currency": CurrencyManager.currency,
                 "email": CurrentUser.user?.email ?? "israaassem20@gmail.com",
-                "total_price": draftOrder.appliedDiscount?.amount ?? draftOrder.totalPrice,
+                "total_price": draftOrder.totalPrice,
+                "total_discounts": draftOrder.appliedDiscount?.amount ?? "0",
                 "customer":
                     ["id":
                         CurrentUser.user?.id
@@ -82,7 +85,7 @@ class CheckoutViewModel {
                 "line_items": draftOrder.lineItems.map { item in
                            [
                                "title": item.title,
-                               "price": item.price,
+                               "price": item.price.priceFormatterValue(),
                                "quantity": item.quantity,
                                "variant_title": item.variantTitle,
                                "variant_id": item.variantID,
@@ -97,11 +100,56 @@ class CheckoutViewModel {
                 print("Order is posted Successfully!")
                 completion()
                 self?.updateCustomer()
+                self?.deleteDraftOrder()
+                self?.postDraftOrderInvoice()
+               
             case .failure(let error):
                 print("Error in posting an order: \(error)")
             }
         }
     }
+    func completeOrder() {
+           
+        service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id)/complete.json", method: .put) { (result: Result<DraftOrderResponse, APIError>) in
+               
+               switch result {
+               case .success(_):
+                   print("Compeleted Order Successfully!")
+               case .failure(let error):
+                   print("Error in completing an order: \(error)")
+               }
+               
+           }
+           
+       }
+    func postDraftOrderInvoice(){
+        let parameters: [String: Any] = [
+            "draft_order_invoice": [
+                "to": CurrentUser.user?.email ?? "israaassem20@gmail.com",
+                "from": "manalhamada1999@gmail.com",
+                "subject": "Successful order Invoice",
+                "custom_message": "Thanks for ordering from our application!"
+            ]
+        ]
+        service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id)/send_invoice", method: .post,parameters: parameters) {(result: Result<InvoiceResponse, APIError>) in
+            switch result {
+            case .success(_):
+                print("DraftOrderInvoice is posted Successfully!")
+            case .failure(let error):
+                print("Error in posting DraftOrderInvoice: \(error)")
+            }
+        }
+    }
+    func deleteDraftOrder(){
+         service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
+             switch result {
+             case .success(_):
+                 print("Draft order is deleted Successfully!")
+             case .failure(let error):
+                 print("Error in deleting draft order: \(error)")
+             }
+         }
+     }
     func updateCustomer(){
         CurrentUser.user?.cartID=nil
         let updatedCustomerData:[String:Any]=[
