@@ -125,7 +125,8 @@ class CheckoutViewModel {
     func postDraftOrderInvoice(){
         let parameters: [String: Any] = [
             "draft_order_invoice": [
-                "to":  "israaassem20@gmail.com",
+                "to": CurrentUser.user?.email ?? "israaassem20@gmail.com",
+                "from": "manalhamada1999@gmail.com",
                 "subject": "Successful order Invoice",
                 "custom_message": "Thanks for ordering from our application!"
             ]
