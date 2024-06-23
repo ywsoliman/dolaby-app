@@ -51,8 +51,8 @@ extension OrdersViewController:UITableViewDelegate{
             }
             self?.ordersViewModel?.deleteOrder(orderId: orderId)
         }
-        let noAlertAction=UIAlertAction(title: "No", style: .default)
-        deleteAlert.addAction(noAlertAction)
+        let cancelAlertAction=UIAlertAction(title: "Cancel", style: .default)
+        deleteAlert.addAction(cancelAlertAction)
         deleteAlert.addAction(deleteAlertAction)
         let contextItem = UIContextualAction(style: .destructive, title: "Delete") { [weak self](_, _, boolValue) in
             self?.present(deleteAlert, animated: true)

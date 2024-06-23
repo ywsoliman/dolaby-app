@@ -35,7 +35,8 @@ class OrdersViewModel:OrdersViewModelProtocol{
     func deleteOrder(orderId: Int) {
         service.makeRequest(endPoint: "/orders/\(orderId).json", method: .delete) {[weak self] (result: Result<EmptyResponse, APIError>) in
             switch result {
-            case .success(let response):
+            case .success(_):
+                print("Order is deleted successfully!")
                 self?.fetchOrders()
             case .failure(let error):
                 print("Error in deleting order: \(error)")

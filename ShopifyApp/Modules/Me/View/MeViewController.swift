@@ -96,8 +96,8 @@ extension MeViewController:UITableViewDelegate{
             }
             self?.ordersViewModel?.deleteOrder(orderId: orderId)      
         }
-        let noAlertAction=UIAlertAction(title: "No", style: .default)
-        deleteAlert.addAction(noAlertAction)
+        let cancelAlertAction=UIAlertAction(title: "Cancel", style: .default)
+        deleteAlert.addAction(cancelAlertAction)
         deleteAlert.addAction(deleteAlertAction)
         let contextItem = UIContextualAction(style: .destructive, title: "Delete") { [weak self](_, _, boolValue) in
             self?.present(deleteAlert, animated: true)
@@ -110,10 +110,10 @@ extension MeViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let isEmpty = ordersViewModel?.getOrdersCount() == 0
         ordersTable.backgroundView = isEmpty ? getOrdersTableBackgroundView() : nil
-        if ordersViewModel?.getOrdersCount()==0{
-            return 0
+        if ordersViewModel?.getOrdersCount() ?? 0 <= 2 {
+            return ordersViewModel?.getOrdersCount() ?? 0
         }else{
-            return 1
+            return 2
         }
         
     }
@@ -121,14 +121,14 @@ extension MeViewController:UITableViewDataSource{
         let backgroundView = UIView(frame: ordersTable.bounds)
         let imageView = UIImageView(frame: backgroundView.bounds)
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "noOrdersFound")
+        imageView.image = UIImage(named: "noProductsFound")
         backgroundView.addSubview(imageView)
         return backgroundView
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=tableView.dequeueReusableCell(withIdentifier: "ordersCell", for: indexPath) as! OrdersTableViewCell
         cell.orderPrice.text=(ordersViewModel?.getOrders()[indexPath.row].totalPrice ?? "0.0") + " " + (ordersViewModel?.getOrders()[indexPath.row].currency ?? "USD")
-        if let createdAtString = ordersViewModel?.getOrders().first?.createdAt {
+        if let createdAtString = ordersViewModel?.getOrders()[indexPath.row].createdAt {
             let formatter = DateFormatter()
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
             if let date = formatter.date(from: createdAtString) {
@@ -136,7 +136,7 @@ extension MeViewController:UITableViewDataSource{
                 let formattedDate = formatter.string(from: date)
                 cell.orderDate.text = formattedDate
             } else {
-                cell.orderDate.text=ordersViewModel?.getOrders().first?.createdAt
+                cell.orderDate.text=ordersViewModel?.getOrders()[indexPath.row].createdAt
                 print("Error: Unable to convert date from string")
             }
         } else {
