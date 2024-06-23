@@ -151,7 +151,7 @@ extension MeViewController:UICollectionViewDataSource , UICollectionViewDelegate
         let backgroundView = UIView(frame: favCollectionView.bounds)
         let imageView = UIImageView(frame: backgroundView.bounds)
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "noProductsFound")
+        imageView.image = UIImage(named: "noOrdersFound")
         backgroundView.addSubview(imageView)
         return backgroundView
     }

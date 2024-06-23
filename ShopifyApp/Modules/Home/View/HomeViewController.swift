@@ -66,12 +66,12 @@ class HomeViewController: UIViewController {
     private func createLayout() -> UICollectionViewCompositionalLayout {
         UICollectionViewCompositionalLayout { [weak self] sectionIndex, layoutEnviroment in
             guard let self = self else { return nil }
-            let section = homeSections[sectionIndex]
+            let section = self.homeSections[sectionIndex]
             switch section {
             case .discounts:
-                return createDiscountsCollectionView()
+                return self.createDiscountsCollectionView()
             case .brands:
-                return createBrandsCollectionView()
+                return self.createBrandsCollectionView()
             }
         }
     }
