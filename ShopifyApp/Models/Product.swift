@@ -55,20 +55,6 @@ struct Product: Codable {
         )
 }
 
-// MARK: - Image
-//struct Image: Codable {
-//    let id, position, productID: Int?
-//    let src: String
-//    let variantIDS: [String]?
-//
-//    enum CodingKeys: String, CodingKey {
-//        case id, position
-//        case productID = "product_id"
-//        case src
-//        case variantIDS = "variant_ids"
-//    }
-//}
-
 // MARK: - Option
 struct Option: Codable {
     let id, productID: Int
@@ -97,7 +83,6 @@ struct Variant: Codable {
     let createdAt, updatedAt: String
     let taxable: Bool
     let inventoryItemID, inventoryQuantity, oldInventoryQuantity: Int
-    let imageID: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -111,7 +96,6 @@ struct Variant: Codable {
         case inventoryItemID = "inventory_item_id"
         case inventoryQuantity = "inventory_quantity"
         case oldInventoryQuantity = "old_inventory_quantity"
-        case imageID = "image_id"
     }
 }
 

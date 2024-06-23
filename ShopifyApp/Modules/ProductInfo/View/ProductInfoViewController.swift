@@ -63,7 +63,7 @@ class ProductInfoViewController: UIViewController {
             if doesExist {
                 message = "Item is already in cart."
             } else {
-                message = "Added item to cart successfully!"
+                message = "Item added to cart successfully!"
             }
             self?.productAlert(message: message)
         }

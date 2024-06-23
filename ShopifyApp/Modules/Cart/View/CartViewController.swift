@@ -113,16 +113,19 @@ class CartViewController: UIViewController {
     private func navigateToAddAddress() {
         let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
         if let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController {
-            navigationController?.pushViewController(destVC, animated: true)
-            destVC.onAddressAdded = { [weak self] in
-                self?.cartViewModel.getCart()
+            LoadingIndicator.start(on: view.self)
+            cartViewModel.updateCart { [weak self] in
+                self?.navigationController?.pushViewController(destVC, animated: true)
+                destVC.onAddressAdded = {
+                    self?.cartViewModel.getCart()
+                }   
+                LoadingIndicator.stop()
             }
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         if isMovingFromParent {
             cartViewModel.updateCart {}
         }
