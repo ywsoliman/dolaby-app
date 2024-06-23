@@ -11,8 +11,10 @@ protocol OrdersViewModelProtocol{
     func getOrdersCount()->Int
     var bindOrdersToViewController:()->Void { get set }
     func fetchOrders()->Void
+    func deleteOrder(orderId:Int)->Void
 }
 class OrdersViewModel:OrdersViewModelProtocol{
+
     private let service: NetworkService
     var bindOrdersToViewController:()->Void={}
     var Orders:[Order]?=nil
@@ -30,6 +32,17 @@ class OrdersViewModel:OrdersViewModelProtocol{
             }
         }
     }
+    func deleteOrder(orderId: Int) {
+        service.makeRequest(endPoint: "/orders/\(orderId).json", method: .delete) {[weak self] (result: Result<EmptyResponse, APIError>) in
+            switch result {
+            case .success(let response):
+                self?.fetchOrders()
+            case .failure(let error):
+                print("Error in deleting order: \(error)")
+            }
+        }
+    }
+    
     func getOrders()->[Order]{
         return Orders ?? []
     }

@@ -89,8 +89,12 @@ extension MeViewController:UITableViewDelegate{
     }
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAlert=UIAlertController(title:"Delete order" , message: "Are you sure you want to delete this order?", preferredStyle: .alert)
-        let deleteAlertAction=UIAlertAction(title: "Delete", style: .destructive) { _ in
-            print("order deleted")
+        let deleteAlertAction=UIAlertAction(title: "Delete", style: .destructive) { [weak self]_ in
+            guard let orderId=self?.ordersViewModel?.getOrders()[indexPath.row].id else{
+                print("No order if found!")
+                return
+            }
+            self?.ordersViewModel?.deleteOrder(orderId: orderId)      
         }
         let noAlertAction=UIAlertAction(title: "No", style: .default)
         deleteAlert.addAction(noAlertAction)
