@@ -80,15 +80,15 @@ class CartViewController: UIViewController {
             cartViewModel.updateCart { [weak self] in
                 
                 guard let self = self,
-                      let cart = cartViewModel.cart else { return }
+                      let cart = self.cartViewModel.cart else { return }
                 
-                destVC.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, priceBeforeDiscount: totalPrice)
+                destVC.checkoutViewModel = CheckoutViewModel(service: NetworkService.shared, draftOrder: cart, priceBeforeDiscount: self.totalPrice)
                 destVC.onShippingAddressChanged = { draftOrder in
                     self.cartViewModel.cart = draftOrder.draftOrder
                 }
                 
                 DispatchQueue.main.async { LoadingIndicator.stop() }
-                navigationController?.pushViewController(destVC, animated: true)
+                self.navigationController?.pushViewController(destVC, animated: true)
             }
         }
         
