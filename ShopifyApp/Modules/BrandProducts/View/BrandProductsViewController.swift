@@ -98,9 +98,18 @@ extension BrandProductsViewController:UICollectionViewDelegate{
 }
 extension BrandProductsViewController:UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        let isEmpty =  brandProductsViewModel?.filteredProducts.count ?? 0 == 0
+        collectionView.backgroundView = isEmpty ? getBackgroundView() : nil
         return brandProductsViewModel?.filteredProducts.count ?? 0
     }
-    
+    func getBackgroundView() -> UIView {
+        let backgroundView = UIView(frame: brandProductsCollectionView.bounds)
+        let imageView = UIImageView(frame: backgroundView.bounds)
+        imageView.contentMode = .scaleAspectFit
+        imageView.image = UIImage(named: "noProductsFound")
+        backgroundView.addSubview(imageView)
+        return backgroundView
+    }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell=collectionView.dequeueReusableCell(withReuseIdentifier: "categoriesCell", for: indexPath) as! CategoriesCollectionViewCell
         cell.delegate = self
@@ -123,6 +132,7 @@ extension BrandProductsViewController:UICollectionViewDataSource{
         cell.categoryImage.kf.setImage(with: imageUrl, placeholder: UIImage(named: "loadingPlaceholder"))
         return cell
     }
+   
 }
 extension BrandProductsViewController:UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
