@@ -25,7 +25,7 @@ class CheckoutViewModel {
         print("Price before discount: \(priceBeforeDiscount)")
     }
     
-    func addDiscountToDraftOrder(_ priceRule: PriceRule) {
+    func addDiscountToDraftOrder(_ priceRule: PriceRule, completion: @escaping () -> ()) {
         
         guard let cartId = CurrentUser.user?.cartID else { return }
         
@@ -51,6 +51,7 @@ class CheckoutViewModel {
                 case .success(let response):
                     DispatchQueue.main.async {
                         self.draftOrder = response.draftOrder
+                        completion()
                     }
                 case .failure(let error):
                     print("Updating draft error: \(error)")
@@ -166,4 +167,24 @@ class CheckoutViewModel {
             }
         }
     }
+    
+    func removeDiscountFromOrder(completion: @escaping () -> ()) {
+        
+        let draftOrderDict: [String: Any] = ["draft_order": ["applied_discount": nil]]
+        
+        service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id).json", method: .put, parameters: draftOrderDict) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
+            
+            switch result {
+            case .success(let response):
+                self?.draftOrder = response.draftOrder
+                completion()
+            case .failure(let error):
+                print("Updating draft error: \(error)")
+            }
+            
+            
+        }
+        
+    }
+    
 }
