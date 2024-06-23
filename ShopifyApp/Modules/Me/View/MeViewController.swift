@@ -87,7 +87,20 @@ extension MeViewController:UITableViewDelegate{
         orderDetailsViewController.orderID = ordersViewModel?.getOrders()[indexPath.row].id
         navigationController?.pushViewController(orderDetailsViewController, animated: true)
     }
-    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAlert=UIAlertController(title:"Delete order" , message: "Are you sure you want to delete this order?", preferredStyle: .alert)
+        let deleteAlertAction=UIAlertAction(title: "Delete", style: .destructive) { _ in
+            print("order deleted")
+        }
+        let noAlertAction=UIAlertAction(title: "No", style: .default)
+        deleteAlert.addAction(noAlertAction)
+        deleteAlert.addAction(deleteAlertAction)
+        let contextItem = UIContextualAction(style: .destructive, title: "Delete") { [weak self](_, _, boolValue) in
+            self?.present(deleteAlert, animated: true)
+            }
+            let swipeActions = UISwipeActionsConfiguration(actions: [contextItem])
+            return swipeActions
+    }
 }
 extension MeViewController:UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
