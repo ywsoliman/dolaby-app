@@ -37,7 +37,10 @@ class CartViewController: UIViewController {
         
         cartViewModel = CartViewModel(service: NetworkService.shared)
         cartViewModel.bindCartToViewController = { [weak self] in
-            self?.updateCartData()
+            DispatchQueue.main.async {
+                self?.checkoutBtn.isEnabled = true
+                self?.updateCartData()
+            }
         }
         
         cartViewModel.getCart()
@@ -87,8 +90,11 @@ class CartViewController: UIViewController {
                     self.cartViewModel.cart = draftOrder.draftOrder
                 }
                 
-                DispatchQueue.main.async { LoadingIndicator.stop() }
-                self.navigationController?.pushViewController(destVC, animated: true)
+                DispatchQueue.main.async {
+                    LoadingIndicator.stop()
+                    self.navigationController?.pushViewController(destVC, animated: true)
+                }
+                
             }
         }
         
@@ -113,16 +119,21 @@ class CartViewController: UIViewController {
     private func navigateToAddAddress() {
         let storyboard = UIStoryboard(name: "SettingsStoryboard", bundle: nil)
         if let destVC = storyboard.instantiateViewController(withIdentifier: "AddAddressTableViewController") as? AddAddressTableViewController {
-            navigationController?.pushViewController(destVC, animated: true)
-            destVC.onAddressAdded = { [weak self] in
-                self?.cartViewModel.getCart()
+            LoadingIndicator.start(on: view.self)
+            cartViewModel.updateCart { [weak self] in
+                DispatchQueue.main.async {
+                    self?.navigationController?.pushViewController(destVC, animated: true)
+                    LoadingIndicator.stop()
+                }
+                destVC.onAddressAdded = {
+                    self?.cartViewModel.getCart()
+                }   
             }
         }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         if isMovingFromParent {
             cartViewModel.updateCart {}
         }
@@ -180,16 +191,19 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource, CartTa
             guard let cart = self.cartViewModel.cart else { return }
             if cart.lineItems.count > 1 {
                 self.cartViewModel.deleteItem(withId: cart.lineItems[indexPath.row].id) { [weak self] in
-                    self?.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
-                    print("Total price after deleting: \(self?.totalPrice ?? -1)")
-                    tableView.deleteRows(at: [indexPath], with: .fade)
+                    DispatchQueue.main.async {
+                        self?.totalPrice -= Double(cart.lineItems[indexPath.row].price)! * Double(cart.lineItems[indexPath.row].quantity)
+                        tableView.deleteRows(at: [indexPath], with: .fade)
+                    }
                 }
             } else {
                 LoadingIndicator.start(on: self.view)
                 self.cartViewModel.deleteCart() { [weak self] in
-                    LoadingIndicator.stop()
-                    self?.totalPrice = 0.0
-                    self?.checkIfCartIsEmpty(0)
+                    DispatchQueue.main.async {
+                        LoadingIndicator.stop()
+                        self?.totalPrice = 0.0
+                        self?.checkIfCartIsEmpty(0)
+                    }
                 }
             }
             

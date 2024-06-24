@@ -41,7 +41,7 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ko1-Nj-eWX">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ko1-Nj-eWX">
                                         <rect key="frame" x="0.0" y="28.333333333333261" width="361" height="38.333333333333343"/>
                                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" title="Button"/>
@@ -200,20 +200,18 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="y5f-Yo-ohU">
                                         <rect key="frame" x="0.0" y="0.0" width="361" height="38.333333333333336"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Have a promocode?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gV4-YY-c3i">
+                                            <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Have a promocode?" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="gV4-YY-c3i">
                                                 <rect key="frame" x="0.0" y="0.0" width="277.33333333333331" height="38.333333333333336"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
-                                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wki-4X-Uud">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wki-4X-Uud">
                                                 <rect key="frame" x="293.33333333333331" y="0.0" width="67.666666666666686" height="38.333333333333336"/>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <state key="normal" title="Button"/>
-                                                <buttonConfiguration key="configuration" style="filled" title="Apply">
-                                                    <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </buttonConfiguration>
+                                                <buttonConfiguration key="configuration" style="filled" title="Apply"/>
                                                 <connections>
-                                                    <action selector="applyPromoBtnTapped:" destination="tnK-pc-q8I" eventType="touchUpInside" id="WJ6-0c-8S7"/>
+                                                    <action selector="promoBtnTapped:" destination="tnK-pc-q8I" eventType="touchUpInside" id="WJ6-0c-8S7"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -317,8 +315,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Checkout" id="L5W-oA-1Gy"/>
                     <connections>
-                        <outlet property="applyPromoBtn" destination="wki-4X-Uud" id="FVk-0i-egO"/>
                         <outlet property="discountLabel" destination="HZi-gT-jlq" id="YnP-fY-1xX"/>
+                        <outlet property="promoBtn" destination="wki-4X-Uud" id="FVk-0i-egO"/>
                         <outlet property="promoTextField" destination="gV4-YY-c3i" id="lYw-Hb-zLE"/>
                         <outlet property="shippingAddressLabel" destination="7Nu-Nm-JAE" id="sx7-AA-Pnv"/>
                         <outlet property="shippingCountryLabel" destination="aFo-iO-cqL" id="HjA-e8-Z6k"/>
@@ -370,7 +368,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

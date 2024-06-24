@@ -31,25 +31,31 @@ class AddAddressTableViewController: UITableViewController {
         addAddressViewModel.bindAddressToViewController = { [weak self] in
             print("Address binding")
             self?.onAddressAdded()
-            self?.navigationController?.popViewController(animated: true)
+            DispatchQueue.main.async {
+                self?.navigationController?.popViewController(animated: true)
+            }
         }
         addAddressViewModel.bindAlertToViewController = { [weak self] in
-            self?.showNoLocationAlert()
+            DispatchQueue.main.async { self?.showNoLocationAlert() }
         }
         addAddressViewModel.bindLocationToViewController = { [weak self] in
-            self?.setAddressDataFromLocation()
+            DispatchQueue.main.async { self?.setAddressDataFromLocation() }
         }
         addAddressViewModel.bindInvalidCountryToViewController = { [weak self] in
-            self?.showAlertWithOKButton(
-                title: "Invalid country",
-                message: "Please enter a valid country."
-            )
+            DispatchQueue.main.async {
+                self?.showAlertWithOKButton(
+                    title: "Invalid country",
+                    message: "Please enter a valid country."
+                )
+            }
         }
         addAddressViewModel.bindAddressExistsToViewController = { [weak self] in
-            self?.showAlertWithOKButton(
-                title: "Address already exists",
-                message: "Please enter a different address that doesn't exist."
-            )
+            DispatchQueue.main.async {
+                self?.showAlertWithOKButton(
+                    title: "Address already exists",
+                    message: "Please enter a different address that doesn't exist."
+                )
+            }
         }
         
     }
@@ -71,7 +77,10 @@ class AddAddressTableViewController: UITableViewController {
         
         let address = AddedAddress(address1: addressTextField.text!, city: cityTextField.text!, country: countryTextField.text!)
         
-        addAddressViewModel.addAddress(address)
+        LoadingIndicator.start(on: view.self)
+        addAddressViewModel.addAddress(address) {
+            LoadingIndicator.stop()
+        }
         
     }
     
