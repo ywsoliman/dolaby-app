@@ -29,7 +29,6 @@ class SignupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         activityIndicator.isHidden=true
-        defaultDebugData()
         setupPasswordField(passwordTextField)
         setupConfirmPasswordField(confirmPasswordTextField)
         bindViewModel()
@@ -98,7 +97,6 @@ class SignupViewController: UIViewController {
                     return
                 }
          customer = CustomerData(id:nil,userId: "", firstName:firstNameTextField.text ?? "",lastName: lastNameTextField.text ?? "" ,phone:phoneTextField.text ?? "",email: emailTextField.text ?? "", password:passwordTextField.text ?? ""  )
-        //viewModel.signup(customer: customer!)
         viewModel.createShopifyCustomer(customer: customer!)
     }
     
@@ -182,16 +180,6 @@ class SignupViewController: UIViewController {
             config.baseForegroundColor = confirmPasswordVisible ? UIColor.systemBlue.withAlphaComponent(0.7) : .systemGray
             config.imagePadding = 8
             sender.configuration = config
-        }
-    private func defaultDebugData() {
-            #if DEBUG
-            firstNameTextField.text = "Samuel"
-            lastNameTextField.text = "Lastnameson"
-            emailTextField.text = "sam@example.com"
-            phoneTextField.text = "01234567890"
-            passwordTextField.text = "newpass123"
-            confirmPasswordTextField.text = "newpass123"
-            #endif
         }
 
     /*
