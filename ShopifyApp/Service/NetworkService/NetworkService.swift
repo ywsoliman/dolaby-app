@@ -18,6 +18,7 @@ struct NetworkService: NetworkServiceProtocol {
     
     static let shared = NetworkService()
     private let BASE_URL = "https://mad44-sv-ios3.myshopify.com/admin/api/2024-04"
+    private let queue = DispatchQueue.global(qos: .utility)
     
     private init() {}
     
@@ -28,42 +29,39 @@ struct NetworkService: NetworkServiceProtocol {
         headers: HTTPHeaders = ["X-Shopify-Access-Token": APIKey],
         completion: @escaping (Result<T, APIError>) -> Void
     ) {
-
+        
         let urlWithEndPoint = BASE_URL + endPoint
         guard let url = URL(string: urlWithEndPoint) else {
             completion(.failure(.invalidURL))
             return
         }
-
+        
         var encoding: ParameterEncoding = URLEncoding.default
         if method == .post || method == .put {
             encoding = JSONEncoding.default
         }
-
+        
         AF.request(url, method: method, parameters: parameters, encoding: encoding, headers: headers)
             .validate()
-            .responseData { response in
-
+            .cacheResponse(using: .cache)
+            .responseData() { response in
+                
                 switch response.result {
                 case .success(let data):
-
+                    
                     do {
-//                        #if DEBUG
-//                        if let jsonString = String(data: data, encoding: .utf8) {
-//                            print("Returned JSON: \(jsonString)")
-//                        }
-//                        #endif
                         let decodedResponse = try JSONDecoder().decode(T.self, from: data)
                         completion(.success(decodedResponse))
                     } catch let decodingError {
                         completion(.failure(.decodingFailed(decodingError)))
                     }
+                    
                 case .failure(let error):
                     completion(.failure(.requestFailed(error)))
-
+                    
                 }
             }
-
+        
     }
     
     func getCart(withId id: String, completion: @escaping (Result<DraftOrderResponse, APIError>) -> Void) {

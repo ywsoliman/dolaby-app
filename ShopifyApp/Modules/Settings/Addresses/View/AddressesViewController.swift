@@ -26,9 +26,11 @@ class AddressesViewController: UIViewController {
         
         addressesViewModel = AddressesViewModel(service: NetworkService.shared)
         addressesViewModel.bindAddressesToViewController = { [weak self] in
-            let numberOfItems = self?.addressesViewModel.addresses?.addresses.count ?? 0
-            self?.checkIfAddressesAreEmpty(numberOfItems)
-            self?.tableView.reloadData()
+            DispatchQueue.main.async {
+                let numberOfItems = self?.addressesViewModel.addresses?.addresses.count ?? 0
+                self?.checkIfAddressesAreEmpty(numberOfItems)
+                self?.tableView.reloadData()
+            }
             self?.onAddressChanged()
         }
         addressesViewModel.bindDefaultAddressToViewController = { [weak self] in
@@ -112,8 +114,10 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
         guard let addresses = addressesViewModel.addresses else { return }
         guard let id = addresses.addresses[indexPath.row].id else { return }
         addressesViewModel.setDefault(addressID: id) { [weak self] in
-            LoadingIndicator.stop()
-            self?.changeCellsAccessory(tableView, indexPath)
+            DispatchQueue.main.async {
+                LoadingIndicator.stop()
+                self?.changeCellsAccessory(tableView, indexPath)
+            }
         }
     }
     

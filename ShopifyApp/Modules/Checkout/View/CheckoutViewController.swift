@@ -17,7 +17,7 @@ class CheckoutViewController: UIViewController {
     @IBOutlet weak var shippingView: UIView!
     @IBOutlet weak var shippingCountryLabel: UILabel!
     @IBOutlet weak var shippingAddressLabel: UILabel!
-    @IBOutlet weak var applyPromoBtn: UIButton!
+    @IBOutlet weak var promoBtn: UIButton!
     @IBOutlet weak var promoTextField: UITextField!
     @IBOutlet weak var subtotalLabel: UILabel!
     @IBOutlet weak var totalLabel: UILabel!
@@ -31,12 +31,17 @@ class CheckoutViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        promoTextField.delegate = self
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CartTableViewCell.nib(), forCellReuseIdentifier: CartTableViewCell.identifier)
         
         checkoutViewModel.bindDraftOrderToViewController = { [weak self] in
-            self?.setOrderInfo()
+            DispatchQueue.main.async {
+                self?.setOrderInfo()
+            }
         }
         
         initUI()
@@ -48,6 +53,7 @@ class CheckoutViewController: UIViewController {
         shippingView.layer.cornerRadius = 8
         
         enableApplyWhenPromoIsAvailable()
+        updatePromoBtnUI()
         
         setOrderInfo()
     }
@@ -74,27 +80,46 @@ class CheckoutViewController: UIViewController {
         }
     }
     
-    @IBAction func applyPromoBtnTapped(_ sender: UIButton) {
+    @IBAction func promoBtnTapped(_ sender: UIButton) {
         
-        for discount in Discounts.discounts {
-            if promoTextField.text! == discount.title {
-                checkoutViewModel.addDiscountToDraftOrder(discount)
-                return
+        if promoBtn.titleLabel?.text == "Remove" {
+            
+            LoadingIndicator.start(on: view.self)
+            checkoutViewModel.removeDiscountFromOrder { [weak self] in
+                DispatchQueue.main.async {
+                    LoadingIndicator.stop()
+                    self?.updatePromoBtnUI()
+                }
             }
+            
+        } else {
+            
+            if let discount = Discounts.discounts.first(where: { $0.title == promoTextField.text }) {
+                LoadingIndicator.start(on: view.self)
+                checkoutViewModel.addDiscountToDraftOrder(discount) { [weak self] in
+                    DispatchQueue.main.async {
+                        LoadingIndicator.stop()
+                        self?.updatePromoBtnUI()
+                    }
+                }
+            } else {
+                discountNotFoundAlert()
+            }
+            
         }
-        
-        discountNotFoundAlert()
         
     }
     
-    func confirmationAlert() {
+    private func confirmationAlert() {
         
         let alert = UIAlertController(title: "Purchase Confirmation", message: "Are you sure you want to make this purchase?", preferredStyle: .alert)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
             self.checkoutViewModel.postOrder() { [weak self] in
-                self?.navigateToHome()
+                DispatchQueue.main.async {
+                    self?.navigateToHome()
+                }
             }
         }
         
@@ -105,7 +130,7 @@ class CheckoutViewController: UIViewController {
         
     }
     
-    func createPaymentRequest() -> PKPaymentRequest {
+    private func createPaymentRequest() -> PKPaymentRequest {
         let request = PKPaymentRequest()
         request.merchantIdentifier = "merchant.com.welly.ShopifyApp"
         request.supportedNetworks = [.visa, .masterCard, .amex]
@@ -117,7 +142,7 @@ class CheckoutViewController: UIViewController {
         return request
     }
     
-    func createItemsSummary() -> [PKPaymentSummaryItem] {
+    private func createItemsSummary() -> [PKPaymentSummaryItem] {
         
         let draftOrder = checkoutViewModel.draftOrder
         var itemsSummary: [PKPaymentSummaryItem] = []
@@ -143,12 +168,12 @@ class CheckoutViewController: UIViewController {
         return itemsSummary
     }
     
-    func discountNotFoundAlert() {
+    private func discountNotFoundAlert() {
         let okAction = UIAlertAction(title: "OK", style: .default)
         alert(title: "Invalid Coupon", message: "Please enter a valid discount.", viewController: self, actions: okAction)
     }
     
-    func setOrderInfo() {
+    private func setOrderInfo() {
         let order = checkoutViewModel.draftOrder
         setPriceSetction(order)
         let shippingAddress = order.shippingAddress!
@@ -159,21 +184,54 @@ class CheckoutViewController: UIViewController {
         )
     }
     
-    func enableApplyWhenPromoIsAvailable() {
+    
+    private func enableApplyWhenPromoIsAvailable() {
+        
         NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: promoTextField)
             .compactMap { ($0.object as? UITextField)?.text }
             .map { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.isEnabled, on: applyPromoBtn)
+            .assign(to: \.isEnabled, on: promoBtn)
             .store(in: &cancellables)
+        
     }
     
-    func setShippingAddress(city: String, country: String, address: String) {
+    private func updatePromoBtnUI() {
+        if let discount = checkoutViewModel.draftOrder.appliedDiscount {
+            promoBtnRemoveUI(discount)
+        } else {
+            promoBtnApplyUI()
+        }
+    }
+    
+    private func promoBtnRemoveUI(_ discount: AppliedDiscount) {
+        promoTextField.isEnabled = false
+        promoTextField.text = discount.title
+        promoBtn.setTitle("Remove", for: .normal)
+        promoBtn.tintColor = .red
+        promoBtn.setImage(UIImage(systemName: "xmark"), for: .normal)
+        promoBtn.configuration = .filled()
+        promoBtn.configuration?.imagePadding = 8
+        NotificationCenter.default.post(name: UITextField.textDidChangeNotification, object: promoTextField)
+    }
+    
+    private func promoBtnApplyUI() {
+        promoTextField.isEnabled = true
+        promoTextField.text = ""
+        discountLabel.text = "0.0"
+        promoBtn.setTitle("Apply", for: .normal)
+        promoBtn.tintColor = .black
+        promoBtn.setImage(nil, for: .normal)
+        promoBtn.configuration = .filled()
+        NotificationCenter.default.post(name: UITextField.textDidChangeNotification, object: promoTextField)
+    }
+    
+    private func setShippingAddress(city: String, country: String, address: String) {
         shippingCountryLabel.text = "\(city), \(country)"
         shippingAddressLabel.text = address
     }
     
-    func setPriceSetction(_ order: DraftOrder) {
+    private func setPriceSetction(_ order: DraftOrder) {
         
         let subtotalPrice = (checkoutViewModel.priceBeforeDiscount ?? 0.0).currencyConverter()
         subtotalLabel.text = subtotalPrice.appendCurrency()
@@ -208,7 +266,7 @@ class CheckoutViewController: UIViewController {
         
     }
     
-    func navigateToHome() {
+    private func navigateToHome() {
         if let navigationController = navigationController {
             navigationController.popToRootViewController(animated: true)
         }
@@ -260,9 +318,25 @@ extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
         checkoutViewModel.postOrder()  { [weak self] in
-            self?.navigateToHome()
+            DispatchQueue.main.async {
+                self?.navigateToHome()
+            }
         }
     }
     
+    
+}
+
+extension CheckoutViewController: UITextFieldDelegate {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let maxLength = 15
+        let currentString = (textField.text ?? "") as NSString
+        let newString = currentString.replacingCharacters(in: range, with: string)
+
+        return newString.count <= maxLength
+        
+    }
     
 }

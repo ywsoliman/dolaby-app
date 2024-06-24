@@ -37,7 +37,7 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
         self.addressesViewModel = addressesViewModel
     }
     
-    func addAddress(_ newAddress: AddedAddress) {
+    func addAddress(_ newAddress: AddedAddress, completion: @escaping () -> ()) {
         
         guard let user = CurrentUser.user,
               let addresses = user.addresses else { return }
@@ -47,6 +47,8 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
                 address.city == newAddress.city &&
                 address.country == newAddress.country {
                 bindAddressExistsToViewController()
+                completion()
+                return
             }
         }
         
@@ -74,6 +76,8 @@ class AddAddressViewModel: NSObject, CLLocationManagerDelegate {
             }
             
         }
+        
+        completion()
         
     }
     
