@@ -73,7 +73,7 @@ extension OrderDetailsViewController:UITableViewDataSource{
         cell.itemPrice.text=(orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].price ?? "0") + " " + (orderDetailsViewModel?.getOrder()?.currency ?? "USD")
         cell.itemQuantity.text="Items : "+String(orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].quantity ?? 0 )
         
-        let productId = orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].productID
+        let productId=orderDetailsViewModel?.getOrder()?.line_items?[indexPath.row].productId
         guard let productId=productId else{
             print("No product id")
             return cell

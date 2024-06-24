@@ -99,7 +99,7 @@ extension SearchScreenViewController:UICollectionViewDataSource , UICollectionVi
         cell.layer.cornerRadius=20
         cell.layer.borderColor = UIColor.darkGray.cgColor
         cell.layer.borderWidth=0.7
-        let url=URL(string: viewModel.filteredProducts[indexPath.item].image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")
+        let url=URL(string: viewModel.filteredProducts[indexPath.item].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg")
         guard let imageUrl=url else{
             print("Error loading image: ",APIError.invalidURL)
             return cell
@@ -146,7 +146,7 @@ extension SearchScreenViewController:FavItemDelegate{
     }
     
     func saveFavItem(itemIndex: Int) {
-        favViewModel.addToFav(favItem: FavoriteItem(id: viewModel.filteredProducts[itemIndex].id, itemName: viewModel.filteredProducts[itemIndex].title, imageURL: viewModel.filteredProducts[itemIndex].image.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
+        favViewModel.addToFav(favItem: FavoriteItem(id: viewModel.filteredProducts[itemIndex].id, itemName: viewModel.filteredProducts[itemIndex].title, imageURL: viewModel.filteredProducts[itemIndex].image?.src ?? "https://images.pexels.com/photos/292999/pexels-photo-292999.jpeg?cs=srgb&dl=pexels-goumbik-292999.jpg&fm=jpg"))
     }
     func showAlert(message: String, okHandler: @escaping () -> Void) {
             let alert = UIAlertController(title: "Confirmation", message: message, preferredStyle: .alert)

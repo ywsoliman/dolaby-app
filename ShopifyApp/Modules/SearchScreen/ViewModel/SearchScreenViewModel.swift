@@ -10,8 +10,8 @@ final class SearchScreenViewModel{
     let networkService:NetworkService
     @Published  var isLoading:Bool = false
     var bindProductsToViewController:()->Void={}
-    var allProducts:[Product] = []
-    var filteredProducts: [Product] = []
+    var allProducts:[CategoriesProduct] = []
+    var filteredProducts: [CategoriesProduct] = []
     
     init(networkService: NetworkService) {
         self.networkService = networkService

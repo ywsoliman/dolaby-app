@@ -38,7 +38,7 @@ class OrderDetailsViewModel:OrderDetailsViewModelProtocol{
     }
     
     func getProductImage(productId: Int, completion: @escaping (String?) -> ())  {
-        networkService?.makeRequest(endPoint: "/products/\(productId)/images.json", method: .get) {[weak self] (result: Result<ProductImages, APIError>) in
+        networkService?.makeRequest(endPoint: "/products/\(productId)/images.json", method: .get) {[weak self] (result: Result<ProductImagesResponse, APIError>) in
             switch result {
             case .success(let response):
                 self?.images=response.images
