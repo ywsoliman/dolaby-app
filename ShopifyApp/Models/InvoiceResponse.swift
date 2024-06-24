@@ -6,24 +6,6 @@
 //
 
 import Foundation
-//struct InvoiceResponse:Codable{
-//    let draftOrderInvoice:DraftOrderInvoice
-//    enum CodingKeys: String, CodingKey {
-//        case draftOrderInvoice = "draft_order_invoice"
-//    }
-//}
-//struct DraftOrderInvoice: Codable {
-////    let to: String?
-////    let subject: String?
-////    let customMessage: String?
-////
-////    enum CodingKeys: String, CodingKey {
-////        case to
-////        case subject
-////        case customMessage = "custom_message"
-////    }
-//}
-
 
 struct InvoiceResponse: Codable {
     let draftOrderInvoice: DraftOrderInvoice
@@ -37,7 +19,7 @@ struct DraftOrderInvoice: Codable {
     let to, subject, customMessage: String
     let bcc: [String]
 
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys:  String,CodingKey{
         case to,subject
         case customMessage = "custom_message"
         case bcc

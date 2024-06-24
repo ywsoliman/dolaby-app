@@ -78,6 +78,7 @@ class CheckoutViewModel {
                 "email": CurrentUser.user?.email ?? "israaassem20@gmail.com",
                 "total_price": draftOrder.totalPrice,
                 "total_discounts": draftOrder.appliedDiscount?.amount ?? "0",
+                "send_receipt":"true",
                 "customer":
                     ["id":
                         CurrentUser.user?.id
@@ -125,8 +126,7 @@ class CheckoutViewModel {
     func postDraftOrderInvoice(){
         let parameters: [String: Any] = [
             "draft_order_invoice": [
-                "to": CurrentUser.user?.email ?? "israaassem20@gmail.com",
-                "from": "manalhamada1999@gmail.com",
+              
                 "subject": "Successful order Invoice",
                 "custom_message": "Thanks for ordering from our application!"
             ]
