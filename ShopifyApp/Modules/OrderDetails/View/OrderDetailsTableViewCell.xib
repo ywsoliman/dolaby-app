@@ -18,50 +18,50 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loadingPlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="Zfg-sC-qME">
-                        <rect key="frame" x="8" y="10" width="100" height="100"/>
+                        <rect key="frame" x="16" y="10" width="100" height="100"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="d6B-bh-1aC"/>
                             <constraint firstAttribute="height" constant="100" id="gBQ-F9-t2U"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="1000" text="CONVERSE | CHUCK TAYLOR ALL STAR LO - 3 / white" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-91-uUP">
-                        <rect key="frame" x="116" y="4" width="200" height="61"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="1000" text="CONVERSE | CHUCK TAYLOR ALL STAR LO - 3 / white" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OBc-91-uUP">
+                        <rect key="frame" x="124" y="0.0" width="180" height="91.666666666666671"/>
                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="price" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pko-Rc-rdc">
-                        <rect key="frame" x="116" y="73" width="204" height="20.333333333333329"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="price" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pko-Rc-rdc">
+                        <rect key="frame" x="124" y="91.666666666666671" width="110" height="20.333333333333329"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="quantity" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chj-C3-JNN">
-                        <rect key="frame" x="116" y="101.33333333333333" width="204" height="14.666666666666671"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="quantity" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="chj-C3-JNN">
+                        <rect key="frame" x="242" y="91.666666666666671" width="62" height="24.333333333333329"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="OBc-91-uUP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="6JC-V9-dDo"/>
+                    <constraint firstItem="OBc-91-uUP" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="6JC-V9-dDo"/>
                     <constraint firstItem="OBc-91-uUP" firstAttribute="leading" secondItem="Zfg-sC-qME" secondAttribute="trailing" constant="8" id="9Wc-ix-4OQ"/>
                     <constraint firstItem="Pko-Rc-rdc" firstAttribute="leading" secondItem="Zfg-sC-qME" secondAttribute="trailing" constant="8" id="BKI-7k-Gwb"/>
+                    <constraint firstItem="chj-C3-JNN" firstAttribute="top" secondItem="Pko-Rc-rdc" secondAttribute="top" id="XkQ-PM-I7E"/>
                     <constraint firstItem="Zfg-sC-qME" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Z46-K9-AEA"/>
-                    <constraint firstAttribute="trailing" secondItem="chj-C3-JNN" secondAttribute="trailing" id="ac9-BZ-wSd"/>
-                    <constraint firstItem="Zfg-sC-qME" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="bxL-jo-yCw"/>
-                    <constraint firstItem="Pko-Rc-rdc" firstAttribute="top" secondItem="OBc-91-uUP" secondAttribute="bottom" constant="8" id="c3J-Eg-nMU"/>
+                    <constraint firstAttribute="trailing" secondItem="chj-C3-JNN" secondAttribute="trailing" constant="16" id="ac9-BZ-wSd"/>
+                    <constraint firstItem="Zfg-sC-qME" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="bxL-jo-yCw"/>
+                    <constraint firstItem="Pko-Rc-rdc" firstAttribute="top" secondItem="OBc-91-uUP" secondAttribute="bottom" id="c3J-Eg-nMU"/>
                     <constraint firstAttribute="bottom" secondItem="Zfg-sC-qME" secondAttribute="bottom" constant="10" id="fdj-R8-0RN"/>
-                    <constraint firstAttribute="trailing" secondItem="OBc-91-uUP" secondAttribute="trailing" constant="4" id="goG-S8-YCg"/>
-                    <constraint firstItem="chj-C3-JNN" firstAttribute="top" secondItem="Pko-Rc-rdc" secondAttribute="bottom" constant="8" id="lZ4-DB-7Mb"/>
-                    <constraint firstItem="chj-C3-JNN" firstAttribute="leading" secondItem="Zfg-sC-qME" secondAttribute="trailing" constant="8" id="mc5-OF-aUD"/>
-                    <constraint firstAttribute="trailing" secondItem="Pko-Rc-rdc" secondAttribute="trailing" id="qS3-JV-oiy"/>
+                    <constraint firstAttribute="trailing" secondItem="OBc-91-uUP" secondAttribute="trailing" constant="16" id="goG-S8-YCg"/>
+                    <constraint firstItem="chj-C3-JNN" firstAttribute="leading" secondItem="Pko-Rc-rdc" secondAttribute="trailing" constant="8" id="mc5-OF-aUD"/>
+                    <constraint firstAttribute="bottom" secondItem="Pko-Rc-rdc" secondAttribute="bottom" constant="8" id="qi8-ZH-vzw"/>
                     <constraint firstAttribute="bottom" secondItem="chj-C3-JNN" secondAttribute="bottom" constant="4" id="zFH-ap-k8a"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="itemImage" destination="Zfg-sC-qME" id="OVN-dg-RPW"/>
+                <outlet property="itemImage" destination="Zfg-sC-qME" id="jfp-UN-vGu"/>
                 <outlet property="itemName" destination="OBc-91-uUP" id="BRP-to-YEw"/>
                 <outlet property="itemPrice" destination="Pko-Rc-rdc" id="2t3-wL-GHz"/>
                 <outlet property="itemQuantity" destination="chj-C3-JNN" id="auW-Vg-jQL"/>
