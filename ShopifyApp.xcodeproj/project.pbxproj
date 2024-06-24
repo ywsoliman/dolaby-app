@@ -51,8 +51,6 @@
 		9F59804B2C2934E00032468D /* BrandsServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F59804A2C2934E00032468D /* BrandsServiceMock.swift */; };
 		9F59804D2C2935040032468D /* BrandsServiceMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F59804C2C2935040032468D /* BrandsServiceMockTests.swift */; };
 		9F5980512C29357E0032468D /* CategoriesServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5980502C29357E0032468D /* CategoriesServiceTests.swift */; };
-		9F5980532C2935A30032468D /* CategoriesServiceMockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5980522C2935A30032468D /* CategoriesServiceMockTests.swift */; };
-		9F5980552C2935BB0032468D /* CategoriesServiceMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F5980542C2935BB0032468D /* CategoriesServiceMock.swift */; };
 		9F62A2152C1BAB8D0021A593 /* BrandProductsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F62A2142C1BAB8D0021A593 /* BrandProductsViewModel.swift */; };
 		9F62A2182C1BABF00021A593 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F62A2172C1BABF00021A593 /* CategoriesViewModel.swift */; };
 		9F62A21A2C1BADB50021A593 /* ProductsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F62A2192C1BADB50021A593 /* ProductsResponse.swift */; };
@@ -197,8 +195,6 @@
 		9F59804A2C2934E00032468D /* BrandsServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsServiceMock.swift; sourceTree = "<group>"; };
 		9F59804C2C2935040032468D /* BrandsServiceMockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandsServiceMockTests.swift; sourceTree = "<group>"; };
 		9F5980502C29357E0032468D /* CategoriesServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesServiceTests.swift; sourceTree = "<group>"; };
-		9F5980522C2935A30032468D /* CategoriesServiceMockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesServiceMockTests.swift; sourceTree = "<group>"; };
-		9F5980542C2935BB0032468D /* CategoriesServiceMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesServiceMock.swift; sourceTree = "<group>"; };
 		9F62A2142C1BAB8D0021A593 /* BrandProductsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandProductsViewModel.swift; sourceTree = "<group>"; };
 		9F62A2172C1BABF00021A593 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		9F62A2192C1BADB50021A593 /* ProductsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductsResponse.swift; sourceTree = "<group>"; };
@@ -601,19 +597,9 @@
 		9F59804E2C2935490032468D /* CategoriesServiceTests */ = {
 			isa = PBXGroup;
 			children = (
-				9F59804F2C2935640032468D /* Mock */,
 				9F5980502C29357E0032468D /* CategoriesServiceTests.swift */,
 			);
 			path = CategoriesServiceTests;
-			sourceTree = "<group>";
-		};
-		9F59804F2C2935640032468D /* Mock */ = {
-			isa = PBXGroup;
-			children = (
-				9F5980542C2935BB0032468D /* CategoriesServiceMock.swift */,
-				9F5980522C2935A30032468D /* CategoriesServiceMockTests.swift */,
-			);
-			path = Mock;
 			sourceTree = "<group>";
 		};
 		9F62A2132C1BAB7D0021A593 /* ViewModel */ = {
@@ -1522,7 +1508,6 @@
 				9F7EA0CD2C298F1900706900 /* OrdersServiceMockTests.swift in Sources */,
 				9F5980512C29357E0032468D /* CategoriesServiceTests.swift in Sources */,
 				BE1D0CFF2C1C868F00500595 /* NetworkError.swift in Sources */,
-				9F5980552C2935BB0032468D /* CategoriesServiceMock.swift in Sources */,
 				BE1D0CF82C1C77EA00500595 /* CurrencyServiceMockTests.swift in Sources */,
 				9F59804B2C2934E00032468D /* BrandsServiceMock.swift in Sources */,
 				9F7EA0CA2C298EEA00706900 /* OrdersServiceTests.swift in Sources */,
@@ -1530,7 +1515,6 @@
 				BE25E79C2C221CC900D2622D /* TestConstants.swift in Sources */,
 				9F7EA0CF2C298F3300706900 /* OrdersServiceMock.swift in Sources */,
 				BE1D0CF02C1C6B7600500595 /* NetworkServiceTests.swift in Sources */,
-				9F5980532C2935A30032468D /* CategoriesServiceMockTests.swift in Sources */,
 				9F59804D2C2935040032468D /* BrandsServiceMockTests.swift in Sources */,
 				BE8610312BFF5003001AB5A6 /* ShopifyAppTests.swift in Sources */,
 				9F5980482C2934AC0032468D /* BrandsServiceTest.swift in Sources */,
