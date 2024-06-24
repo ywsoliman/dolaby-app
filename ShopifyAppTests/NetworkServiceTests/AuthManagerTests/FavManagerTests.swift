@@ -25,7 +25,7 @@ final class FavManagerTests: XCTestCase {
         func testFetchFavoriteItems() throws {
             let expectation = self.expectation(description: "Fetch favorite items expectation")
             // Act
-            try favManager.fetchFavoriteItems(userId: 111111) { fetchedItems in
+            try favManager.fetchFavoriteItems(userID: 111111) { fetchedItems in
                 // Assert
                 XCTAssertEqual(fetchedItems.count, 1)
                 expectation.fulfill()
@@ -42,7 +42,7 @@ final class FavManagerTests: XCTestCase {
 
             // Act
             do{
-                try favManager.addFavoriteItem(userId:111111,favItem: favItem)
+                try favManager.addFavoriteItem(userID:111111,favItem: favItem)
                 expectation.fulfill()
             }catch{
                 XCTFail(error.localizedDescription)
@@ -60,7 +60,7 @@ final class FavManagerTests: XCTestCase {
             // Add a dummy item for deletion
             let dummyItem = FavoriteItem(id: itemIdToDelete, itemName: "Dummy Item", imageURL: "https://example.com/dummy.jpg")
             do{
-                try favManager.addFavoriteItem(userId:111111,favItem: dummyItem)
+                try favManager.addFavoriteItem(userID:111111,favItem: dummyItem)
                 expectation.fulfill()
             }catch{
                 XCTFail(error.localizedDescription)

@@ -14,8 +14,7 @@ class FavoritesManager {
     var favItems:[FavoriteItem] = []
     private let databaseRef = Database.database(url: "https://e-commerce-c640e-default-rtdb.firebaseio.com/").reference()
     
-    func fetchFavoriteItems(completion: @escaping ([FavoriteItem]) -> Void) throws{
-        let userID = try LocalDataSource.shared.retrieveCustomerId()
+    func fetchFavoriteItems(userID:Int,completion: @escaping ([FavoriteItem]) -> Void) throws{
         databaseRef.child("users").child(String(userID)).child("favorites").observeSingleEvent(of: .value, with: { snapshot in
             var items: [FavoriteItem] = []
             for child in snapshot.children {
@@ -31,8 +30,7 @@ class FavoritesManager {
             completion(items)
         })
     }
-    func addFavoriteItem(favItem:FavoriteItem) throws {
-        let userID = try LocalDataSource.shared.retrieveCustomerId()
+    func addFavoriteItem(userID:Int,favItem:FavoriteItem) throws {
         var throwError = false
         let itemRef = databaseRef.child("users").child(String(userID)).child("favorites").child(String(favItem.id))
         itemRef.setValue(["itemName": favItem.itemName, "imageURL": favItem.imageURL]){ error, _ in
@@ -49,8 +47,7 @@ class FavoritesManager {
         }
     }
     
-    func deleteFavoriteItem(itemId: Int) throws {
-        let userID = try LocalDataSource.shared.retrieveCustomerId()
+    func deleteFavoriteItem(userID:Int,itemId: Int) throws {
         var throwError = false
         databaseRef.child("users").child(String(userID)).child("favorites").child(String(itemId)).removeValue { error, _ in
             if let _ = error {
