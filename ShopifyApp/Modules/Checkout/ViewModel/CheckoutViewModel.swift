@@ -79,6 +79,7 @@ class CheckoutViewModel {
                 "total_price": draftOrder.totalPrice,
                 "total_discounts": draftOrder.appliedDiscount?.amount ?? "0",
                 "send_receipt":"true",
+                "inventory_behaviour":"decrement_obeying_policy",
                 "customer":
                     ["id":
                         CurrentUser.user?.id
