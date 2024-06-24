@@ -28,7 +28,7 @@ final class AuthenticationManager{
     func login(customer:CustomerCredentials)async throws->CustomerData{
         let authDataResult = try await Auth.auth().signIn(withEmail: customer.email, password: customer.password)
         if !authDataResult.user.isEmailVerified {
-            throw NSError(domain: "com.yourapp", code: -1, userInfo: [NSLocalizedDescriptionKey: "Email Not verified"])
+            throw NSError(domain: "com.yourapp", code: -1, userInfo: [NSLocalizedDescriptionKey: "Please verify your email to login"])
         }
         print(authDataResult.user.uid)
         let customer:CustomerData = try await fetchUserData(uid: authDataResult.user.uid)
