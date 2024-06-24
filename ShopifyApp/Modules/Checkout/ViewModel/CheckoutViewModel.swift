@@ -102,7 +102,6 @@ class CheckoutViewModel {
                 completion()
                 self?.updateCustomer()
                 self?.deleteDraftOrder()
-                self?.postDraftOrderInvoice()
                
             case .failure(let error):
                 print("Error in posting an order: \(error)")
@@ -123,23 +122,8 @@ class CheckoutViewModel {
            }
            
        }
-    func postDraftOrderInvoice(){
-        let parameters: [String: Any] = [
-            "draft_order_invoice": [
-              
-                "subject": "Successful order Invoice",
-                "custom_message": "Thanks for ordering from our application!"
-            ]
-        ]
-        service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id)/send_invoice", method: .post,parameters: parameters) {(result: Result<InvoiceResponse, APIError>) in
-            switch result {
-            case .success(_):
-                print("DraftOrderInvoice is posted Successfully!")
-            case .failure(let error):
-                print("Error in posting DraftOrderInvoice: \(error)")
-            }
-        }
-    }
+
+    
     func deleteDraftOrder(){
          service.makeRequest(endPoint: "/draft_orders/\(draftOrder.id).json", method: .delete) { (result: Result<EmptyResponse, APIError>) in
              switch result {
