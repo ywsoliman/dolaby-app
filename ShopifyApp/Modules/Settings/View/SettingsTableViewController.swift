@@ -17,16 +17,18 @@ class SettingsTableViewController: UITableViewController {
     }
     
     @IBAction func onLogOut(_ sender: Any) {
-                _ = LocalDataSource.shared.deleteFromKeychain()
-                 let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-                  guard let onBoardingVC = storyboard.instantiateViewController(withIdentifier: "onboardingVC") as? OnboardingViewController else {
-                      return
-                  }
-                 onBoardingVC.modalPresentationStyle = .fullScreen
-                 self.present(onBoardingVC, animated: true)
-                 self.navigationController?.viewControllers = []
+        
+        _ = LocalDataSource.shared.deleteFromKeychain()
+        
+        let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+        guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
+            return
+        }
+        loginVC.modalPresentationStyle = .fullScreen
+        self.present(loginVC, animated: true)
+        self.navigationController?.viewControllers = []
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "changeCurrencySegue" {
             let destVC = segue.destination as? CurrenciesTableViewController
