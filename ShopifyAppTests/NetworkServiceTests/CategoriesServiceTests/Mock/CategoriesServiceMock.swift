@@ -127,7 +127,7 @@ struct CategoriesServiceMock {
             print("Mock CategoriesProducts error \(error)")
         }
         
-        //shouldFail ? completion(nil, NetworkError.genericError) : completion(productsResponse, nil)
+        shouldFail ? completion(nil, NetworkError.genericError) : completion(productsResponse, nil)
         
     }
 }
