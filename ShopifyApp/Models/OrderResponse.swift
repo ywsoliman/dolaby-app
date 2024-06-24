@@ -15,6 +15,6 @@ struct OrderDetails: Codable {
   let currency: String?
   let email: String?
   let total_price: String?
-  let customer: CustomerModel?
-  let line_items: [LineItemModel]?
+  let customer: Customer?
+  let line_items: [LineItem]?
 }

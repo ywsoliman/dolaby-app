@@ -22,8 +22,8 @@ class BrandProductsViewModel:BrandProductsViewModelProtocol{
         self.networkService = networkService
     }
     var bindProductsToViewController:()->Void={}
-    var products:[CategoriesProduct] = []
-    var filteredProducts:[CategoriesProduct] = []
+    var products:[Product] = []
+    var filteredProducts:[Product] = []
     var productsWithoutPrice:[BrandsProduct]?=nil
     func fetchProducts(){
         networkService.makeRequest(endPoint: "/collections/\(brandId)/products.json", method: .get) {[weak self] (result: Result<BrandProductsResponse, APIError>) in

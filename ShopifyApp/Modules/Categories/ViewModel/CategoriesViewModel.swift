@@ -7,7 +7,7 @@
 
 import Foundation
 protocol CategoriesViewModelProtocol{
-    func getProducts()->[CategoriesProduct]
+    func getProducts()->[Product]
     func getProductsCount()->Int
     func getNonFilteredProductsCount()->Int
     var  bindProductsToViewController:()->Void { get set }
@@ -24,8 +24,8 @@ class CategoriesViewModel:CategoriesViewModelProtocol{
         self.networkService = networkService
     }
     var bindProductsToViewController:()->Void={}
-    var allProducts:[CategoriesProduct]?=nil
-    var filteredProducts: [CategoriesProduct] = []
+    var allProducts:[Product]?=nil
+    var filteredProducts: [Product] = []
     
     var categoryFilter: String?
     var typeFilter: String?
@@ -41,7 +41,7 @@ class CategoriesViewModel:CategoriesViewModelProtocol{
             }
         }
     }
-    func getProducts()->[CategoriesProduct]{
+    func getProducts()->[Product]{
         return filteredProducts
     }
     func getProductsCount()->Int{
