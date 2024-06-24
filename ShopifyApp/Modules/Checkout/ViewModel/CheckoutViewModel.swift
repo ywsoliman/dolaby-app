@@ -95,6 +95,9 @@ class CheckoutViewModel {
                        }
             ]
         ]
+        
+        print("Parameters = \(parameters)")
+        
         service.makeRequest(endPoint: "/orders.json", method: .post,parameters: parameters) {[weak self] (result: Result<OrderResponse, APIError>) in
             switch result {
             case .success(_):

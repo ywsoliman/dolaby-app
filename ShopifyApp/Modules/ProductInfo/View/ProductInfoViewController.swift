@@ -216,10 +216,12 @@ class ProductInfoViewController: UIViewController {
         quantityControlBtn.maximumValue = Double(currentVariantMaxQuantity + 1)
         if Int(quantityControlBtn.value) > Int(currentVariantMaxQuantity) {
             quantityStatus.text = "No Enough Items"
+            productQuantity.isHidden = true
             addToCartBtn.isEnabled = false
             print(quantityControlBtn.value)
         }else{
             quantityStatus.text = ""
+            productQuantity.isHidden = false
             addToCartBtn.isEnabled = true
         }
     }
