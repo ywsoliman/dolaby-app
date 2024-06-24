@@ -91,7 +91,7 @@ extension MeViewController:UITableViewDelegate{
         let deleteAlert=UIAlertController(title:"Delete order" , message: "Are you sure you want to delete this order?", preferredStyle: .alert)
         let deleteAlertAction=UIAlertAction(title: "Delete", style: .destructive) { [weak self]_ in
             guard let orderId=self?.ordersViewModel?.getOrders()[indexPath.row].id else{
-                print("No order if found!")
+                print("No order is found!")
                 return
             }
             self?.ordersViewModel?.deleteOrder(orderId: orderId)      
@@ -168,7 +168,7 @@ extension MeViewController:UICollectionViewDataSource , UICollectionViewDelegate
         let backgroundView = UIView(frame: favCollectionView.bounds)
         let imageView = UIImageView(frame: backgroundView.bounds)
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "noOrdersFound")
+        imageView.image = UIImage(named: "noProductsFound")
         backgroundView.addSubview(imageView)
         return backgroundView
     }
