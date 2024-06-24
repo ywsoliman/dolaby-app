@@ -108,7 +108,7 @@
                                     <rect key="frame" x="0.0" y="188" width="393" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
-                                        <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="riF-rl-HHj">
+                                        <pageControl opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="riF-rl-HHj">
                                             <rect key="frame" x="16" y="12" width="361" height="26"/>
                                             <color key="pageIndicatorTintColor" systemColor="opaqueSeparatorColor"/>
                                             <color key="currentPageIndicatorTintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -636,7 +636,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ps0-LL-KcZ">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="284"/>
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="275"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="date" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wm-dU-Txe">
                                         <rect key="frame" x="139.33333333333337" y="112" width="253.66666666666663" height="20.333333333333343"/>
@@ -685,6 +685,7 @@
                                     <constraint firstItem="y8P-dl-7Vr" firstAttribute="top" secondItem="1af-s0-4rH" secondAttribute="bottom" constant="24" id="P7K-Es-5QH"/>
                                     <constraint firstItem="7wm-dU-Txe" firstAttribute="trailing" secondItem="KyJ-Gz-ndU" secondAttribute="trailing" id="Vgn-aJ-HEi"/>
                                     <constraint firstItem="7wm-dU-Txe" firstAttribute="top" secondItem="1af-s0-4rH" secondAttribute="top" id="bDd-Pa-KqB"/>
+                                    <constraint firstAttribute="height" constant="275" id="gJg-nM-3lt"/>
                                     <constraint firstItem="1af-s0-4rH" firstAttribute="leading" secondItem="ps0-LL-KcZ" secondAttribute="leading" constant="8" id="nZn-3A-ewq"/>
                                     <constraint firstItem="KnD-Mr-Wba" firstAttribute="leading" secondItem="1af-s0-4rH" secondAttribute="leading" id="qxC-6M-DAT"/>
                                     <constraint firstItem="sCN-lI-BTN" firstAttribute="leading" secondItem="KnD-Mr-Wba" secondAttribute="trailing" constant="8" id="sNY-cb-XQO"/>
@@ -696,13 +697,13 @@
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order Items" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fe-bb-Dma">
-                                <rect key="frame" x="0.0" y="300" width="393" height="24"/>
+                                <rect key="frame" x="0.0" y="291" width="393" height="24"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="APJ-sd-0wA">
-                                <rect key="frame" x="0.0" y="340" width="393" height="512"/>
+                                <rect key="frame" x="0.0" y="331" width="393" height="521"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="orderItemsCell" id="qPs-88-6wb">
@@ -728,7 +729,6 @@
                             <constraint firstItem="PxS-rM-QlM" firstAttribute="trailing" secondItem="ps0-LL-KcZ" secondAttribute="trailing" id="Wrk-Kk-x5H"/>
                             <constraint firstItem="ps0-LL-KcZ" firstAttribute="top" secondItem="oNC-fX-FDF" secondAttribute="top" id="XBS-q6-EDV"/>
                             <constraint firstItem="PxS-rM-QlM" firstAttribute="trailing" secondItem="APJ-sd-0wA" secondAttribute="trailing" id="fOK-7f-0ea"/>
-                            <constraint firstItem="ps0-LL-KcZ" firstAttribute="height" secondItem="oNC-fX-FDF" secondAttribute="height" multiplier="0.333333" id="q88-WE-fiu"/>
                             <constraint firstItem="8fe-bb-Dma" firstAttribute="top" secondItem="ps0-LL-KcZ" secondAttribute="bottom" constant="16" id="xFp-xE-q56"/>
                         </constraints>
                     </view>
