@@ -6,30 +6,60 @@
 //
 
 import XCTest
-
+@testable import ShopifyApp
 final class CategoriesServiceMockTests: XCTestCase {
 
+  
+    private var categoriesServiceMock: CategoriesServiceMock!
+    
     override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        categoriesServiceMock = CategoriesServiceMock()
     }
-
+    
     override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        categoriesServiceMock = nil
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    
+    func testFetchingCategoriesProductsSuccess() {
+        categoriesServiceMock.shouldFail = false
+        categoriesServiceMock.getCategoriesProducts { response, error in
+            XCTAssertNil(error)
+            XCTAssertNotNil(response)
         }
     }
-
+    
+    func testFetchingCategoriesProductsFailure() {
+        categoriesServiceMock.shouldFail = true
+        categoriesServiceMock.getCategoriesProducts { response, error in
+            XCTAssertNotNil(error)
+            XCTAssertNil(response)
+        }
+        
+    }
+    
+    func testFetchingCategoriesProductsSuccess_ContainsIPodProduct() {
+        categoriesServiceMock.getCategoriesProducts { response, error in
+        XCTAssertNil(error)
+        XCTAssertNotNil(response)
+          guard let products = response?.products else {
+          XCTFail("Missing products in response")
+          return
+        }
+        let firstProduct = products.first!
+        XCTAssertEqual(firstProduct.id, 632910392)
+        XCTAssertEqual(firstProduct.title, "IPod Nano - 8GB")
+      }
+    }
+    func testFetchingCategoriesProductsSuccess_NumberOfProducts() {
+        categoriesServiceMock.getCategoriesProducts { response, error in
+        XCTAssertNil(error)
+        XCTAssertNotNil(response)
+          guard let productsCount = response?.products.count else {
+          XCTFail("Error in products count in response")
+          return
+        }
+        XCTAssertEqual(productsCount, 12)
+      }
+    }
 }
