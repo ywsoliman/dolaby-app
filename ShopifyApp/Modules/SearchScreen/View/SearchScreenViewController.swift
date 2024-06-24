@@ -94,7 +94,7 @@ extension SearchScreenViewController:UICollectionViewDataSource , UICollectionVi
         let titleComponents = viewModel.filteredProducts[indexPath.item].title.split(separator: " | ")
         let categoryName = String(titleComponents.last ?? "")
         cell.categoryName.text = categoryName
-        cell.categoryPrice.text="\( (viewModel.filteredProducts[indexPath.item].variants[0].price) ) LE"
+        cell.categoryPrice.text = (viewModel.filteredProducts[indexPath.item].variants[0].price).priceFormatter()
         cell.clipsToBounds=true
         cell.layer.cornerRadius=20
         cell.layer.borderColor = UIColor.darkGray.cgColor
