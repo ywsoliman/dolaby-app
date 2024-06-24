@@ -6,10 +6,12 @@
 //
 
 import Foundation
+
 enum UserType{
     case authenticated
-   case anonymous
+    case anonymous
 }
+
 class CurrentUser {
     
     static var user: Customer?

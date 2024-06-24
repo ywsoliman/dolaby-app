@@ -13,8 +13,7 @@ struct Product: Codable {
     let title, bodyHTML, vendor, productType: String
     let createdAt: String
     let handle: String
-    let updatedAt, publishedAt: String
-    let publishedScope, tags, status, adminGraphqlAPIID: String
+    let tags: String
     let variants: [Variant]
     let options: [Option]
     let images: [Image]
@@ -26,13 +25,7 @@ struct Product: Codable {
         case vendor
         case productType = "product_type"
         case createdAt = "created_at"
-        case handle
-        case updatedAt = "updated_at"
-        case publishedAt = "published_at"
-        case publishedScope = "published_scope"
-        case tags, status
-        case adminGraphqlAPIID = "admin_graphql_api_id"
-        case variants, options, images, image
+        case handle, tags, variants, options, images, image
     }
     static let empty = Product(
             id: 0,
@@ -42,12 +35,7 @@ struct Product: Codable {
             productType: "",
             createdAt: "",
             handle: "",
-            updatedAt: "",
-            publishedAt: "",
-            publishedScope: "",
             tags: "",
-            status: "",
-            adminGraphqlAPIID: "",
             variants: [],
             options: [],
             images: [],
@@ -103,8 +91,13 @@ struct ProductImages: Codable {
     let images: [Image]
 }
 struct ProductResponse :Codable{
-    let product:Product
+    let product: Product
 }
+
+struct ProductsResponse: Codable {
+    let products: [Product]
+}
+
 extension Product {
     func getSizeOptions() -> [String] {
         return options.first { $0.name.lowercased() == "size" }?.values ?? []

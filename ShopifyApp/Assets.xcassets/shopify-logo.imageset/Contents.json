@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "shopify-logo.png",
+      "filename" : "app-logo.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "shopify-logo 1.png",
+      "filename" : "app-logo@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "shopify-logo 2.png",
+      "filename" : "app-logo@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -43,6 +43,7 @@ class OnboardingViewController: UIViewController {
             collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             
         }else{
+            UserDefaults.standard.set(true, forKey: "onboardingShown")
             let controller = storyboard?.instantiateViewController(identifier: "loginNav") as! UINavigationController
             controller.modalPresentationStyle = .fullScreen
             controller.modalTransitionStyle = .flipHorizontal
