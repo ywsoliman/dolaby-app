@@ -25,7 +25,7 @@ class OrderDetailsViewController: UIViewController {
         orderDetailsViewModel=OrderDetailsViewModel(network:NetworkService.shared)
         orderDetailsViewModel?.fetchOrder(orderId: orderID)
         orderDetailsViewModel?.bindOrderToViewController={[weak self]in
-            self?.indicator.stopAnimating()
+            DispatchQueue.main.async { self?.indicator.stopAnimating() }
             self?.loadData()
         }
         backgroundView.layer.cornerRadius = 30

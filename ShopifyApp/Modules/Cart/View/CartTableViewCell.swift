@@ -64,11 +64,13 @@ class CartTableViewCell: UITableViewCell {
         quantityLabel.text = String(itemQuantity)
         updateButtonState(maxQuantity: lineItem.inventoryQuantity?.getValidQuantity() ?? 1)
         
-        NetworkService.shared.makeRequest(endPoint: "/products/\(lineItem.productID)/images.json", method: .get) { (result: Result<ProductImages, APIError>) in
+        NetworkService.shared.makeRequest(endPoint: "/products/\(lineItem.productID)/images.json", method: .get) { [weak self] (result: Result<ProductImages, APIError>) in
             
             switch result {
             case .success(let image):
-                self.setProductImage(src: image.images[0].src!)
+                DispatchQueue.main.async {
+                    self?.setProductImage(src: image.images[0].src!)
+                }
             case .failure(let error):
                 print("Failed to set cart image: \(error)")
             }

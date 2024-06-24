@@ -39,7 +39,9 @@ class CheckoutViewController: UIViewController {
         tableView.register(CartTableViewCell.nib(), forCellReuseIdentifier: CartTableViewCell.identifier)
         
         checkoutViewModel.bindDraftOrderToViewController = { [weak self] in
-            self?.setOrderInfo()
+            DispatchQueue.main.async {
+                self?.setOrderInfo()
+            }
         }
         
         initUI()
@@ -84,24 +86,25 @@ class CheckoutViewController: UIViewController {
             
             LoadingIndicator.start(on: view.self)
             checkoutViewModel.removeDiscountFromOrder { [weak self] in
-                LoadingIndicator.stop()
-                self?.updatePromoBtnUI()
+                DispatchQueue.main.async {
+                    LoadingIndicator.stop()
+                    self?.updatePromoBtnUI()
+                }
             }
             
         } else {
             
-            for discount in Discounts.discounts {
-                if promoTextField.text! == discount.title {
-                    LoadingIndicator.start(on: view.self)
-                    checkoutViewModel.addDiscountToDraftOrder(discount) { [weak self] in
+            if let discount = Discounts.discounts.first(where: { $0.title == promoTextField.text }) {
+                LoadingIndicator.start(on: view.self)
+                checkoutViewModel.addDiscountToDraftOrder(discount) { [weak self] in
+                    DispatchQueue.main.async {
                         LoadingIndicator.stop()
                         self?.updatePromoBtnUI()
                     }
-                    return
                 }
+            } else {
+                discountNotFoundAlert()
             }
-            
-            discountNotFoundAlert()
             
         }
         
@@ -114,7 +117,9 @@ class CheckoutViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
             self.checkoutViewModel.postOrder() { [weak self] in
-                self?.navigateToHome()
+                DispatchQueue.main.async {
+                    self?.navigateToHome()
+                }
             }
         }
         
@@ -313,7 +318,9 @@ extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
     func paymentAuthorizationViewController(_ controller: PKPaymentAuthorizationViewController, didAuthorizePayment payment: PKPayment, handler completion: @escaping (PKPaymentAuthorizationResult) -> Void) {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
         checkoutViewModel.postOrder()  { [weak self] in
-            self?.navigateToHome()
+            DispatchQueue.main.async {
+                self?.navigateToHome()
+            }
         }
     }
     

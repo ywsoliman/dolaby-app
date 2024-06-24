@@ -55,17 +55,21 @@ class ProductInfoViewController: UIViewController {
         viewModel.getProduct(productID: productID)
         viewModel.bindToViewController = {
             [weak self] productInfo in
-            self?.updateViewWithProductInfo(productInfo)
+            DispatchQueue.main.async {
+                self?.updateViewWithProductInfo(productInfo)
+            }
         }
         viewModel.bindAlertToViewController = { [weak self] doesExist in
-            LoadingIndicator.stop()
-            let message: String
-            if doesExist {
-                message = "Item is already in cart."
-            } else {
-                message = "Item added to cart successfully!"
+            DispatchQueue.main.async {
+                LoadingIndicator.stop()
+                let message: String
+                if doesExist {
+                    message = "Item is already in cart."
+                } else {
+                    message = "Item added to cart successfully!"
+                }
+                self?.productAlert(message: message)
             }
-            self?.productAlert(message: message)
         }
         sizesSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
         colorSegment.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)

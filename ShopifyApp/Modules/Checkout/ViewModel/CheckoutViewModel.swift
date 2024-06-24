@@ -45,14 +45,12 @@ class CheckoutViewModel {
             let appliedDiscount = ["applied_discount": discountJSON]
             let discountParams = ["draft_order": appliedDiscount]
             
-            service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .put, parameters: discountParams) { (result: Result<DraftOrderResponse, APIError>) in
+            service.makeRequest(endPoint: "/draft_orders/\(cartId).json", method: .put, parameters: discountParams) { [weak self] (result: Result<DraftOrderResponse, APIError>) in
                 
                 switch result {
                 case .success(let response):
-                    DispatchQueue.main.async {
-                        self.draftOrder = response.draftOrder
-                        completion()
-                    }
+                    self?.draftOrder = response.draftOrder
+                    completion()
                 case .failure(let error):
                     print("Updating draft error: \(error)")
                 }
