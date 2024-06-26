@@ -135,7 +135,7 @@ class ProductInfoViewController: UIViewController {
                     self?.updateFavBtnImage(isFav:  !(self?.isCurrentItemFav() ?? false))
                 }
             }
-         
+            
         }else{
             showAlert(message: "You need to login first.") {
                 let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
@@ -203,22 +203,22 @@ class ProductInfoViewController: UIViewController {
         pageControl.numberOfPages = productInfo.images.count
         
     }
-  
+    
     @IBAction func addToCartPressed(_ sender: Any) {
         
         isAuthUserForCart()
-      
+        
     }
     
     @IBAction func quantityControlPressed(_ sender: UIStepper) {
         productQuantity.text = "\(Int(sender.value))"
         updateQuantityLabel()
     }
-  
+    
     @objc func segmentValueChanged(_ sender: UISegmentedControl) {
         updateQuantityLabel()
     }
-  
+    
     func updateQuantityLabel() {
         
         let quantityInVentory = viewModel.productInfo.getVariantQuantity(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
@@ -231,7 +231,7 @@ class ProductInfoViewController: UIViewController {
         
         quantityControlBtn.maximumValue = Double(currentVariantMaxQuantity + 1)
         if Int(quantityControlBtn.value) > Int(currentVariantMaxQuantity) {
-            quantityStatus.text = "No Enough Items"
+            quantityStatus.text = quantityInVentory == currentVariantMaxQuantity ?   "No Enough Items" : "Limit Reached"
             productQuantity.isHidden = true
             addToCartBtn.isEnabled = false
             print(quantityControlBtn.value)
