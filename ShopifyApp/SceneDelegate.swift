@@ -24,9 +24,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             fatalError("Unable to instantiate desired view controller.")
         }
         
-        let loginViewController = authStoryboard.instantiateViewController(withIdentifier: "loginVC") as! LoginViewController
-            
+        let loginViewController =
+        authStoryboard.instantiateViewController(identifier: "loginNav") as UINavigationController
+       
         let onboardingShown = UserDefaults.standard.bool(forKey: "onboardingShown")
+        
+        if onboardingShown {
+            _ = LocalDataSource.shared.deleteFromKeychain()
+        }
         
         if let windowScene = scene as? UIWindowScene {
 
