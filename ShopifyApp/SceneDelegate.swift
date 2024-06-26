@@ -13,10 +13,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-
+        
         let authStoryboard = UIStoryboard(name: "Samuel", bundle: nil)
         let homeStoryboard = UIStoryboard(name: "Israa", bundle: nil)
-
+        
         let homeViewController =
         homeStoryboard.instantiateViewController(identifier: "HomeViewController") as! UINavigationController
         
@@ -26,15 +26,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let loginViewController =
         authStoryboard.instantiateViewController(identifier: "loginNav") as UINavigationController
-       
+        
         let onboardingShown = UserDefaults.standard.bool(forKey: "onboardingShown")
         
-        if onboardingShown {
+        if !onboardingShown {
             _ = LocalDataSource.shared.deleteFromKeychain()
         }
         
         if let windowScene = scene as? UIWindowScene {
-
+            
             let window = UIWindow(windowScene: windowScene)
             
             if isUserAlreadyLoggedIn() {
