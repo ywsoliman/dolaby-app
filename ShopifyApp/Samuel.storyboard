@@ -89,7 +89,7 @@
                                     <constraint firstAttribute="width" constant="214" id="t5g-Sf-aJn"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Anonymous">
+                                <buttonConfiguration key="configuration" style="filled" title="Guest">
                                     <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="18"/>
                                     <color key="baseBackgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>

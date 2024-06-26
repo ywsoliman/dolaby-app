@@ -98,6 +98,31 @@ class ProductInfoViewController: UIViewController {
     @IBAction func addToFavPressed(_ sender: Any) {
         isAuthenticatedUser()
     }
+    func isAuthUserForCart(){
+        let authenticated = CurrentUser.type == UserType.authenticated
+        if authenticated{
+            let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
+            
+            LoadingIndicator.start(on: view)
+            viewModel.addVariantToCart(
+                id: variantId,
+                quantity: Int(productQuantity.text ?? "1")!
+            )
+            
+            print("Variant id \(variantId)")
+        }else{
+            showAlert(message: "You need to login first.") {
+                let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
+                let loginVC =
+                storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
+                loginVC.modalPresentationStyle = .fullScreen
+                loginVC.modalTransitionStyle = .flipHorizontal
+                self.present(loginVC, animated: true)
+                self.navigationController?.viewControllers = []
+                
+            }
+        }
+    }
     func isAuthenticatedUser(){
         let authenticated = CurrentUser.type == UserType.authenticated
         if authenticated{
@@ -115,7 +140,6 @@ class ProductInfoViewController: UIViewController {
             showAlert(message: "You need to login first.") {
                 let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
                 let loginVC =
-                
                 storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
                 loginVC.modalPresentationStyle = .fullScreen
                 loginVC.modalTransitionStyle = .flipHorizontal
@@ -182,15 +206,7 @@ class ProductInfoViewController: UIViewController {
   
     @IBAction func addToCartPressed(_ sender: Any) {
         
-        let variantId = viewModel.productInfo.getVariantID(option1: sizesSegment.titleForSegment(at: sizesSegment.selectedSegmentIndex) ?? "", option2: colorSegment.titleForSegment(at: colorSegment.selectedSegmentIndex) ?? "")
-        
-        LoadingIndicator.start(on: view)
-        viewModel.addVariantToCart(
-            id: variantId,
-            quantity: Int(productQuantity.text ?? "1")!
-        )
-        
-        print("Variant id \(variantId)")
+        isAuthUserForCart()
       
     }
     
