@@ -29,10 +29,12 @@ class AddAddressTableViewController: UITableViewController {
         
         addAddressViewModel = AddAddressViewModel(service: NetworkService.shared, addressesViewModel: AddressesViewModel(service: NetworkService.shared))
         addAddressViewModel.bindAddressToViewController = { [weak self] in
-            print("Address binding")
-            self?.onAddressAdded()
+            guard let self = self else { return }
+            self.onAddressAdded()
             DispatchQueue.main.async {
-                self?.navigationController?.popViewController(animated: true)
+                alertWithDuration(message: "Added addres successfully!", viewController: self) {
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
         addAddressViewModel.bindAlertToViewController = { [weak self] in
@@ -77,9 +79,11 @@ class AddAddressTableViewController: UITableViewController {
         
         let address = AddedAddress(address1: addressTextField.text!, city: cityTextField.text!, country: countryTextField.text!)
         
-        LoadingIndicator.start(on: view.self)
+        LoadingIndicator.start(on: view)
         addAddressViewModel.addAddress(address) {
-            LoadingIndicator.stop()
+            DispatchQueue.main.async {
+                LoadingIndicator.stop()
+            }
         }
         
     }
