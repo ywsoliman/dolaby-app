@@ -182,8 +182,14 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     private func copiedCouponAlert(_ indexPath: IndexPath) {
-        UIPasteboard.general.string = imageWithCoupon[discountWithIndex[indexPath.row] ?? "N/A"]
-        alertWithDuration(message: "Copoun copied successfully!🎉 \(UIPasteboard.general.string ?? "N/A")", viewController: self) {}
+        let copounMessage: String
+        if CurrentUser.type == .authenticated {
+            UIPasteboard.general.string = imageWithCoupon[discountWithIndex[indexPath.row] ?? "N/A"]
+            copounMessage = "Copoun copied successfully!🎉 \(UIPasteboard.general.string ?? "N/A")"
+        } else {
+            copounMessage = "Please login to view copouns."
+        }
+        alertWithDuration(message: copounMessage, viewController: self) {}
     }
     
     private func navigateToBrandProducts(_ indexPath: IndexPath) {
