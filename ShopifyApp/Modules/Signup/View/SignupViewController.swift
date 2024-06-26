@@ -80,14 +80,14 @@ class SignupViewController: UIViewController {
                   showAlert(message: "Last name must be at least 3 characters long.")
                   return
               }
-        guard isValidEmail(emailTextField.text ?? "") else {
-                    showAlert(message: "Please enter a valid email address.")
-                    return
-                }
         guard isValidPhone(phoneTextField.text ?? "") else {
                    showAlert(message: "Phone number must be 11 digits long and start with 012, 011, 010, or 015.")
                    return
                }
+        guard isValidEmail(emailTextField.text ?? "") else {
+                    showAlert(message: "Please enter a valid email address.")
+                    return
+                }
         guard isValidPassword(passwordTextField.text ?? "") else {
                     showAlert(message: "Password must be at least 8 characters long.")
                     return
