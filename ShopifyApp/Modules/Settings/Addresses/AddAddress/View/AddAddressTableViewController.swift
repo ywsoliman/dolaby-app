@@ -32,7 +32,7 @@ class AddAddressTableViewController: UITableViewController {
             guard let self = self else { return }
             self.onAddressAdded()
             DispatchQueue.main.async {
-                alertWithDuration(message: "Added addres successfully!", viewController: self) {
+                alertWithDuration(message: "Address added successfully!", viewController: self) {
                     self.navigationController?.popViewController(animated: true)
                 }
             }
@@ -43,12 +43,10 @@ class AddAddressTableViewController: UITableViewController {
         addAddressViewModel.bindLocationToViewController = { [weak self] in
             DispatchQueue.main.async { self?.setAddressDataFromLocation() }
         }
-        addAddressViewModel.bindInvalidCountryToViewController = { [weak self] in
+        addAddressViewModel.bindErrorToViewController = { [weak self] error in
             DispatchQueue.main.async {
-                self?.showAlertWithOKButton(
-                    title: "Invalid country",
-                    message: "Please enter a valid country."
-                )
+                guard let self = self else { return }
+                alertWithDuration(message: error, viewController: self) {}
             }
         }
         addAddressViewModel.bindAddressExistsToViewController = { [weak self] in

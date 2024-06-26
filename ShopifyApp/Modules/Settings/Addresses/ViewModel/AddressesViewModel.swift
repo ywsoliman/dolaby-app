@@ -30,13 +30,14 @@ class AddressesViewModel {
         self.service = service
     }
     
-    func getAddresses() {
+    func getAddresses(completion: (() -> ())? = nil) {
                 
         service.makeRequest(endPoint: "/customers/\(CurrentUser.user!.id)/addresses.json", method: .get) { (result: Result<CustomerAddresses, APIError>) in
             
             switch result {
             case .success(let addresses):
                 self.addresses = addresses
+                completion?()
                 print("Addresses = \(addresses)")
             case .failure(let error):
                 print("Addresses error: \(error)")

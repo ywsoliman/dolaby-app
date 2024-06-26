@@ -137,6 +137,7 @@ class SignupViewController: UIViewController {
       }
     private func setupPasswordField(_ textField: UITextField) {
             textField.isSecureTextEntry = true
+            textField.textContentType = .none
             let button = UIButton(type: .custom)
             var config = UIButton.Configuration.plain()
             config.image = UIImage(systemName: "eye")
@@ -160,6 +161,7 @@ class SignupViewController: UIViewController {
         }
     private func setupConfirmPasswordField(_ textField: UITextField) {
             textField.isSecureTextEntry = true
+            textField.textContentType = .none
             let button = UIButton(type: .custom)
             var config = UIButton.Configuration.plain()
             config.image = UIImage(systemName: "eye")

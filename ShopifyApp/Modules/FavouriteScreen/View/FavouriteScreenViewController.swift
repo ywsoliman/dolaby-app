@@ -60,7 +60,7 @@ extension FavouriteScreenViewController:UICollectionViewDataSource , UICollectio
            let backgroundView = UIView(frame: collectionView.bounds)
            let imageView = UIImageView(frame: backgroundView.bounds)
            imageView.contentMode = .scaleAspectFit
-           imageView.image = UIImage(named: "noOrdersFound")
+           imageView.image = UIImage(named: "noProductsFound")
            backgroundView.addSubview(imageView)
            return backgroundView
        }
