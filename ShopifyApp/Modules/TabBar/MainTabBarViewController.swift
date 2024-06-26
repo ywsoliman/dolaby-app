@@ -17,9 +17,12 @@ class MainTabBarViewController: UITabBarController ,UITabBarControllerDelegate{
     }
     
     func setupNavigationBar() {
-        let imageView = UIImageView(image: UIImage(named: "shopify-logo"))
-        imageView.contentMode = .scaleAspectFit
-        self.navigationItem.titleView = imageView
+        let titleLabel = UILabel()
+        titleLabel.text = "DOLABY"
+        titleLabel.font = UIFont(name: "Kenao", size: 20)
+        titleLabel.textColor = .black
+        titleLabel.sizeToFit()
+        navigationItem.titleView = titleLabel
     }
     
     @IBAction func onSearchBtnPressed(_ sender: Any) {
