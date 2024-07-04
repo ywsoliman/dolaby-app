@@ -158,8 +158,13 @@ extension AddressesViewController: UITableViewDelegate, UITableViewDataSource {
                 return
             }
             
+            LoadingIndicator.start(on: self.view)
             self.addressesViewModel.delete(address: addresses[indexPath.row]) {
-                self.addressesViewModel.getAddresses()
+                self.addressesViewModel.getAddresses() {
+                    DispatchQueue.main.async {
+                        LoadingIndicator.stop()
+                    }
+                }
             }
         }
         

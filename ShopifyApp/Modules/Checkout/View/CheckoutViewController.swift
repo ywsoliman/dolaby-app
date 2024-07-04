@@ -118,7 +118,8 @@ class CheckoutViewController: UIViewController {
         let confirmAction = UIAlertAction(title: "Confirm", style: .default) { _ in
             self.checkoutViewModel.postOrder() { [weak self] in
                 DispatchQueue.main.async {
-                    self?.navigateToHome()
+                    guard let self = self else { return }
+                    self.orderCompletedAlert()
                 }
             }
         }
@@ -285,6 +286,12 @@ class CheckoutViewController: UIViewController {
         
     }
     
+    func orderCompletedAlert() {
+        alertWithDuration(message: "Thank you for ordering!", viewController: self) {
+            self.navigateToHome()
+        }
+    }
+    
     
 }
 
@@ -319,7 +326,7 @@ extension CheckoutViewController: PKPaymentAuthorizationViewControllerDelegate {
         completion(PKPaymentAuthorizationResult(status: .success, errors: nil))
         checkoutViewModel.postOrder()  { [weak self] in
             DispatchQueue.main.async {
-                self?.navigateToHome()
+                self?.orderCompletedAlert()
             }
         }
     }

@@ -111,6 +111,7 @@
 		BE6470D82C14C775008D9EFD /* PriceRule.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6470D72C14C775008D9EFD /* PriceRule.swift */; };
 		BE6D83A12C19B1E700E58CEF /* CurrenciesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6D83A02C19B1E700E58CEF /* CurrenciesTableViewController.swift */; };
 		BE6D83A82C19B97B00E58CEF /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE6D83A72C19B97B00E58CEF /* MeViewController.swift */; };
+		BE8070412C2C452000EFF7E8 /* Kenao.otf in Resources */ = {isa = PBXBuildFile; fileRef = BE8070402C2C451F00EFF7E8 /* Kenao.otf */; };
 		BE8207AF2C17764D00C5FD9B /* CurrencyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8207AE2C17764D00C5FD9B /* CurrencyManager.swift */; };
 		BE8207B22C1776FD00C5FD9B /* CurrencyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8207B12C1776FD00C5FD9B /* CurrencyService.swift */; };
 		BE8207B42C17788E00C5FD9B /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE8207B32C17788E00C5FD9B /* Currency.swift */; };
@@ -260,6 +261,7 @@
 		BE6470D72C14C775008D9EFD /* PriceRule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceRule.swift; sourceTree = "<group>"; };
 		BE6D83A02C19B1E700E58CEF /* CurrenciesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesTableViewController.swift; sourceTree = "<group>"; };
 		BE6D83A72C19B97B00E58CEF /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
+		BE8070402C2C451F00EFF7E8 /* Kenao.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Kenao.otf; sourceTree = "<group>"; };
 		BE8207A72C172AB400C5FD9B /* ShopifyAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShopifyAppDebug.entitlements; sourceTree = "<group>"; };
 		BE8207AE2C17764D00C5FD9B /* CurrencyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyManager.swift; sourceTree = "<group>"; };
 		BE8207B12C1776FD00C5FD9B /* CurrencyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyService.swift; sourceTree = "<group>"; };
@@ -855,6 +857,7 @@
 		BE2333322C0E334600D80BE9 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				BE80703F2C2C450600EFF7E8 /* fonts */,
 				035FFC6B2C15348A0003EAA2 /* Extentions */,
 				BE2333312C0E334600D80BE9 /* Constants.swift */,
 				BE92D58B2C2461E50019BD8C /* LoadingIndicator.swift */,
@@ -948,6 +951,14 @@
 				BE0F9F872C106BF20027DEE7 /* PaymentStoryboard.storyboard */,
 			);
 			path = Checkout;
+			sourceTree = "<group>";
+		};
+		BE80703F2C2C450600EFF7E8 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				BE8070402C2C451F00EFF7E8 /* Kenao.otf */,
+			);
+			path = fonts;
 			sourceTree = "<group>";
 		};
 		BE8207AD2C17764100C5FD9B /* Currency */ = {
@@ -1318,6 +1329,7 @@
 				9F4090DF2C08E38800C0067A /* Israa.storyboard in Resources */,
 				9F9423262C0D3BEF0082A544 /* CategoriesCollectionViewCell.xib in Resources */,
 				BE86101E2BFF5001001AB5A6 /* Base in Resources */,
+				BE8070412C2C452000EFF7E8 /* Kenao.otf in Resources */,
 				9F3169192C2359160049E85D /* OrderDetailsTableViewCell.xib in Resources */,
 				BE9A0BA42C1396DA00864A21 /* GoogleService-Info.plist in Resources */,
 				BE82CAD72C0D1656009B6594 /* AddressTableViewCell.xib in Resources */,

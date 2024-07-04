@@ -29,10 +29,12 @@ class AddAddressTableViewController: UITableViewController {
         
         addAddressViewModel = AddAddressViewModel(service: NetworkService.shared, addressesViewModel: AddressesViewModel(service: NetworkService.shared))
         addAddressViewModel.bindAddressToViewController = { [weak self] in
-            print("Address binding")
-            self?.onAddressAdded()
+            guard let self = self else { return }
+            self.onAddressAdded()
             DispatchQueue.main.async {
-                self?.navigationController?.popViewController(animated: true)
+                alertWithDuration(message: "Address added successfully!", viewController: self) {
+                    self.navigationController?.popViewController(animated: true)
+                }
             }
         }
         addAddressViewModel.bindAlertToViewController = { [weak self] in
@@ -41,12 +43,10 @@ class AddAddressTableViewController: UITableViewController {
         addAddressViewModel.bindLocationToViewController = { [weak self] in
             DispatchQueue.main.async { self?.setAddressDataFromLocation() }
         }
-        addAddressViewModel.bindInvalidCountryToViewController = { [weak self] in
+        addAddressViewModel.bindErrorToViewController = { [weak self] error in
             DispatchQueue.main.async {
-                self?.showAlertWithOKButton(
-                    title: "Invalid country",
-                    message: "Please enter a valid country."
-                )
+                guard let self = self else { return }
+                alertWithDuration(message: error, viewController: self) {}
             }
         }
         addAddressViewModel.bindAddressExistsToViewController = { [weak self] in
@@ -77,9 +77,11 @@ class AddAddressTableViewController: UITableViewController {
         
         let address = AddedAddress(address1: addressTextField.text!, city: cityTextField.text!, country: countryTextField.text!)
         
-        LoadingIndicator.start(on: view.self)
+        LoadingIndicator.start(on: view)
         addAddressViewModel.addAddress(address) {
-            LoadingIndicator.stop()
+            DispatchQueue.main.async {
+                LoadingIndicator.stop()
+            }
         }
         
     }

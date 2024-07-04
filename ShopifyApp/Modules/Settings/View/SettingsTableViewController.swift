@@ -21,9 +21,7 @@ class SettingsTableViewController: UITableViewController {
         _ = LocalDataSource.shared.deleteFromKeychain()
         
         let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
-        guard let loginVC = storyboard.instantiateViewController(withIdentifier: "loginVC") as? LoginViewController else {
-            return
-        }
+         let loginVC = storyboard.instantiateViewController(identifier: "loginNav") as UINavigationController
         loginVC.modalPresentationStyle = .fullScreen
         self.present(loginVC, animated: true)
         self.navigationController?.viewControllers = []

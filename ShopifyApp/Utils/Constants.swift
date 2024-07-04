@@ -8,5 +8,5 @@
 import Foundation
 
 let APIKey = "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"
-let CURRENCY_KEY = "138655e468bc972ac425374a"
+let CURRENCY_KEY = "f7ee6b1f93a12f62f03feb8b"
 let CART_LIMIT_PRICE = 1500.0

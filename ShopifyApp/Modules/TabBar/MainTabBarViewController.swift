@@ -17,9 +17,12 @@ class MainTabBarViewController: UITabBarController ,UITabBarControllerDelegate{
     }
     
     func setupNavigationBar() {
-        let imageView = UIImageView(image: UIImage(named: "shopify-logo"))
-        imageView.contentMode = .scaleAspectFit
-        self.navigationItem.titleView = imageView
+        let titleLabel = UILabel()
+        titleLabel.text = "DOLABY"
+        titleLabel.font = UIFont(name: "Kenao", size: 20)
+        titleLabel.textColor = .black
+        titleLabel.sizeToFit()
+        navigationItem.titleView = titleLabel
     }
     
     @IBAction func onSearchBtnPressed(_ sender: Any) {
@@ -41,9 +44,9 @@ class MainTabBarViewController: UITabBarController ,UITabBarControllerDelegate{
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         switch self.selectedIndex {
         case 2:
-            self.searchBtn.isHidden = true
             let authenticated = CurrentUser.type == UserType.authenticated
             if !authenticated {
+                self.searchBtn.isHidden = false
                 showAlert(message: "You need to login first.") {
                     let storyboard = UIStoryboard(name: "Samuel", bundle: nil)
                     let loginVC =
@@ -54,9 +57,12 @@ class MainTabBarViewController: UITabBarController ,UITabBarControllerDelegate{
                     self.navigationController?.viewControllers = []
                 }
                 self.selectedIndex = 0
+            }else{
+                self.searchBtn.isHidden = true
             }
         default:
             self.searchBtn.isHidden = false
+            
         }
     }
 }

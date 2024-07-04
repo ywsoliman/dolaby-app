@@ -12,6 +12,24 @@ enum APIError: Error {
     case invalidURL
     case requestFailed(Error)
     case decodingFailed(Error)
+    case apiError(String)
+    case validationError([String: [String]])
+    
+    var localizedDescription: String {
+        switch self {
+        case .invalidURL:
+            return "The URL is invalid."
+        case .requestFailed(let error):
+            return "The request failed: \(error.localizedDescription)"
+        case .decodingFailed(let error):
+            return "Failed to decode the response: \(error.localizedDescription)"
+        case .apiError(let message):
+            return message
+        case .validationError(let errors):
+            return errors.map { "\($0.key): \($0.value.joined(separator: ", "))" }.joined(separator: "\n")
+        }
+    }
+    
 }
 
 struct NetworkService: NetworkServiceProtocol {
@@ -22,6 +40,24 @@ struct NetworkService: NetworkServiceProtocol {
     
     private init() {}
     
+    private func parseErrorResponse(data: Data) -> APIError {
+        do {
+            if let apiErrorResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                if let errors = apiErrorResponse["errors"] as? [String: [String]] {
+                    return .validationError(errors)
+                } else if let message = apiErrorResponse["message"] as? String {
+                    return .apiError(message)
+                } else {
+                    return .apiError("An unknown error occurred.")
+                }
+            } else {
+                return .apiError("Invalid error response format.")
+            }
+        } catch {
+            return .requestFailed(error)
+        }
+    }
+    
     func makeRequest<T: Decodable>(
         endPoint: String,
         method: HTTPMethod,
@@ -29,7 +65,6 @@ struct NetworkService: NetworkServiceProtocol {
         headers: HTTPHeaders = ["X-Shopify-Access-Token": APIKey],
         completion: @escaping (Result<T, APIError>) -> Void
     ) {
-        
         let urlWithEndPoint = BASE_URL + endPoint
         guard let url = URL(string: urlWithEndPoint) else {
             completion(.failure(.invalidURL))
@@ -42,26 +77,25 @@ struct NetworkService: NetworkServiceProtocol {
         }
         
         AF.request(url, method: method, parameters: parameters, encoding: encoding, headers: headers)
-            .validate()
-            .cacheResponse(using: .cache)
-            .responseData() { response in
-                
+            .validate(statusCode: 200..<300)
+            .responseData { response in
                 switch response.result {
                 case .success(let data):
-                    
                     do {
                         let decodedResponse = try JSONDecoder().decode(T.self, from: data)
                         completion(.success(decodedResponse))
                     } catch let decodingError {
                         completion(.failure(.decodingFailed(decodingError)))
                     }
-                    
-                case .failure(let error):
-                    completion(.failure(.requestFailed(error)))
-                    
+                case .failure:
+                    if let data = response.data {
+                        let apiError = parseErrorResponse(data: data)
+                        completion(.failure(apiError))
+                    } else {
+                        completion(.failure(.requestFailed(response.error!)))
+                    }
                 }
             }
-        
     }
     
     func getCart(withId id: String, completion: @escaping (Result<DraftOrderResponse, APIError>) -> Void) {
